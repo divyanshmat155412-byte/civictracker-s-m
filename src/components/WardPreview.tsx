@@ -8,7 +8,7 @@ export default function WardPreview({ lat, lng, city }: { lat: number | null; ln
     queryKey: ["locate-point", lat?.toFixed(5), lng?.toFixed(5), city],
     enabled: ok,
     queryFn: async () => {
-      const { data } = await supabase.rpc("locate_point", { _lat: lat!, _lng: lng!, _city: city ?? null });
+      const { data } = await supabase.rpc("locate_point", { _lat: lat!, _lng: lng!, _city: city ?? undefined });
       return data?.[0] ?? null;
     },
   });
