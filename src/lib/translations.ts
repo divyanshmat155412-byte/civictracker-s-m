@@ -251,7 +251,7 @@ export const translations = {
   "predictions.confidence": { en: "confidence", hi: "विश्वास" },
 
   // Departments page
-  "dept.title": { en: "IT Departments", hi: "आईटी विभाग" },
+  "dept.title": { en: "Departments", hi: "विभाग" },
   "dept.subtitle": { en: "Ranked by resolved complaints, then average resolution time.", hi: "हल की गई शिकायतों, फिर औसत समाधान समय के अनुसार रैंक किया गया।" },
   "dept.adding": { en: "Adding…", hi: "जोड़ा जा रहा है…" },
   "dept.seedCommon": { en: "Seed common", hi: "सामान्य जोड़ें" },
