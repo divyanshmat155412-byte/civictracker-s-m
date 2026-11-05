@@ -857,6 +857,10 @@ const Index = () => {
               {manualLat && manualLng && !showMapPicker && detectedLat === null && (
                 <p className="text-xs text-muted-foreground mt-2">📍 Coordinates: {parseFloat(manualLat).toFixed(4)}, {parseFloat(manualLng).toFixed(4)}</p>
               )}
+              <WardPreview
+                lat={manualLat ? parseFloat(manualLat) : detectedLat}
+                lng={manualLng ? parseFloat(manualLng) : detectedLng}
+              />
               {detectedAddress && location.trim() !== detectedAddress && (
                 <button
                   type="button"
