@@ -5,6 +5,7 @@ import { Send, Bot, User, Sparkles, Loader2, Trash2 } from "lucide-react";
 import Layout from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { parseRetryAfter, rateLimitMessage } from "@/lib/rate-limit-message";
 import VoiceInput from "@/components/VoiceInput";
 import ReactMarkdown from "react-markdown";
 
@@ -61,7 +62,10 @@ const AIChatbot = () => {
     });
 
     if (!resp.ok || !resp.body) {
-      if (resp.status === 429) throw new Error("Rate limited — please wait a moment and try again.");
+      if (resp.status === 429) {
+        const body = await resp.json().catch(() => null);
+        throw new Error(rateLimitMessage(parseRetryAfter(resp.headers.get("retry-after"), body), language));
+      }
       if (resp.status === 401) throw new Error(tx("Please sign in to chat with Civic AI."));
       if (resp.status === 402) throw new Error("AI credits exhausted. Please try again later.");
       throw new Error("Failed to get response");
