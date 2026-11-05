@@ -19,3 +19,5 @@
 - `admin_requests` identity (user_id, email, status) is forced server-side by the `guard_admin_request` trigger — never trust form values.
 - Escalation, merge fields (`escalation_level`, `merged_into`) are written only by SECURITY DEFINER functions (`escalate_overdue_complaints`, `admin_merge_complaint`) via the `civic.system_update` flag; the guard trigger blocks direct edits — keeps escalation and merges audited.
 - AI photo/voice results are suggestions the citizen must confirm; never auto-fill the form — avoids presenting AI guesses as facts.
+- Every e2e script must call `acquireSafety()` from `scripts/_safety.ts` (exclusive lock + Super Admin snapshot) and must never write to the root account or swap `root_admin_user_id` — the shared live database once lost the root roles this way.
+- Complaint columns added later need an explicit column-level `GRANT SELECT` to anon/authenticated when non-private; otherwise every list using `COMPLAINT_COLS` fails silently.
