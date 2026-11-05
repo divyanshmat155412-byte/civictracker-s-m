@@ -2,6 +2,8 @@
 import { createClient } from "@supabase/supabase-js";
 const url = process.env.SUPABASE_URL!, svc = process.env.SUPABASE_SERVICE_ROLE_KEY!, anon = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY!;
 const admin = createClient(url, svc, { auth: { persistSession: false } });
+import { acquireSafety } from "./_safety";
+const safety = await acquireSafety("city-onboarding");
 let pass = 0, fail = 0;
 const ok = (n: string, c: unknown, d?: unknown) => { c ? pass++ : fail++; console.log(c ? "PASS" : "FAIL", n, c ? "" : JSON.stringify(d)?.slice(0, 300)); };
 const T = Date.now(), made: string[] = [];
@@ -81,3 +83,4 @@ await admin.from("user_roles").delete().in("user_id", made);
 await admin.from("cities").delete().eq("id", city!.id);
 for (const id of made) await admin.auth.admin.deleteUser(id);
 console.log(`\n${pass} passed, ${fail} failed`);
+await safety.release();
