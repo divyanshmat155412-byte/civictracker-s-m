@@ -92,6 +92,13 @@
       "when": 1793878737516,
       "tag": "0012_grant_read_new_complaint_columns",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1793879209462,
+      "tag": "0013_fix_complaint_id_truncation",
+      "breakpoints": true
     }
   ]
 }
