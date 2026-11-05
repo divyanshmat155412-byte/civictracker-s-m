@@ -1,6 +1,6 @@
 # Civic Tracker roadmap
 
-- [ ] A-to-Z functional audit (new brief): module inventory, connector audit, function-by-function tests, bug register, feature recommendations, Complete_Functional_Test_Report.md with embedded screenshots + Mermaid diagrams, CivicTracker_Screenshots.zip (underscore-only filenames), 3 readiness verdicts — awaiting consolidated permissions; do not publish
+- [x] A-to-Z functional audit (read-only mandate): 20 public routes, citizen/admin/worker views, chatbot EN+HI, responsive 390/768/1280, DB integrity + linter — report + 56-screenshot ZIP delivered; language-toggle bug fixed; map/heatmap fix awaits publish approval; write-path features NOT TESTED this round
 
 - [x] Local fixed-copy translation, persistence, public browser verification and audit report
 - [x] Final safe frontend translation fixes, real AI/notification interactions, screenshots and limitations audit; not published
