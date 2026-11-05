@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { jsonError } from "@/lib/server/api-guard";
+import { jsonError } from "@/lib/api-guard";
 import { createClient } from "@supabase/supabase-js";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
