@@ -28,14 +28,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
+      if (event === "SIGNED_IN") {
+        // server ignores this for non-admins; recorded in the protected audit log
+        setTimeout(() => { supabase.rpc("log_session_event" as any, { _event: "login" }).then(() => {}); }, 0);
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
   const signOut = async () => {
+    // Signing out only ends this session; Super Admin ownership lives on the server.
+    try { await supabase.rpc("log_session_event" as any, { _event: "logout" }); } catch { /* ignore */ }
     await supabase.auth.signOut();
   };
 

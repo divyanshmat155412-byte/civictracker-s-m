@@ -15,7 +15,7 @@ import AdminRequestForm from "@/components/AdminRequestForm";
 import AdminRequestsManager from "@/components/AdminRequestsManager";
 import { useAdminCities } from "@/hooks/useAdminCities";
 import { CITIES } from "@/lib/cities";
-import { isMainAdminEmail } from "@/lib/main-admin";
+import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
 
 const Admin = () => {
   const { user } = useAuth();
@@ -48,13 +48,13 @@ const Admin = () => {
     window.open(`/admin/posters?ids=${encodeURIComponent(ids)}&autoprint=1`, "_blank");
   };
 
-  const isMainAdmin = isMainAdminEmail(user?.email);
+  const { isMainAdmin } = useIsRootAdmin();
 
   const { data: hasAdminRole, isLoading: roleLoading } = useQuery({
     queryKey: ["is-admin", user?.id],
     enabled: !!user && !isMainAdmin,
     queryFn: async () => {
-      const { data } = await supabase.from("user_roles").select("role").eq("user_id", user!.id).eq("role", "admin").maybeSingle();
+      const { data } = await supabase.from("user_roles").select("role").eq("user_id", user!.id).eq("role", "admin").eq("status", "active").limit(1).maybeSingle();
       return !!data;
     },
   });

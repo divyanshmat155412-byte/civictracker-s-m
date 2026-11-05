@@ -29,7 +29,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CITIES } from "@/lib/cities";
-import { MAIN_ADMIN_EMAIL, isMainAdminEmail } from "@/lib/main-admin";
+import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
 
 
 const formSchema = z.object({
@@ -43,6 +43,7 @@ type RoleAssignment = {
   email: string;
   role: "admin" | "moderator" | "user";
   city: string | null;
+  status?: string;
 };
 
 const AdminUsers = () => {
@@ -50,7 +51,7 @@ const AdminUsers = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const isMainAdmin = isMainAdminEmail(user?.email);
+  const { isMainAdmin } = useIsRootAdmin();
 
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<"admin" | "moderator">("moderator");
@@ -136,7 +137,7 @@ const AdminUsers = () => {
           <Shield className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
           <h1 className="mb-2 text-2xl font-bold">Restricted</h1>
           <p className="text-muted-foreground">
-            Only the main admin can manage user roles.
+            Only the Platform Super Admin can manage user roles.
           </p>
         </div>
       </Layout>
@@ -270,7 +271,7 @@ const AdminUsers = () => {
                   <TableBody>
                     {assignments.map((a) => {
                       const isSelf =
-                        a.email?.toLowerCase() === MAIN_ADMIN_EMAIL && a.role === "admin";
+                        false;
                       return (
                         <TableRow key={`${a.user_id}-${a.role}-${a.city ?? ""}`}>
                           <TableCell className="font-medium break-all">User {a.user_id.slice(0, 8)}</TableCell>

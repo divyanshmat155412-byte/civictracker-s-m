@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { isMainAdminEmail } from "@/lib/main-admin";
+
 
 interface ReportData {
   period: string;
@@ -43,8 +43,9 @@ const Reports = () => {
     queryKey: ["is-admin-reports", user?.id],
     enabled: !!user,
     queryFn: async () => {
-      if (isMainAdminEmail(user?.email)) return true;
-      const { data } = await supabase.from("user_roles").select("role").eq("user_id", user!.id).eq("role", "admin").maybeSingle();
+      const { data: root } = await supabase.rpc("is_main_admin");
+      if (root) return true;
+      const { data } = await supabase.from("user_roles").select("role").eq("user_id", user!.id).eq("role", "admin").eq("status", "active").limit(1).maybeSingle();
       return !!data;
     },
   });
