@@ -10,33 +10,577 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AiChatRouteImport } from './routes/ai-chat'
+import { Route as AiChatbotRouteImport } from './routes/ai-chatbot'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DepartmentsRouteImport } from './routes/departments'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as HeatmapRouteImport } from './routes/heatmap'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as InstallRouteImport } from './routes/install'
+import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as MapRouteImport } from './routes/map'
+import { Route as PollsRouteImport } from './routes/polls'
+import { Route as PredictionsRouteImport } from './routes/predictions'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as RequestAdminRouteImport } from './routes/request-admin'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RewardsRouteImport } from './routes/rewards'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminPollsRouteImport } from './routes/admin.polls'
+import { Route as AdminPostersRouteImport } from './routes/admin.posters'
+import { Route as AdminSmsRouteImport } from './routes/admin.sms'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminWhatsappRouteImport } from './routes/admin.whatsapp'
+import { Route as AdminWorkersRouteImport } from './routes/admin.workers'
+import { Route as ComplaintsIndexRouteImport } from './routes/complaints.index'
+import { Route as ComplaintsIdIndexRouteImport } from './routes/complaints.$id.index'
+import { Route as ComplaintsIdPosterRouteImport } from './routes/complaints.$id.poster'
+import { Route as ApiPublicFnAnalyzeImageRouteImport } from './routes/api/public/fn/analyze-image'
+import { Route as ApiPublicFnAnalyzeSentimentRouteImport } from './routes/api/public/fn/analyze-sentiment'
+import { Route as ApiPublicFnCivicChatRouteImport } from './routes/api/public/fn/civic-chat'
+import { Route as ApiPublicFnGenerateAdminReportRouteImport } from './routes/api/public/fn/generate-admin-report'
+import { Route as ApiPublicFnGenerateSummaryRouteImport } from './routes/api/public/fn/generate-summary'
+import { Route as ApiPublicFnPredictTrendsRouteImport } from './routes/api/public/fn/predict-trends'
+import { Route as ApiPublicFnSendSmsRouteImport } from './routes/api/public/fn/send-sms'
+import { Route as ApiPublicFnSimulateWorkerMovementRouteImport } from './routes/api/public/fn/simulate-worker-movement'
+import { Route as ApiPublicFnVoiceSttRouteImport } from './routes/api/public/fn/voice-stt'
+import { Route as ApiPublicFnVoiceTranscribeRouteImport } from './routes/api/public/fn/voice-transcribe'
+import { Route as ApiPublicFnWhatsappWebhookRouteImport } from './routes/api/public/fn/whatsapp-webhook'
+import { Route as ApiPublicPhotoSplatRouteImport } from './routes/api/public/photo.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiChatRoute = AiChatRouteImport.update({
+  id: '/ai-chat',
+  path: '/ai-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiChatbotRoute = AiChatbotRouteImport.update({
+  id: '/ai-chatbot',
+  path: '/ai-chatbot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DepartmentsRoute = DepartmentsRouteImport.update({
+  id: '/departments',
+  path: '/departments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeatmapRoute = HeatmapRouteImport.update({
+  id: '/heatmap',
+  path: '/heatmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstallRoute = InstallRouteImport.update({
+  id: '/install',
+  path: '/install',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeaderboardRoute = LeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PollsRoute = PollsRouteImport.update({
+  id: '/polls',
+  path: '/polls',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PredictionsRoute = PredictionsRouteImport.update({
+  id: '/predictions',
+  path: '/predictions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestAdminRoute = RequestAdminRouteImport.update({
+  id: '/request-admin',
+  path: '/request-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RewardsRoute = RewardsRouteImport.update({
+  id: '/rewards',
+  path: '/rewards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPollsRoute = AdminPollsRouteImport.update({
+  id: '/admin/polls',
+  path: '/admin/polls',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPostersRoute = AdminPostersRouteImport.update({
+  id: '/admin/posters',
+  path: '/admin/posters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSmsRoute = AdminSmsRouteImport.update({
+  id: '/admin/sms',
+  path: '/admin/sms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminWhatsappRoute = AdminWhatsappRouteImport.update({
+  id: '/admin/whatsapp',
+  path: '/admin/whatsapp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminWorkersRoute = AdminWorkersRouteImport.update({
+  id: '/admin/workers',
+  path: '/admin/workers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComplaintsIndexRoute = ComplaintsIndexRouteImport.update({
+  id: '/complaints/',
+  path: '/complaints/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComplaintsIdIndexRoute = ComplaintsIdIndexRouteImport.update({
+  id: '/complaints/$id/',
+  path: '/complaints/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComplaintsIdPosterRoute = ComplaintsIdPosterRouteImport.update({
+  id: '/complaints/$id/poster',
+  path: '/complaints/$id/poster',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicFnAnalyzeImageRoute = ApiPublicFnAnalyzeImageRouteImport.update({
+  id: '/api/public/fn/analyze-image',
+  path: '/api/public/fn/analyze-image',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicFnAnalyzeSentimentRoute =
+  ApiPublicFnAnalyzeSentimentRouteImport.update({
+    id: '/api/public/fn/analyze-sentiment',
+    path: '/api/public/fn/analyze-sentiment',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicFnCivicChatRoute = ApiPublicFnCivicChatRouteImport.update({
+  id: '/api/public/fn/civic-chat',
+  path: '/api/public/fn/civic-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicFnGenerateAdminReportRoute =
+  ApiPublicFnGenerateAdminReportRouteImport.update({
+    id: '/api/public/fn/generate-admin-report',
+    path: '/api/public/fn/generate-admin-report',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicFnGenerateSummaryRoute =
+  ApiPublicFnGenerateSummaryRouteImport.update({
+    id: '/api/public/fn/generate-summary',
+    path: '/api/public/fn/generate-summary',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicFnPredictTrendsRoute =
+  ApiPublicFnPredictTrendsRouteImport.update({
+    id: '/api/public/fn/predict-trends',
+    path: '/api/public/fn/predict-trends',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicFnSendSmsRoute = ApiPublicFnSendSmsRouteImport.update({
+  id: '/api/public/fn/send-sms',
+  path: '/api/public/fn/send-sms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicFnSimulateWorkerMovementRoute =
+  ApiPublicFnSimulateWorkerMovementRouteImport.update({
+    id: '/api/public/fn/simulate-worker-movement',
+    path: '/api/public/fn/simulate-worker-movement',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicFnVoiceSttRoute = ApiPublicFnVoiceSttRouteImport.update({
+  id: '/api/public/fn/voice-stt',
+  path: '/api/public/fn/voice-stt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicFnVoiceTranscribeRoute =
+  ApiPublicFnVoiceTranscribeRouteImport.update({
+    id: '/api/public/fn/voice-transcribe',
+    path: '/api/public/fn/voice-transcribe',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicFnWhatsappWebhookRoute =
+  ApiPublicFnWhatsappWebhookRouteImport.update({
+    id: '/api/public/fn/whatsapp-webhook',
+    path: '/api/public/fn/whatsapp-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicPhotoSplatRoute = ApiPublicPhotoSplatRouteImport.update({
+  id: '/api/public/photo/$',
+  path: '/api/public/photo/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-chat': typeof AiChatRoute
+  '/ai-chatbot': typeof AiChatbotRoute
+  '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/departments': typeof DepartmentsRoute
+  '/faq': typeof FaqRoute
+  '/heatmap': typeof HeatmapRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/install': typeof InstallRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/map': typeof MapRoute
+  '/polls': typeof PollsRoute
+  '/predictions': typeof PredictionsRoute
+  '/profile': typeof ProfileRoute
+  '/reports': typeof ReportsRoute
+  '/request-admin': typeof RequestAdminRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/rewards': typeof RewardsRoute
+  '/admin/polls': typeof AdminPollsRoute
+  '/admin/posters': typeof AdminPostersRoute
+  '/admin/sms': typeof AdminSmsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/whatsapp': typeof AdminWhatsappRoute
+  '/admin/workers': typeof AdminWorkersRoute
+  '/admin/': typeof AdminIndexRoute
+  '/complaints/': typeof ComplaintsIndexRoute
+  '/complaints/$id/poster': typeof ComplaintsIdPosterRoute
+  '/complaints/$id/': typeof ComplaintsIdIndexRoute
+  '/api/public/fn/analyze-image': typeof ApiPublicFnAnalyzeImageRoute
+  '/api/public/fn/analyze-sentiment': typeof ApiPublicFnAnalyzeSentimentRoute
+  '/api/public/fn/civic-chat': typeof ApiPublicFnCivicChatRoute
+  '/api/public/fn/generate-admin-report': typeof ApiPublicFnGenerateAdminReportRoute
+  '/api/public/fn/generate-summary': typeof ApiPublicFnGenerateSummaryRoute
+  '/api/public/fn/predict-trends': typeof ApiPublicFnPredictTrendsRoute
+  '/api/public/fn/send-sms': typeof ApiPublicFnSendSmsRoute
+  '/api/public/fn/simulate-worker-movement': typeof ApiPublicFnSimulateWorkerMovementRoute
+  '/api/public/fn/voice-stt': typeof ApiPublicFnVoiceSttRoute
+  '/api/public/fn/voice-transcribe': typeof ApiPublicFnVoiceTranscribeRoute
+  '/api/public/fn/whatsapp-webhook': typeof ApiPublicFnWhatsappWebhookRoute
+  '/api/public/photo/$': typeof ApiPublicPhotoSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-chat': typeof AiChatRoute
+  '/ai-chatbot': typeof AiChatbotRoute
+  '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/departments': typeof DepartmentsRoute
+  '/faq': typeof FaqRoute
+  '/heatmap': typeof HeatmapRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/install': typeof InstallRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/map': typeof MapRoute
+  '/polls': typeof PollsRoute
+  '/predictions': typeof PredictionsRoute
+  '/profile': typeof ProfileRoute
+  '/reports': typeof ReportsRoute
+  '/request-admin': typeof RequestAdminRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/rewards': typeof RewardsRoute
+  '/admin/polls': typeof AdminPollsRoute
+  '/admin/posters': typeof AdminPostersRoute
+  '/admin/sms': typeof AdminSmsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/whatsapp': typeof AdminWhatsappRoute
+  '/admin/workers': typeof AdminWorkersRoute
+  '/admin': typeof AdminIndexRoute
+  '/complaints': typeof ComplaintsIndexRoute
+  '/complaints/$id/poster': typeof ComplaintsIdPosterRoute
+  '/complaints/$id': typeof ComplaintsIdIndexRoute
+  '/api/public/fn/analyze-image': typeof ApiPublicFnAnalyzeImageRoute
+  '/api/public/fn/analyze-sentiment': typeof ApiPublicFnAnalyzeSentimentRoute
+  '/api/public/fn/civic-chat': typeof ApiPublicFnCivicChatRoute
+  '/api/public/fn/generate-admin-report': typeof ApiPublicFnGenerateAdminReportRoute
+  '/api/public/fn/generate-summary': typeof ApiPublicFnGenerateSummaryRoute
+  '/api/public/fn/predict-trends': typeof ApiPublicFnPredictTrendsRoute
+  '/api/public/fn/send-sms': typeof ApiPublicFnSendSmsRoute
+  '/api/public/fn/simulate-worker-movement': typeof ApiPublicFnSimulateWorkerMovementRoute
+  '/api/public/fn/voice-stt': typeof ApiPublicFnVoiceSttRoute
+  '/api/public/fn/voice-transcribe': typeof ApiPublicFnVoiceTranscribeRoute
+  '/api/public/fn/whatsapp-webhook': typeof ApiPublicFnWhatsappWebhookRoute
+  '/api/public/photo/$': typeof ApiPublicPhotoSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-chat': typeof AiChatRoute
+  '/ai-chatbot': typeof AiChatbotRoute
+  '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/departments': typeof DepartmentsRoute
+  '/faq': typeof FaqRoute
+  '/heatmap': typeof HeatmapRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/install': typeof InstallRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/map': typeof MapRoute
+  '/polls': typeof PollsRoute
+  '/predictions': typeof PredictionsRoute
+  '/profile': typeof ProfileRoute
+  '/reports': typeof ReportsRoute
+  '/request-admin': typeof RequestAdminRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/rewards': typeof RewardsRoute
+  '/admin/polls': typeof AdminPollsRoute
+  '/admin/posters': typeof AdminPostersRoute
+  '/admin/sms': typeof AdminSmsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/whatsapp': typeof AdminWhatsappRoute
+  '/admin/workers': typeof AdminWorkersRoute
+  '/admin/': typeof AdminIndexRoute
+  '/complaints/': typeof ComplaintsIndexRoute
+  '/complaints/$id/poster': typeof ComplaintsIdPosterRoute
+  '/complaints/$id/': typeof ComplaintsIdIndexRoute
+  '/api/public/fn/analyze-image': typeof ApiPublicFnAnalyzeImageRoute
+  '/api/public/fn/analyze-sentiment': typeof ApiPublicFnAnalyzeSentimentRoute
+  '/api/public/fn/civic-chat': typeof ApiPublicFnCivicChatRoute
+  '/api/public/fn/generate-admin-report': typeof ApiPublicFnGenerateAdminReportRoute
+  '/api/public/fn/generate-summary': typeof ApiPublicFnGenerateSummaryRoute
+  '/api/public/fn/predict-trends': typeof ApiPublicFnPredictTrendsRoute
+  '/api/public/fn/send-sms': typeof ApiPublicFnSendSmsRoute
+  '/api/public/fn/simulate-worker-movement': typeof ApiPublicFnSimulateWorkerMovementRoute
+  '/api/public/fn/voice-stt': typeof ApiPublicFnVoiceSttRoute
+  '/api/public/fn/voice-transcribe': typeof ApiPublicFnVoiceTranscribeRoute
+  '/api/public/fn/whatsapp-webhook': typeof ApiPublicFnWhatsappWebhookRoute
+  '/api/public/photo/$': typeof ApiPublicPhotoSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/ai-chat'
+    | '/ai-chatbot'
+    | '/auth'
+    | '/contact'
+    | '/dashboard'
+    | '/departments'
+    | '/faq'
+    | '/heatmap'
+    | '/how-it-works'
+    | '/install'
+    | '/leaderboard'
+    | '/map'
+    | '/polls'
+    | '/predictions'
+    | '/profile'
+    | '/reports'
+    | '/request-admin'
+    | '/reset-password'
+    | '/rewards'
+    | '/admin/polls'
+    | '/admin/posters'
+    | '/admin/sms'
+    | '/admin/users'
+    | '/admin/whatsapp'
+    | '/admin/workers'
+    | '/admin/'
+    | '/complaints/'
+    | '/complaints/$id/poster'
+    | '/complaints/$id/'
+    | '/api/public/fn/analyze-image'
+    | '/api/public/fn/analyze-sentiment'
+    | '/api/public/fn/civic-chat'
+    | '/api/public/fn/generate-admin-report'
+    | '/api/public/fn/generate-summary'
+    | '/api/public/fn/predict-trends'
+    | '/api/public/fn/send-sms'
+    | '/api/public/fn/simulate-worker-movement'
+    | '/api/public/fn/voice-stt'
+    | '/api/public/fn/voice-transcribe'
+    | '/api/public/fn/whatsapp-webhook'
+    | '/api/public/photo/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/ai-chat'
+    | '/ai-chatbot'
+    | '/auth'
+    | '/contact'
+    | '/dashboard'
+    | '/departments'
+    | '/faq'
+    | '/heatmap'
+    | '/how-it-works'
+    | '/install'
+    | '/leaderboard'
+    | '/map'
+    | '/polls'
+    | '/predictions'
+    | '/profile'
+    | '/reports'
+    | '/request-admin'
+    | '/reset-password'
+    | '/rewards'
+    | '/admin/polls'
+    | '/admin/posters'
+    | '/admin/sms'
+    | '/admin/users'
+    | '/admin/whatsapp'
+    | '/admin/workers'
+    | '/admin'
+    | '/complaints'
+    | '/complaints/$id/poster'
+    | '/complaints/$id'
+    | '/api/public/fn/analyze-image'
+    | '/api/public/fn/analyze-sentiment'
+    | '/api/public/fn/civic-chat'
+    | '/api/public/fn/generate-admin-report'
+    | '/api/public/fn/generate-summary'
+    | '/api/public/fn/predict-trends'
+    | '/api/public/fn/send-sms'
+    | '/api/public/fn/simulate-worker-movement'
+    | '/api/public/fn/voice-stt'
+    | '/api/public/fn/voice-transcribe'
+    | '/api/public/fn/whatsapp-webhook'
+    | '/api/public/photo/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai-chat'
+    | '/ai-chatbot'
+    | '/auth'
+    | '/contact'
+    | '/dashboard'
+    | '/departments'
+    | '/faq'
+    | '/heatmap'
+    | '/how-it-works'
+    | '/install'
+    | '/leaderboard'
+    | '/map'
+    | '/polls'
+    | '/predictions'
+    | '/profile'
+    | '/reports'
+    | '/request-admin'
+    | '/reset-password'
+    | '/rewards'
+    | '/admin/polls'
+    | '/admin/posters'
+    | '/admin/sms'
+    | '/admin/users'
+    | '/admin/whatsapp'
+    | '/admin/workers'
+    | '/admin/'
+    | '/complaints/'
+    | '/complaints/$id/poster'
+    | '/complaints/$id/'
+    | '/api/public/fn/analyze-image'
+    | '/api/public/fn/analyze-sentiment'
+    | '/api/public/fn/civic-chat'
+    | '/api/public/fn/generate-admin-report'
+    | '/api/public/fn/generate-summary'
+    | '/api/public/fn/predict-trends'
+    | '/api/public/fn/send-sms'
+    | '/api/public/fn/simulate-worker-movement'
+    | '/api/public/fn/voice-stt'
+    | '/api/public/fn/voice-transcribe'
+    | '/api/public/fn/whatsapp-webhook'
+    | '/api/public/photo/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiChatRoute: typeof AiChatRoute
+  AiChatbotRoute: typeof AiChatbotRoute
+  AuthRoute: typeof AuthRoute
+  ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRoute
+  DepartmentsRoute: typeof DepartmentsRoute
+  FaqRoute: typeof FaqRoute
+  HeatmapRoute: typeof HeatmapRoute
+  HowItWorksRoute: typeof HowItWorksRoute
+  InstallRoute: typeof InstallRoute
+  LeaderboardRoute: typeof LeaderboardRoute
+  MapRoute: typeof MapRoute
+  PollsRoute: typeof PollsRoute
+  PredictionsRoute: typeof PredictionsRoute
+  ProfileRoute: typeof ProfileRoute
+  ReportsRoute: typeof ReportsRoute
+  RequestAdminRoute: typeof RequestAdminRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  RewardsRoute: typeof RewardsRoute
+  AdminPollsRoute: typeof AdminPollsRoute
+  AdminPostersRoute: typeof AdminPostersRoute
+  AdminSmsRoute: typeof AdminSmsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminWhatsappRoute: typeof AdminWhatsappRoute
+  AdminWorkersRoute: typeof AdminWorkersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  ComplaintsIndexRoute: typeof ComplaintsIndexRoute
+  ComplaintsIdPosterRoute: typeof ComplaintsIdPosterRoute
+  ComplaintsIdIndexRoute: typeof ComplaintsIdIndexRoute
+  ApiPublicFnAnalyzeImageRoute: typeof ApiPublicFnAnalyzeImageRoute
+  ApiPublicFnAnalyzeSentimentRoute: typeof ApiPublicFnAnalyzeSentimentRoute
+  ApiPublicFnCivicChatRoute: typeof ApiPublicFnCivicChatRoute
+  ApiPublicFnGenerateAdminReportRoute: typeof ApiPublicFnGenerateAdminReportRoute
+  ApiPublicFnGenerateSummaryRoute: typeof ApiPublicFnGenerateSummaryRoute
+  ApiPublicFnPredictTrendsRoute: typeof ApiPublicFnPredictTrendsRoute
+  ApiPublicFnSendSmsRoute: typeof ApiPublicFnSendSmsRoute
+  ApiPublicFnSimulateWorkerMovementRoute: typeof ApiPublicFnSimulateWorkerMovementRoute
+  ApiPublicFnVoiceSttRoute: typeof ApiPublicFnVoiceSttRoute
+  ApiPublicFnVoiceTranscribeRoute: typeof ApiPublicFnVoiceTranscribeRoute
+  ApiPublicFnWhatsappWebhookRoute: typeof ApiPublicFnWhatsappWebhookRoute
+  ApiPublicPhotoSplatRoute: typeof ApiPublicPhotoSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +592,340 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-chat': {
+      id: '/ai-chat'
+      path: '/ai-chat'
+      fullPath: '/ai-chat'
+      preLoaderRoute: typeof AiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-chatbot': {
+      id: '/ai-chatbot'
+      path: '/ai-chatbot'
+      fullPath: '/ai-chatbot'
+      preLoaderRoute: typeof AiChatbotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/departments': {
+      id: '/departments'
+      path: '/departments'
+      fullPath: '/departments'
+      preLoaderRoute: typeof DepartmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/heatmap': {
+      id: '/heatmap'
+      path: '/heatmap'
+      fullPath: '/heatmap'
+      preLoaderRoute: typeof HeatmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/install': {
+      id: '/install'
+      path: '/install'
+      fullPath: '/install'
+      preLoaderRoute: typeof InstallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leaderboard': {
+      id: '/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof LeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/polls': {
+      id: '/polls'
+      path: '/polls'
+      fullPath: '/polls'
+      preLoaderRoute: typeof PollsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/predictions': {
+      id: '/predictions'
+      path: '/predictions'
+      fullPath: '/predictions'
+      preLoaderRoute: typeof PredictionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-admin': {
+      id: '/request-admin'
+      path: '/request-admin'
+      fullPath: '/request-admin'
+      preLoaderRoute: typeof RequestAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rewards': {
+      id: '/rewards'
+      path: '/rewards'
+      fullPath: '/rewards'
+      preLoaderRoute: typeof RewardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/polls': {
+      id: '/admin/polls'
+      path: '/admin/polls'
+      fullPath: '/admin/polls'
+      preLoaderRoute: typeof AdminPollsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/posters': {
+      id: '/admin/posters'
+      path: '/admin/posters'
+      fullPath: '/admin/posters'
+      preLoaderRoute: typeof AdminPostersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/sms': {
+      id: '/admin/sms'
+      path: '/admin/sms'
+      fullPath: '/admin/sms'
+      preLoaderRoute: typeof AdminSmsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/whatsapp': {
+      id: '/admin/whatsapp'
+      path: '/admin/whatsapp'
+      fullPath: '/admin/whatsapp'
+      preLoaderRoute: typeof AdminWhatsappRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/workers': {
+      id: '/admin/workers'
+      path: '/admin/workers'
+      fullPath: '/admin/workers'
+      preLoaderRoute: typeof AdminWorkersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/complaints/': {
+      id: '/complaints/'
+      path: '/complaints'
+      fullPath: '/complaints/'
+      preLoaderRoute: typeof ComplaintsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/complaints/$id/': {
+      id: '/complaints/$id/'
+      path: '/complaints/$id'
+      fullPath: '/complaints/$id/'
+      preLoaderRoute: typeof ComplaintsIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/complaints/$id/poster': {
+      id: '/complaints/$id/poster'
+      path: '/complaints/$id/poster'
+      fullPath: '/complaints/$id/poster'
+      preLoaderRoute: typeof ComplaintsIdPosterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/analyze-image': {
+      id: '/api/public/fn/analyze-image'
+      path: '/api/public/fn/analyze-image'
+      fullPath: '/api/public/fn/analyze-image'
+      preLoaderRoute: typeof ApiPublicFnAnalyzeImageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/analyze-sentiment': {
+      id: '/api/public/fn/analyze-sentiment'
+      path: '/api/public/fn/analyze-sentiment'
+      fullPath: '/api/public/fn/analyze-sentiment'
+      preLoaderRoute: typeof ApiPublicFnAnalyzeSentimentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/civic-chat': {
+      id: '/api/public/fn/civic-chat'
+      path: '/api/public/fn/civic-chat'
+      fullPath: '/api/public/fn/civic-chat'
+      preLoaderRoute: typeof ApiPublicFnCivicChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/generate-admin-report': {
+      id: '/api/public/fn/generate-admin-report'
+      path: '/api/public/fn/generate-admin-report'
+      fullPath: '/api/public/fn/generate-admin-report'
+      preLoaderRoute: typeof ApiPublicFnGenerateAdminReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/generate-summary': {
+      id: '/api/public/fn/generate-summary'
+      path: '/api/public/fn/generate-summary'
+      fullPath: '/api/public/fn/generate-summary'
+      preLoaderRoute: typeof ApiPublicFnGenerateSummaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/predict-trends': {
+      id: '/api/public/fn/predict-trends'
+      path: '/api/public/fn/predict-trends'
+      fullPath: '/api/public/fn/predict-trends'
+      preLoaderRoute: typeof ApiPublicFnPredictTrendsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/send-sms': {
+      id: '/api/public/fn/send-sms'
+      path: '/api/public/fn/send-sms'
+      fullPath: '/api/public/fn/send-sms'
+      preLoaderRoute: typeof ApiPublicFnSendSmsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/simulate-worker-movement': {
+      id: '/api/public/fn/simulate-worker-movement'
+      path: '/api/public/fn/simulate-worker-movement'
+      fullPath: '/api/public/fn/simulate-worker-movement'
+      preLoaderRoute: typeof ApiPublicFnSimulateWorkerMovementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/voice-stt': {
+      id: '/api/public/fn/voice-stt'
+      path: '/api/public/fn/voice-stt'
+      fullPath: '/api/public/fn/voice-stt'
+      preLoaderRoute: typeof ApiPublicFnVoiceSttRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/voice-transcribe': {
+      id: '/api/public/fn/voice-transcribe'
+      path: '/api/public/fn/voice-transcribe'
+      fullPath: '/api/public/fn/voice-transcribe'
+      preLoaderRoute: typeof ApiPublicFnVoiceTranscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/fn/whatsapp-webhook': {
+      id: '/api/public/fn/whatsapp-webhook'
+      path: '/api/public/fn/whatsapp-webhook'
+      fullPath: '/api/public/fn/whatsapp-webhook'
+      preLoaderRoute: typeof ApiPublicFnWhatsappWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/photo/$': {
+      id: '/api/public/photo/$'
+      path: '/api/public/photo/$'
+      fullPath: '/api/public/photo/$'
+      preLoaderRoute: typeof ApiPublicPhotoSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiChatRoute: AiChatRoute,
+  AiChatbotRoute: AiChatbotRoute,
+  AuthRoute: AuthRoute,
+  ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRoute,
+  DepartmentsRoute: DepartmentsRoute,
+  FaqRoute: FaqRoute,
+  HeatmapRoute: HeatmapRoute,
+  HowItWorksRoute: HowItWorksRoute,
+  InstallRoute: InstallRoute,
+  LeaderboardRoute: LeaderboardRoute,
+  MapRoute: MapRoute,
+  PollsRoute: PollsRoute,
+  PredictionsRoute: PredictionsRoute,
+  ProfileRoute: ProfileRoute,
+  ReportsRoute: ReportsRoute,
+  RequestAdminRoute: RequestAdminRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  RewardsRoute: RewardsRoute,
+  AdminPollsRoute: AdminPollsRoute,
+  AdminPostersRoute: AdminPostersRoute,
+  AdminSmsRoute: AdminSmsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminWhatsappRoute: AdminWhatsappRoute,
+  AdminWorkersRoute: AdminWorkersRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  ComplaintsIndexRoute: ComplaintsIndexRoute,
+  ComplaintsIdPosterRoute: ComplaintsIdPosterRoute,
+  ComplaintsIdIndexRoute: ComplaintsIdIndexRoute,
+  ApiPublicFnAnalyzeImageRoute: ApiPublicFnAnalyzeImageRoute,
+  ApiPublicFnAnalyzeSentimentRoute: ApiPublicFnAnalyzeSentimentRoute,
+  ApiPublicFnCivicChatRoute: ApiPublicFnCivicChatRoute,
+  ApiPublicFnGenerateAdminReportRoute: ApiPublicFnGenerateAdminReportRoute,
+  ApiPublicFnGenerateSummaryRoute: ApiPublicFnGenerateSummaryRoute,
+  ApiPublicFnPredictTrendsRoute: ApiPublicFnPredictTrendsRoute,
+  ApiPublicFnSendSmsRoute: ApiPublicFnSendSmsRoute,
+  ApiPublicFnSimulateWorkerMovementRoute:
+    ApiPublicFnSimulateWorkerMovementRoute,
+  ApiPublicFnVoiceSttRoute: ApiPublicFnVoiceSttRoute,
+  ApiPublicFnVoiceTranscribeRoute: ApiPublicFnVoiceTranscribeRoute,
+  ApiPublicFnWhatsappWebhookRoute: ApiPublicFnWhatsappWebhookRoute,
+  ApiPublicPhotoSplatRoute: ApiPublicPhotoSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
