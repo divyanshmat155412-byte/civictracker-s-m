@@ -670,7 +670,7 @@ const Index = () => {
             );
           })()}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
             <div id="step-details" className="scroll-mt-44">
               <label className="block text-sm font-medium text-foreground mb-2">{t("form.title")} *</label>
               <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("form.titlePlaceholder")} className="w-full rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" required />
