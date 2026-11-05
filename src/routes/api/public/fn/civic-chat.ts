@@ -40,9 +40,9 @@ const handler = async (req: Request): Promise<Response> => {
       .order("created_at", { ascending: false })
       .limit(20);
 
-    const { count: totalCount } = await supabase.from("complaints").select("*", { count: "exact", head: true });
-    const { count: resolvedCount } = await supabase.from("complaints").select("*", { count: "exact", head: true }).eq("status", "resolved");
-    const { count: pendingCount } = await supabase.from("complaints").select("*", { count: "exact", head: true }).eq("status", "pending");
+    const { count: totalCount } = await supabase.from("complaints").select("id", { count: "exact", head: true });
+    const { count: resolvedCount } = await supabase.from("complaints").select("id", { count: "exact", head: true }).eq("status", "resolved");
+    const { count: pendingCount } = await supabase.from("complaints").select("id", { count: "exact", head: true }).eq("status", "pending");
 
     const complaintsContext = recentComplaints?.map(c => 
       `#${c.complaint_id}: "${c.title}" | ${c.category} | ${c.status} | ${c.priority} priority | ${c.location} | ${c.upvotes} upvotes`
