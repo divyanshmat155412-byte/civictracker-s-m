@@ -218,3 +218,17 @@
     0 12px 40px -8px hsl(215 60% 22% / 0.15),
     0 4px 12px hsl(215 60% 22% / 0.06);
 }
+
+/* Centered page container with responsive side padding (Tailwind v4 container has none by default) */
+@utility container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  max-width: 80rem;
+  @media (width >= 640px) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 1024px) {
+    padding-inline: 2rem;
+  }
+}
