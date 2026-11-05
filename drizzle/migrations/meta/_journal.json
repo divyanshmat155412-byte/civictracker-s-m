@@ -36,6 +36,13 @@
       "when": 1793861415946,
       "tag": "0004_link_worker_account",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793861597684,
+      "tag": "0005_protect_complaint_status",
+      "breakpoints": true
     }
   ]
 }
