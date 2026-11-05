@@ -1,3 +1,4 @@
+import WardPreview from "@/components/WardPreview";
 import { photoUrlFor } from "@/lib/photo-url";
 import { invokeFunction } from "@/lib/invoke-function";
 import { useState, useRef, useEffect, useMemo } from "react";
