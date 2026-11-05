@@ -52,6 +52,7 @@ const AdminRequestsManager = () => {
           <span className="px-2 py-0.5 rounded-full bg-destructive/10 text-destructive text-xs font-semibold">{pending.length} pending</span>
         )}
       </div>
+      <p className="text-sm text-muted-foreground mb-3">Normal workflow: people apply from their own verified account; you assign the city when approving. The applicant is notified either way.</p>
       {requests.length === 0 && <p className="text-muted-foreground text-sm py-6 text-center">No applications yet.</p>}
 
       <div className="space-y-3 mb-6">
