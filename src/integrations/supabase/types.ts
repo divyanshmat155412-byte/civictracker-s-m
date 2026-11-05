@@ -199,6 +199,41 @@ export type Database = {
         }
         Relationships: []
       }
+      city_category_routing: {
+        Row: {
+          category: string
+          city: string
+          created_at: string
+          deadline_hours: number | null
+          department_id: string | null
+          id: string
+        }
+        Insert: {
+          category: string
+          city: string
+          created_at?: string
+          deadline_hours?: number | null
+          department_id?: string | null
+          id?: string
+        }
+        Update: {
+          category?: string
+          city?: string
+          created_at?: string
+          deadline_hours?: number | null
+          department_id?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "city_category_routing_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       complaint_comments: {
         Row: {
           complaint_id: string
@@ -381,10 +416,12 @@ export type Database = {
           id: string
           latitude: number | null
           location: string
+          location_status: string
           longitude: number | null
           photo_url: string | null
           priority: string
           resolved_at: string | null
+          routing_status: string
           sentiment_label: string | null
           sentiment_score: number | null
           source: string
@@ -414,10 +451,12 @@ export type Database = {
           id?: string
           latitude?: number | null
           location: string
+          location_status?: string
           longitude?: number | null
           photo_url?: string | null
           priority?: string
           resolved_at?: string | null
+          routing_status?: string
           sentiment_label?: string | null
           sentiment_score?: number | null
           source?: string
@@ -447,10 +486,12 @@ export type Database = {
           id?: string
           latitude?: number | null
           location?: string
+          location_status?: string
           longitude?: number | null
           photo_url?: string | null
           priority?: string
           resolved_at?: string | null
+          routing_status?: string
           sentiment_label?: string | null
           sentiment_score?: number | null
           source?: string
@@ -876,6 +917,36 @@ export type Database = {
           },
         ]
       }
+      user_notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          kind: string
+          read: boolean
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          kind?: string
+          read?: boolean
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          read?: boolean
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           approved_at: string | null
@@ -908,35 +979,44 @@ export type Database = {
       }
       wards: {
         Row: {
+          boundary: Json | null
           center_lat: number
           center_lng: number
           city: string
           created_at: string
           id: string
+          is_demo: boolean
           name: string
           radius_m: number
+          source: string | null
           ward_number: number
           zone: string
         }
         Insert: {
+          boundary?: Json | null
           center_lat: number
           center_lng: number
           city: string
           created_at?: string
           id?: string
+          is_demo?: boolean
           name: string
           radius_m?: number
+          source?: string | null
           ward_number: number
           zone: string
         }
         Update: {
+          boundary?: Json | null
           center_lat?: number
           center_lng?: number
           city?: string
           created_at?: string
           id?: string
+          is_demo?: boolean
           name?: string
           radius_m?: number
+          source?: string | null
           ward_number?: number
           zone?: string
         }
@@ -1070,6 +1150,15 @@ export type Database = {
         Returns: boolean
       }
       admin_cities: { Args: { _user_id: string }; Returns: string[] }
+      admin_correct_complaint: {
+        Args: {
+          _complaint_id: string
+          _department_id: string
+          _note?: string
+          _ward_id: string
+        }
+        Returns: Json
+      }
       admin_grant_role_by_email: {
         Args: {
           _city?: string
@@ -1103,6 +1192,10 @@ export type Database = {
       admin_revoke_role_by_email: {
         Args: { _email: string; _role: Database["public"]["Enums"]["app_role"] }
         Returns: Json
+      }
+      distance_m: {
+        Args: { _lat1: number; _lat2: number; _lng1: number; _lng2: number }
+        Returns: number
       }
       find_nearby_duplicates: {
         Args: {
@@ -1158,6 +1251,19 @@ export type Database = {
           whatsapp_number: string
         }[]
       }
+      locate_point: {
+        Args: { _city?: string; _lat: number; _lng: number }
+        Returns: {
+          city: string
+          distance_m: number
+          is_demo: boolean
+          method: string
+          ward_id: string
+          ward_name: string
+          ward_number: number
+          zone: string
+        }[]
+      }
       log_session_event: { Args: { _event: string }; Returns: undefined }
       main_admin_email: { Args: never; Returns: string }
       my_worker_jobs: {
@@ -1180,6 +1286,14 @@ export type Database = {
           status: string
           title: string
         }[]
+      }
+      point_in_geojson: {
+        Args: { _geom: Json; _lat: number; _lng: number }
+        Returns: boolean
+      }
+      point_in_ring: {
+        Args: { _lat: number; _lng: number; _ring: Json }
+        Returns: boolean
       }
       redeem_reward: { Args: { _reward_id: string }; Returns: Json }
       root_admin_id: { Args: never; Returns: string }
