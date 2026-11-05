@@ -134,6 +134,13 @@
       "when": 1793895991880,
       "tag": "0018_anonymous_identity_reveal",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1793897506889,
+      "tag": "0019_scope_complaint_insert_policy",
+      "breakpoints": true
     }
   ]
 }
