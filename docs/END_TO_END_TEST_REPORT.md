@@ -42,7 +42,7 @@ Official Unstop CodeQuest 2026 rulebook, PPT template, slide limit and video len
 
 Other features (pages opened only, functions not exercised): Map, Heatmap, Leaderboard, Rewards, Polls, Predictions, FAQ, Contact, Privacy — **NOT TESTED** functionally. Civic AI chatbot, WhatsApp simulator, offline drafts, account deletion through the UI, Super Admin screens (excluded on purpose) — **NOT TESTED** in the browser. Account deletion removing the profile is verified by the civic-flow suite.
 
-**Counts (12 categories): PASS 8 (one automated-only), PARTIAL 2, FAIL 0, NOT TESTED 1, plus category 12 (this report).** Exact: PASS 9 including the report, PARTIAL 2, NOT TESTED 1.
+**Counts (12 categories): PASS 9 (one automated-only, one is this report), PARTIAL 2, FAIL 0, NOT TESTED 1.**
 
 ## 4. Automated suites (run one at a time, 5 Nov 2026)
 
