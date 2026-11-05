@@ -115,6 +115,7 @@ const Index = () => {
   const [coordsCopied, setCoordsCopied] = useState(false);
   const [draftRestored, setDraftRestored] = useState(Boolean(initialDraft.title || initialDraft.description || initialDraft.photoDataUrl));
   const [classifyingPhoto, setClassifyingPhoto] = useState(false);
+  const [aiSuggestion, setAiSuggestion] = useState<{ category: ComplaintCategory | null; confidence: number; department: string | null } | null>(null);
   const [duplicateWarning, setDuplicateWarning] = useState<{ count: number; ids: string[] } | null>(null);
 
   // Auto-save draft (debounced)
@@ -245,13 +246,24 @@ const Index = () => {
       });
       if (error) throw error;
       const cat = (data as { category?: string; confidence?: number })?.category;
-      const conf = (data as { confidence?: number })?.confidence ?? 0;
+      const conf = Number((data as { confidence?: number })?.confidence ?? 0);
       if (cat && cat in CATEGORY_CONFIG && conf >= 0.5) {
-        setSelectedCategory(cat as ComplaintCategory);
-        toast.success(`AI suggested category: ${CATEGORY_CONFIG[cat as ComplaintCategory].label}`);
+        // Suggest only — the citizen accepts or picks another category.
+        let dept: string | null = null;
+        const { data: r } = await supabase.from("city_category_routing")
+          .select("departments(name)").ilike("city", city).eq("category", cat).maybeSingle();
+        dept = (r as { departments?: { name?: string } | null } | null)?.departments?.name ?? null;
+        if (!dept) {
+          const { data: f } = await supabase.from("category_routing").select("departments(name)").eq("category", cat).maybeSingle();
+          dept = (f as { departments?: { name?: string } | null } | null)?.departments?.name ?? null;
+        }
+        setAiSuggestion({ category: cat as ComplaintCategory, confidence: conf, department: dept });
+      } else {
+        setAiSuggestion({ category: null, confidence: conf, department: null });
       }
     } catch (err) {
       console.error("classify-image error:", err);
+      setAiSuggestion({ category: null, confidence: 0, department: null });
     } finally {
       setClassifyingPhoto(false);
     }
@@ -764,6 +776,27 @@ const Index = () => {
                     <span className="text-sm font-medium">{t("form.chooseGallery")}</span>
                     <span className="text-xs">{t("form.jpgPng")}</span>
                   </button>
+                </div>
+              )}
+              {photoPreview && aiSuggestion && !selectedCategory && (
+                <div className="mt-2 rounded-lg border border-primary/30 bg-primary/5 p-3 text-sm">
+                  {aiSuggestion.category ? (
+                    <>
+                      <p className="text-foreground">
+                        <Sparkles className="inline w-3.5 h-3.5 text-primary mr-1" />
+                        AI suggests <b>{CATEGORY_CONFIG[aiSuggestion.category].label}</b> ({Math.round(aiSuggestion.confidence * 100)}% sure)
+                        {aiSuggestion.department && <> → {aiSuggestion.department}</>}
+                      </p>
+                      <div className="flex gap-2 mt-2">
+                        <button type="button" onClick={() => { setSelectedCategory(aiSuggestion.category!); setAiSuggestion(null); }}
+                          className="px-3 py-1.5 rounded-lg text-xs bg-primary text-primary-foreground">Accept</button>
+                        <button type="button" onClick={() => setAiSuggestion(null)}
+                          className="px-3 py-1.5 rounded-lg text-xs bg-muted text-muted-foreground">I'll choose myself</button>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-muted-foreground">Couldn't identify the issue from the photo — please choose a category below.</p>
+                  )}
                 </div>
               )}
             </div>
