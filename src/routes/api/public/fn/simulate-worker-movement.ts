@@ -33,9 +33,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { data: complaint } = await supabase
       .from("complaints")
-      .select("latitude, longitude")
+      .select("latitude, longitude, city")
       .eq("id", complaint_id)
       .maybeSingle();
+
+    if (complaint && !(await canManageCity(caller, (complaint as any).city))) return jsonError(403, "Not your city");
+    const { data: w } = await supabase.from("workers").select("city").eq("id", worker_id).maybeSingle();
+    if (!w || (w.city && !(await canManageCity(caller, w.city)))) return jsonError(403, "Not your city");
 
     if (!complaint?.latitude || !complaint?.longitude) {
       return new Response(JSON.stringify({ error: "Complaint has no location" }), {

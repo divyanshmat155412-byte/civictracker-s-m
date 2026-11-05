@@ -77,10 +77,14 @@ const handler = async (req: Request): Promise<Response> => {
       const supabaseUrl = process.env["SUPABASE_URL"]!;
       const supabaseKey = process.env["SUPABASE_SERVICE_ROLE_KEY"]!;
       const supabase = createClient(supabaseUrl, supabaseKey);
+      const { data: c } = await supabase.from("complaints").select("user_id, city").eq("id", complaintId).maybeSingle();
+      const allowed = !!c && (c.user_id === caller.user.id || (await canManageCity(caller, c.city)));
+      if (allowed) {
       await supabase.from("complaints").update({
         sentiment_score: result.score,
         sentiment_label: result.label,
       }).eq("id", complaintId);
+      }
     }
 
     return new Response(JSON.stringify(result), {

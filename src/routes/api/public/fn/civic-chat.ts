@@ -17,9 +17,10 @@ const handler = async (req: Request): Promise<Response> => {
 
 
   try {
-    const { messages, language } = await req.json();
+    const { messages: rawMessages, language } = await req.json();
+    const messages = sanitizeChat(rawMessages);
     const lang = language === "hi" ? "hi" : "en";
-    if (!messages || !Array.isArray(messages)) {
+    if (messages.length === 0) {
       return new Response(JSON.stringify({ error: "messages array is required" }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
