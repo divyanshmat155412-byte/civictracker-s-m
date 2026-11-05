@@ -11,6 +11,7 @@ interface Props {
 const VoiceDictate = ({ onTranscribed }: Props) => {
   const [recording, setRecording] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [pending, setPending] = useState<string | null>(null);
   const mediaRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
@@ -50,8 +51,7 @@ const VoiceDictate = ({ onTranscribed }: Props) => {
           const text = (data as { text?: string; error?: string })?.text;
           if (data?.error) throw new Error(data.error);
           if (text) {
-            onTranscribed(text);
-            toast.success("Voice transcribed");
+            setPending(text.trim()); // citizen must confirm before it enters the form
           } else {
             toast.error("Could not transcribe audio");
           }
@@ -77,6 +77,19 @@ const VoiceDictate = ({ onTranscribed }: Props) => {
   };
 
   return (
+    <div className="relative">
+    {pending !== null && (
+      <div role="dialog" aria-label="Confirm what we heard" className="absolute right-0 top-12 z-50 w-72 max-w-[85vw] rounded-xl border border-border bg-popover p-3 shadow-lg">
+        <p className="text-xs font-semibold text-foreground mb-1">Did we hear you correctly? / क्या हमने सही सुना?</p>
+        <textarea value={pending} onChange={(e) => setPending(e.target.value)} rows={4}
+          className="w-full rounded-lg border border-input bg-background px-2 py-1.5 text-sm text-foreground" />
+        <div className="flex justify-end gap-2 mt-2">
+          <button type="button" onClick={() => setPending(null)} className="px-3 py-1.5 rounded-lg text-xs bg-muted text-muted-foreground">Discard / हटाएँ</button>
+          <button type="button" disabled={!pending.trim()} onClick={() => { onTranscribed(pending.trim()); setPending(null); toast.success("Added to description"); }}
+            className="px-3 py-1.5 rounded-lg text-xs bg-primary text-primary-foreground disabled:opacity-50">Use text / उपयोग करें</button>
+        </div>
+      </div>
+    )}
     <button
       type="button"
       onClick={recording ? stop : start}
@@ -98,6 +111,7 @@ const VoiceDictate = ({ onTranscribed }: Props) => {
         <Mic className="w-4 h-4" />
       )}
     </button>
+    </div>
   );
 };
 
