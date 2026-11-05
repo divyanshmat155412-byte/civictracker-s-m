@@ -130,7 +130,6 @@ export const Route = createFileRoute("/api/public/fn/send-sms")({
   server: {
     handlers: {
       POST: ({ request }) => handler(request),
-      GET: ({ request }) => handler(request),
       OPTIONS: ({ request }) => handler(request),
     },
   },
