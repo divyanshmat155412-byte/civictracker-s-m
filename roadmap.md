@@ -1,5 +1,7 @@
 # Civic Tracker roadmap
 
+- [ ] Complete frontend Hindi-English coverage, persistence, browser verification and audit report (no production-data changes)
+
 - [x] Import ZIP source, set up database, logins, photo storage
 - [x] Feature audit (docs/FEATURE_AUDIT.md)
 - [x] Milestone 1: wards/zones, auto-ward, ward filter, ward admin
