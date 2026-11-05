@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useUiText } from "@/hooks/useUiText";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -12,6 +13,7 @@ import { Link } from "@/lib/router-compat";
 
 const Polls = () => {
   const tx = useUiText();
+  const { language } = useLanguage();
   const { user } = useAuth();
   const { isAdmin } = useUserRole();
   const queryClient = useQueryClient();
@@ -189,7 +191,7 @@ const Polls = () => {
                 </div>
 
                 <div className="flex items-center gap-3 mt-4 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1"><BarChart3 className="w-3 h-3" />{totalVotes} {tx(" vote")}{totalVotes !== 1 ? "s" : ""}</span>
+                  <span className="flex items-center gap-1"><BarChart3 className="w-3 h-3" />{totalVotes} {tx(" vote")}{language === "en" && totalVotes !== 1 ? "s" : ""}</span>
                   <span>•</span>
                   <span>{tx("Ends ")}{new Date(poll.ends_at).toLocaleDateString()}</span>
                   {!user && !ended && <span className="text-primary ml-auto"><Link to="/auth">{tx("Sign in to vote")}</Link></span>}

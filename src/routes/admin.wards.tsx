@@ -75,7 +75,7 @@ function WardsPage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-3xl font-bold text-foreground">{tx("Wards & Zones")}</h1>
           <select value={city} onChange={(e) => setCity(e.target.value)} className="rounded-lg border border-input bg-background px-3 py-2 text-foreground" aria-label={tx("City")}>
-            {CITIES.map((c) => <option key={c}>{tx(c)}</option>)}
+            {CITIES.map((c) => <option key={c} value={c}>{tx(c)}</option>)}
           </select>
         </div>
         <p className="text-sm text-muted-foreground">{tx("New complaints are placed in a ward automatically from GPS: inside a ward boundary when one is uploaded, otherwise the nearest ward centre within its radius. Anything outside is flagged for checking.")}</p>

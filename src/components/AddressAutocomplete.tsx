@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useEffect, useRef, useState } from "react";
 import { Search, Loader2 } from "lucide-react";
 import { forwardGeocode, type PlaceSuggestion } from "@/lib/forward-geocode";
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const AddressAutocomplete = ({ value, onChange, onPick, placeholder, required }: Props) => {
+  const tx = useUiText();
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -59,7 +61,7 @@ const AddressAutocomplete = ({ value, onChange, onPick, placeholder, required }:
             triggerSearch(v);
           }}
           onFocus={() => suggestions.length > 0 && setOpen(true)}
-          placeholder={placeholder || "Search address or area..."}
+          placeholder={placeholder || tx("Search address or area...")}
           className="w-full rounded-lg border border-input bg-card pl-9 pr-9 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
         />
         {loading && (
