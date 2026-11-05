@@ -101,7 +101,7 @@ try {
   ok("C8 reporter notified of merge", (mn.data ?? []).length === 1);
   ok("C9 merge audited", ((await admin.from("audit_logs").select("id").eq("action", "complaint_merged").eq("target_id", d.data!.id)).data ?? []).length === 1);
   ok("C10 cannot merge twice", !!(await adA.c.rpc("admin_merge_complaint" as never, { _duplicate: d.data!.id, _primary: far.data!.id } as never)).error);
-  const cross = await mk("Garbage in city B", 23.5, 75.5, "garbage", B);
+  const cross = await mk("Garbage in city B", 10.5, 10.5, "garbage", B);
   ok("C11 cross-city merge blocked", !!(await adA.c.rpc("admin_merge_complaint" as never, { _duplicate: cross.data!.id, _primary: p.data!.id } as never)).error);
   const um = await adA.c.rpc("admin_unmerge_complaint" as never, { _duplicate: d.data!.id } as never);
   const ud = (await admin.from("complaints").select("merged_into").eq("id", d.data!.id).single()).data as { merged_into: string | null } | null;
