@@ -28,7 +28,7 @@ ok("fallback summary present", !!row?.ai_summary, row);
 const { data: prof } = await admin.from("profiles").select("green_points,complaints_count").eq("user_id", cit.id).single();
 ok("points awarded once (10)", prof?.green_points === 10 && prof?.complaints_count === 1, prof);
 const near = await cit.c.rpc("find_nearby_duplicates", { _lat: 23.3330, _lng: 75.0370, _category: "broken-road" });
-ok("duplicate found within 300 m", near.data?.length === 1, near);
+ok("duplicate found within 300 m", near.data?.some((r: { id: string }) => r.id === ins.data!.id), near);
 const far = await cit.c.rpc("find_nearby_duplicates", { _lat: 23.3400, _lng: 75.0370, _category: "broken-road" });
 ok("no duplicate at ~930 m", far.data?.length === 0, far);
 const other = await cit.c.rpc("find_nearby_duplicates", { _lat: 23.3316, _lng: 75.0368, _category: "garbage" });
