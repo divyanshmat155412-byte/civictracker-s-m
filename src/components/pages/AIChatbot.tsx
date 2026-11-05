@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Send, Bot, User, Sparkles, Loader2, Trash2 } from "lucide-react";
 import Layout from "@/components/Layout";
+import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import VoiceInput from "@/components/VoiceInput";
 import ReactMarkdown from "react-markdown";
@@ -48,17 +49,20 @@ const AIChatbot = () => {
   }, [messages]);
 
   const streamChat = async (allMessages: Msg[]) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.access_token) throw new Error(tx("Please sign in to chat with Civic AI."));
     const resp = await fetch(CHAT_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        Authorization: `Bearer ${session.access_token}`,
       },
       body: JSON.stringify({ messages: allMessages, language }),
     });
 
     if (!resp.ok || !resp.body) {
       if (resp.status === 429) throw new Error("Rate limited — please wait a moment and try again.");
+      if (resp.status === 401) throw new Error(tx("Please sign in to chat with Civic AI."));
       if (resp.status === 402) throw new Error("AI credits exhausted. Please try again later.");
       throw new Error("Failed to get response");
     }

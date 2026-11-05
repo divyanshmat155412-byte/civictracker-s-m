@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { getCaller, isStaff, canManageCity, sanitizeChat, jsonError } from "@/lib/server/api-guard";
 import { createClient } from "@supabase/supabase-js";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -12,6 +13,10 @@ const corsHeaders = {
 // Move a worker one step closer to a complaint location (simulation).
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  const caller = await getCaller(req);
+  if (!caller) return jsonError(401, "Please sign in to use this feature");
+  if (!(await isStaff(caller))) return jsonError(403, "Staff only");
+
 
   try {
     const { worker_id, complaint_id } = await req.json();
@@ -28,9 +33,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { data: complaint } = await supabase
       .from("complaints")
-      .select("latitude, longitude")
+      .select("latitude, longitude, city")
       .eq("id", complaint_id)
       .maybeSingle();
+
+    if (complaint && !(await canManageCity(caller, (complaint as any).city))) return jsonError(403, "Not your city");
+    const { data: w } = await supabase.from("workers").select("city").eq("id", worker_id).maybeSingle();
+    if (!w || (w.city && !(await canManageCity(caller, w.city)))) return jsonError(403, "Not your city");
 
     if (!complaint?.latitude || !complaint?.longitude) {
       return new Response(JSON.stringify({ error: "Complaint has no location" }), {
@@ -81,7 +90,6 @@ export const Route = createFileRoute("/api/public/fn/simulate-worker-movement")(
   server: {
     handlers: {
       POST: ({ request }) => handler(request),
-      GET: ({ request }) => handler(request),
       OPTIONS: ({ request }) => handler(request),
     },
   },

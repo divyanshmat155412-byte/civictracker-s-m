@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { getCaller, isStaff, canManageCity, sanitizeChat, jsonError } from "@/lib/server/api-guard";
 import { createClient } from "@supabase/supabase-js";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -11,6 +12,9 @@ const corsHeaders = {
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  const caller = await getCaller(req);
+  if (!caller) return jsonError(401, "Please sign in to use this feature");
+
 
   try {
     const { complaintId, text } = await req.json();
@@ -73,10 +77,14 @@ const handler = async (req: Request): Promise<Response> => {
       const supabaseUrl = process.env["SUPABASE_URL"]!;
       const supabaseKey = process.env["SUPABASE_SERVICE_ROLE_KEY"]!;
       const supabase = createClient(supabaseUrl, supabaseKey);
+      const { data: c } = await supabase.from("complaints").select("user_id, city").eq("id", complaintId).maybeSingle();
+      const allowed = !!c && (c.user_id === caller.user.id || (await canManageCity(caller, c.city)));
+      if (allowed) {
       await supabase.from("complaints").update({
         sentiment_score: result.score,
         sentiment_label: result.label,
       }).eq("id", complaintId);
+      }
     }
 
     return new Response(JSON.stringify(result), {
@@ -96,7 +104,6 @@ export const Route = createFileRoute("/api/public/fn/analyze-sentiment")({
   server: {
     handlers: {
       POST: ({ request }) => handler(request),
-      GET: ({ request }) => handler(request),
       OPTIONS: ({ request }) => handler(request),
     },
   },

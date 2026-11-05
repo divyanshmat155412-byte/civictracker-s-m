@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { getCaller, isStaff, canManageCity, sanitizeChat, jsonError } from "@/lib/server/api-guard";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -10,6 +11,9 @@ const corsHeaders = {
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  const caller = await getCaller(req);
+  if (!caller) return jsonError(401, "Please sign in to use this feature");
+
 
   try {
     const { imageUrl } = await req.json();
@@ -107,7 +111,6 @@ export const Route = createFileRoute("/api/public/fn/analyze-image")({
   server: {
     handlers: {
       POST: ({ request }) => handler(request),
-      GET: ({ request }) => handler(request),
       OPTIONS: ({ request }) => handler(request),
     },
   },

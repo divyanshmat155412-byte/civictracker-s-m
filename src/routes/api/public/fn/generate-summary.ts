@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { getCaller, isStaff, canManageCity, sanitizeChat, jsonError } from "@/lib/server/api-guard";
 import { createClient } from "@supabase/supabase-js";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -11,9 +12,19 @@ const corsHeaders = {
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  const caller = await getCaller(req);
+  if (!caller) return jsonError(401, "Please sign in to use this feature");
+
 
   try {
-    const { complaint_id, title, description, category, location, priority } = await req.json();
+    const { complaint_id, title, description, category, location } = await req.json();
+    if (!complaint_id) return jsonError(400, "complaint_id is required");
+    const admin = createClient(process.env["SUPABASE_URL"]!, process.env["SUPABASE_SERVICE_ROLE_KEY"]!);
+    const { data: owned } = await admin.from("complaints").select("user_id, city, priority, created_at").eq("id", complaint_id).maybeSingle();
+    if (!owned) return jsonError(404, "Complaint not found");
+    const isOwnerFresh = owned.user_id === caller.user.id && Date.now() - new Date(owned.created_at).getTime() < 15 * 60 * 1000;
+    if (!isOwnerFresh && !(await canManageCity(caller, owned.city))) return jsonError(403, "Not allowed for this complaint");
+    const priority = owned.priority;
 
     const LOVABLE_API_KEY = process.env["LOVABLE_API_KEY"];
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
@@ -156,7 +167,6 @@ export const Route = createFileRoute("/api/public/fn/generate-summary")({
   server: {
     handlers: {
       POST: ({ request }) => handler(request),
-      GET: ({ request }) => handler(request),
       OPTIONS: ({ request }) => handler(request),
     },
   },
