@@ -89,7 +89,7 @@ const AdminWorkers = () => {
       body: { worker_id: workerId, complaint_id: complaintId },
     });
     if (error) toast.error(error.message);
-    else toast.success(`Worker moved! ${data?.distance_m ?? "?"}m away`);
+    else toast.success(`${tx("Worker moved!")} ${data?.distance_m ?? "?"} ${tx("metres away")}`);
   };
 
   const completeAssignment = async (assignmentId: string, complaintId: string) => {
@@ -127,7 +127,7 @@ const AdminWorkers = () => {
             <h2 className="font-semibold mb-3">{tx("Assign Worker")}</h2>
             <select value={assignWorker} onChange={e => setAssignWorker(e.target.value)} className="w-full mb-2 px-3 py-2 rounded-lg border border-input bg-background text-sm">
               <option value="">{tx("Select worker")}</option>
-              {workers.map((w: any) => <option key={w.id} value={w.id}>{tx(w.name)}</option>)}
+              {workers.map((w: any) => <option key={w.id} value={w.id}>{w.name}</option>)}
             </select>
             <select value={assignComplaint} onChange={e => setAssignComplaint(e.target.value)} className="w-full mb-3 px-3 py-2 rounded-lg border border-input bg-background text-sm">
               <option value="">{tx("Select complaint")}</option>
@@ -147,8 +147,8 @@ const AdminWorkers = () => {
           {workers.map((w: any) => (
             <div key={w.id} className="bg-card border border-border rounded-lg p-3 flex items-center justify-between">
               <div>
-                <p className="font-medium text-foreground text-sm">{tx(w.name)}</p>
-                <p className="text-xs text-muted-foreground">{w.phone || "—"} • {w.departments?.name || tx("Unassigned")}</p>
+                <p className="font-medium text-foreground text-sm">{w.name}</p>
+                <p className="text-xs text-muted-foreground">{w.phone || "—"} • {tx(w.departments?.name || "Unassigned")}</p>
                 <form className="mt-2 flex gap-1" onSubmit={async (e) => {
                   e.preventDefault();
                   const email = String(new FormData(e.currentTarget).get("email") || "");
@@ -175,7 +175,7 @@ const AdminWorkers = () => {
                 <p className="font-medium text-foreground text-sm truncate">
                   <Truck className="w-3.5 h-3.5 inline mr-1" />{a.workers?.name} → #{a.complaints?.complaint_id} {a.complaints?.title}
                 </p>
-                <p className="text-xs text-muted-foreground capitalize">{tx("Status: ")}{a.status.replace("_", " ")}</p>
+                <p className="text-xs text-muted-foreground capitalize">{tx("Status: ")}{tx(a.status)}</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => simulate(a.worker_id, a.complaint_id)} className="px-3 py-1.5 rounded bg-primary/10 text-primary text-xs font-semibold flex items-center gap-1 hover:bg-primary/20">

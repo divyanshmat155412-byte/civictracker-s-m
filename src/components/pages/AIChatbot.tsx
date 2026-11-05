@@ -7,7 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import VoiceInput from "@/components/VoiceInput";
 import ReactMarkdown from "react-markdown";
 
-type Msg = { role: "user" | "assistant"; content: string };
+type Msg = { role: "user" | "assistant"; content: string; isSystemError?: boolean };
 
 const CHAT_URL = "/api/public/fn/civic-chat";
 
@@ -134,7 +134,7 @@ const AIChatbot = () => {
     } catch (e) {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: `⚠️ ${e instanceof Error ? e.message : "Something went wrong. Please try again."}` },
+        { role: "assistant", content: e instanceof Error ? e.message : "Something went wrong. Please try again.", isSystemError: true },
       ]);
     } finally {
       setIsLoading(false);
@@ -197,7 +197,7 @@ const AIChatbot = () => {
               <div className={`max-w-[85%] sm:max-w-[80%] min-w-0 rounded-xl px-3 py-2 sm:px-4 sm:py-3 text-sm break-words overflow-hidden ${msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-card border border-border text-foreground"}`}>
                 {msg.role === "assistant" ? (
                   <div className="prose prose-sm dark:prose-invert max-w-none break-words [&>p]:my-1 [&>ul]:my-1 [&>ol]:my-1 [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_code]:break-words [&_img]:max-w-full [&_img]:h-auto [&_a]:break-all">
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    <ReactMarkdown>{msg.isSystemError ? `⚠️ ${tx(msg.content)}` : msg.content}</ReactMarkdown>
                   </div>
                 ) : (
                   <p className="whitespace-pre-wrap break-words">{msg.content}</p>

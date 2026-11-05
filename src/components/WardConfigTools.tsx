@@ -26,7 +26,7 @@ export function WardImport({ city }: { city: string }) {
     );
     setBusy(false);
     if (error) return toast.error(error.message);
-    toast.success(`${rows.length} wards imported for ${city}`);
+    toast.success(`${rows.length} ${tx("wards imported for")} ${tx(city)}`);
     qc.invalidateQueries({ queryKey: ["wards"] });
   };
   return (
@@ -90,10 +90,10 @@ function RoutingRow({ label, depts, dept, hours, onSave }: { label: string; dept
   const [d, setD] = useState(dept), [h, setH] = useState(hours);
   return (
     <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_1.5fr_6rem_auto] sm:items-center">
-      <span className="text-foreground">{label}</span>
+      <span className="text-foreground">{tx(label)}</span>
       <select value={d} onChange={(e) => setD(e.target.value)} className="rounded-lg border border-input bg-background px-2 py-1.5">
         <option value="">{tx("Shared default")}</option>
-        {depts.map((x) => <option key={x.id} value={x.id}>{x.name}{x.city ? "" : tx(" (shared)")}</option>)}
+        {depts.map((x) => <option key={x.id} value={x.id}>{tx(x.name)}{x.city ? "" : tx(" (shared)")}</option>)}
       </select>
       <input value={h} onChange={(e) => setH(e.target.value)} placeholder={tx("hours")} inputMode="numeric" className="rounded-lg border border-input bg-background px-2 py-1.5" />
       <button onClick={() => onSave(d, h)} className="rounded-lg border border-border px-3 py-1.5">{tx("Save")}</button>

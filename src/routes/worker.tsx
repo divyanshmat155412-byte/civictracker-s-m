@@ -1,4 +1,5 @@
 import { useUiText } from "@/hooks/useUiText";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -67,6 +68,7 @@ function WorkerPage() {
 
 function JobCard({ job, onDone, userId }: { job: Job; onDone: () => void; userId: string }) {
   const tx = useUiText();
+  const { language } = useLanguage();
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const done = job.assignment_status === "completed";
@@ -85,7 +87,7 @@ function JobCard({ job, onDone, userId }: { job: Job; onDone: () => void; userId
       }
       const { error } = await supabase.rpc("worker_update_job", { _assignment_id: job.assignment_id, _status: status, _after_photo_url: after ?? undefined });
       if (error) throw error;
-      toast.success(status === "completed" ? "Job completed with photo proof" : "Marked as in progress");
+      toast.success(tx(status === "completed" ? "Job completed with photo proof" : "Marked as in progress"));
       onDone();
     } catch (e) {
       toast.error((e as Error).message);
@@ -104,13 +106,13 @@ function JobCard({ job, onDone, userId }: { job: Job; onDone: () => void; userId
           <p className="text-sm text-muted-foreground capitalize">{tx(job.category.replace("-", " "))} · {tx(job.priority)}</p>
         </div>
         <span className={`rounded-full px-3 py-1 text-xs font-medium ${done ? "bg-success/15 text-success" : overdue ? "bg-destructive/15 text-destructive" : "bg-warning/15 text-warning"}`}>
-          {done ? tx("Completed") : overdue ? tx("Overdue") : job.assignment_status}
+          {done ? tx("Completed") : overdue ? tx("Overdue") : tx(job.assignment_status)}
         </span>
       </div>
       <p className="text-sm text-foreground">{job.description}</p>
       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
         <span className="flex items-center gap-1"><MapPin className="h-4 w-4" />{job.location}</span>
-        {job.due_at && <span className="flex items-center gap-1"><Clock className="h-4 w-4" />{tx("Due ")}{new Date(job.due_at).toLocaleString()}</span>}
+        {job.due_at && <span className="flex items-center gap-1"><Clock className="h-4 w-4" />{tx("Due ")}{new Date(job.due_at).toLocaleString(language === "hi" ? "hi-IN" : "en-IN")}</span>}
       </div>
       {job.photo_url && <img src={job.photo_url} alt={tx("Reported problem")} className="h-40 w-full rounded-lg object-cover" />}
       <div className="flex flex-wrap gap-2">
@@ -123,7 +125,7 @@ function JobCard({ job, onDone, userId }: { job: Job; onDone: () => void; userId
           <>
             <button disabled={busy} onClick={() => update("in-progress")} className="rounded-lg border border-border px-3 py-2 text-sm text-foreground">{tx("Start work")}</button>
             <label className="inline-flex cursor-pointer items-center gap-1 rounded-lg border border-border px-3 py-2 text-sm text-foreground">
-              <Camera className="h-4 w-4" /> {file ? file.name.slice(0, 18) : "After photo"}
+              <Camera className="h-4 w-4" /> {file ? file.name.slice(0, 18) : tx("After photo")}
               <input type="file" accept="image/*" capture="environment" className="hidden" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
             </label>
             <button disabled={busy || !file} onClick={() => update("completed")} className="inline-flex items-center gap-1 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50">

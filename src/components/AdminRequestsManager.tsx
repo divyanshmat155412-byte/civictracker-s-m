@@ -33,12 +33,12 @@ const AdminRequestsManager = () => {
       if (error) throw error;
     },
     onSuccess: (_d, v) => {
-      toast.success(v.approve ? "Approved — City Admin access granted" : "Application rejected");
+      toast.success(tx(v.approve ? "Approved — City Admin access granted" : "Application rejected"));
       queryClient.invalidateQueries({ queryKey: ["admin-requests-all"] });
       queryClient.invalidateQueries({ queryKey: ["role-assignments"] });
       queryClient.invalidateQueries({ queryKey: ["root-overview"] });
     },
-    onError: (e: any) => toast.error(e.message ?? "Failed"),
+    onError: (e: any) => toast.error(tx(e.message ?? "Failed")),
   });
 
   if (!isMainAdmin) return null;

@@ -1,7 +1,8 @@
 # Civic Tracker roadmap
 
 - [x] Local fixed-copy translation, persistence, public browser verification and audit report
-- [ ] Complete authenticated/dynamic Hindi coverage (requires authorized non-root test sessions; free-form AI/notification translation remains unsupported)
+- [x] Final safe frontend translation fixes, real AI/notification interactions, screenshots and limitations audit; not published
+- [ ] Authenticated bilingual staff/City Admin/worker checks — blocked: named temporary auth accounts no longer exist; no roles/auth changes authorised
 
 - [x] Import ZIP source, set up database, logins, photo storage
 - [x] Feature audit (docs/FEATURE_AUDIT.md)

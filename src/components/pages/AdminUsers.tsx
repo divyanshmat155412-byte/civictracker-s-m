@@ -84,7 +84,7 @@ const AdminUsers = () => {
       setEmail("");
       queryClient.invalidateQueries({ queryKey: ["role-assignments"] });
     },
-    onError: (e: any) => toast.error(e.message ?? "Failed to grant role"),
+    onError: (e: any) => toast.error(tx(e.message ?? "Failed to grant role")),
   });
 
   const revokeMutation = useMutation({
@@ -99,7 +99,7 @@ const AdminUsers = () => {
       toast.success(tx("Role revoked"));
       queryClient.invalidateQueries({ queryKey: ["role-assignments"] });
     },
-    onError: (e: any) => toast.error(e.message ?? "Failed to revoke role"),
+    onError: (e: any) => toast.error(tx(e.message ?? "Failed to revoke role")),
   });
 
   const statusMutation = useMutation({
@@ -108,14 +108,14 @@ const AdminUsers = () => {
       if (error) throw error;
     },
     onSuccess: () => { toast.success(tx("Account status updated")); queryClient.invalidateQueries({ queryKey: ["role-assignments"] }); },
-    onError: (e: any) => toast.error(e.message ?? "Failed"),
+    onError: (e: any) => toast.error(tx(e.message ?? "Failed")),
   });
 
   const handleGrant = (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = formSchema.safeParse({ email, role, city });
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? "Invalid input");
+      toast.error(tx(parsed.error.issues[0]?.message ?? "Invalid input"));
       return;
     }
     grantMutation.mutate(parsed.data);

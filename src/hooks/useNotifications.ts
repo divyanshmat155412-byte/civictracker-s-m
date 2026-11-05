@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { notificationDisplay } from "@/lib/notification-display";
 
 export interface AppNotification {
   id: string;
@@ -89,8 +90,9 @@ const showBrowserNotification = (notification: AppNotification) => {
   if (typeof window === "undefined" || !("Notification" in window)) return;
   if (Notification.permission !== "granted") return;
 
-  new Notification(notification.title, {
-    body: notification.body,
+  const display = notificationDisplay(notification, document.documentElement.lang === "hi" ? "hi" : "en");
+  new Notification(display.title, {
+    body: display.body,
     icon: "/favicon.ico",
   });
 };
