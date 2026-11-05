@@ -82,6 +82,25 @@ const Index = () => {
   const [photoName, setPhotoName] = useState<string | null>(initialDraft.photoName || null);
   const [photoType, setPhotoType] = useState<string | null>(initialDraft.photoType || null);
   const [submitting, setSubmitting] = useState(false);
+  const [syncState, setSyncState] = useState<"idle" | "queued" | "failed" | "sent">("idle");
+  const [isOnline, setIsOnline] = useState(true);
+  const pendingSubmitRef = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  useEffect(() => {
+    setIsOnline(navigator.onLine);
+    const on = () => {
+      setIsOnline(true);
+      if (pendingSubmitRef.current) {
+        pendingSubmitRef.current = false;
+        toast.info("Back online — sending your saved complaint…");
+        formRef.current?.requestSubmit();
+      }
+    };
+    const off = () => setIsOnline(false);
+    window.addEventListener("online", on);
+    window.addEventListener("offline", off);
+    return () => { window.removeEventListener("online", on); window.removeEventListener("offline", off); };
+  }, []);
   const [submitted, setSubmitted] = useState(false);
   const [submittedId, setSubmittedId] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -243,16 +262,9 @@ const Index = () => {
       setDuplicateWarning(null);
       return;
     }
-    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 3600 * 1000).toISOString();
-    const delta = 0.003; // ~300m
-    const { data } = await supabase
-      .from("complaints")
-      .select("complaint_id")
-      .eq("category", selectedCategory)
-      .gte("latitude", lat - delta).lte("latitude", lat + delta)
-      .gte("longitude", lng - delta).lte("longitude", lng + delta)
-      .gte("created_at", sevenDaysAgo)
-      .limit(5);
+    const { data } = await supabase.rpc("find_nearby_duplicates", {
+      _lat: lat, _lng: lng, _category: selectedCategory, _radius_m: 300, _days: 7,
+    });
     if (data && data.length > 0) {
       setDuplicateWarning({ count: data.length, ids: data.map((r) => r.complaint_id) });
     } else {
@@ -333,26 +345,9 @@ const Index = () => {
         body: { complaint_id: data.id, title, description, category: selectedCategory, location, priority },
       }).catch((err) => console.error("AI summary error:", err));
 
-      // Award green points to the user profile
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("id, green_points, complaints_count")
-        .eq("user_id", user.id)
-        .maybeSingle();
-      if (profile) {
-        await supabase.from("profiles").update({
-          green_points: profile.green_points + 10,
-          complaints_count: profile.complaints_count + 1,
-        }).eq("id", profile.id);
-      } else {
-        await supabase.from("profiles").insert({
-          user_id: user.id,
-          full_name: user.user_metadata?.full_name || user.email || "",
-          green_points: 10,
-          complaints_count: 1,
-        });
-      }
+      // Green points are awarded by the database when the complaint is saved.
 
+      setSyncState("sent");
       setSubmittedId(data.complaint_id);
       setSubmitted(true);
       setTitle(""); setDescription(""); setLocation(""); setSelectedCategory("");
@@ -365,6 +360,16 @@ const Index = () => {
       setTimeout(() => setSubmitted(false), 5000);
     } catch (err) {
       console.error("Submit error:", err);
+      const offline = typeof navigator !== "undefined" && !navigator.onLine;
+      const networkish = offline || (err instanceof TypeError) || /fetch|network/i.test(String((err as Error)?.message ?? err));
+      if (networkish) {
+        pendingSubmitRef.current = true;
+        setSyncState("queued");
+        toast.warning("You're offline. Your complaint is saved on this phone and will be sent automatically when you're back online.");
+      } else {
+        setSyncState("failed");
+        toast.error("Could not submit complaint. Your draft is saved — please try again.");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -575,6 +580,12 @@ const Index = () => {
             </motion.div>
           )}
 
+          {(!isOnline || syncState === "queued" || syncState === "failed") && !submitted && (
+            <div role="status" className="mb-4 rounded-lg border border-warning/40 bg-warning/10 px-4 py-3 text-sm text-foreground">
+              {!isOnline ? "Offline — your draft is saved on this device. " : ""}
+              {syncState === "queued" ? "Waiting to send: your complaint will upload automatically when the connection returns." : syncState === "failed" ? "Last attempt failed. Your draft is safe — tap Submit to retry." : "You can keep filling the form."}
+            </div>
+          )}
           {draftRestored && !submitted && (
             <div className="mb-4 p-3 rounded-lg bg-info/10 border border-info/30 text-foreground text-sm flex items-center justify-between gap-3">
               <span className="flex items-center gap-2">
