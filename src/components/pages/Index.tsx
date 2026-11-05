@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "@/lib/router-compat";
 import Layout from "@/components/Layout";
-import { CATEGORY_CONFIG, ComplaintCategory, STATUS_CONFIG } from "@/lib/types";
+import { CATEGORY_CONFIG, CATEGORY_LABEL_HI, ComplaintCategory, STATUS_CONFIG } from "@/lib/types";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -39,7 +39,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 
 const Index = () => {
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
   
 
