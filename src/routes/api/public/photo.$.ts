@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { sniffImage } from "@/lib/image-validate";
 
 // Streams a complaint photo from the private bucket. Direct storage reads are
 // blocked by policy; this route only serves files that are attached to a
@@ -23,8 +24,12 @@ export const Route = createFileRoute("/api/public/photo/$")({
         if (!refs || refs.length === 0) return new Response("Not found", { status: 404 });
         const { data, error } = await supabaseAdmin.storage.from("complaint-photos").download(path);
         if (error || !data) return new Response("Not found", { status: 404 });
-        const type = data.type && data.type.startsWith("image/") ? data.type : "image/jpeg";
-        return new Response(data, {
+        // Serve only files whose real bytes are an allowed image; the type comes from the bytes.
+        const bytes = new Uint8Array(await data.arrayBuffer());
+        const safe = sniffImage(bytes.subarray(0, 16));
+        if (!safe) return new Response("Not found", { status: 404 });
+        const type = safe.mime;
+        return new Response(bytes, {
           headers: {
             "content-type": type,
             "x-content-type-options": "nosniff",

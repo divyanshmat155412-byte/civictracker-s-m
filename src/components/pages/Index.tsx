@@ -1,3 +1,4 @@
+import { validatePhotoFile } from "@/lib/image-validate";
 import { useUiText } from "@/hooks/useUiText";
 import WardPreview from "@/components/WardPreview";
 import { photoUrlFor } from "@/lib/photo-url";
@@ -308,9 +309,10 @@ const Index = () => {
     try {
       let photoUrl: string | null = null;
       if (photo) {
-        const ext = photo.name.split(".").pop();
-        const filePath = `${user.id}/${Date.now()}.${ext}`;
-        const { error: uploadError } = await supabase.storage.from("complaint-photos").upload(filePath, photo);
+        const checked = await validatePhotoFile(photo);
+        if ("error" in checked) { toast.error(tx(checked.error)); setSubmitting(false); return; }
+        const filePath = `${user.id}/${Date.now()}.${checked.ext}`;
+        const { error: uploadError } = await supabase.storage.from("complaint-photos").upload(filePath, photo, { contentType: checked.mime });
         if (!uploadError) {
           photoUrl = photoUrlFor(filePath);
         }

@@ -1,3 +1,4 @@
+import { validatePhotoFile } from "@/lib/image-validate";
 import { useUiText } from "@/hooks/useUiText";
 import { photoUrlFor } from "@/lib/photo-url";
 import { COMPLAINT_COLS, PROFILE_COLS, DEPARTMENT_COLS_PUBLIC } from "@/lib/db-columns";
@@ -125,9 +126,10 @@ const Admin = () => {
       if (!selectedComplaint || !user) return;
       let afterPhotoUrl: string | null = null;
       if (afterPhoto) {
-        const ext = afterPhoto.name.split(".").pop();
-        const filePath = `${user.id}/after-${Date.now()}.${ext}`;
-        const { error: uploadError } = await supabase.storage.from("complaint-photos").upload(filePath, afterPhoto);
+        const checked = await validatePhotoFile(afterPhoto);
+        if ("error" in checked) throw new Error(checked.error);
+        const filePath = `${user.id}/after-${Date.now()}.${checked.ext}`;
+        const { error: uploadError } = await supabase.storage.from("complaint-photos").upload(filePath, afterPhoto, { contentType: checked.mime });
         if (!uploadError) {
           afterPhotoUrl = photoUrlFor(filePath);
         }
