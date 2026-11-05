@@ -72,10 +72,15 @@ const Profile = () => {
     queryKey: ["my-complaints", user?.id],
     enabled: !!user,
     queryFn: async () => {
+      // Filer account ids are private; ask the server which complaints are mine.
+      const { data: ids, error: idsError } = await supabase.rpc("my_complaint_ids");
+      if (idsError) throw idsError;
+      const mine = ((ids ?? []) as unknown as string[]).filter(Boolean);
+      if (mine.length === 0) return [];
       const { data, error } = await supabase
         .from("complaints")
         .select(COMPLAINT_COLS)
-        .eq("user_id", user!.id)
+        .in("id", mine)
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
