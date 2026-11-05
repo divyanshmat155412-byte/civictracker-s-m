@@ -1,4 +1,6 @@
 import { useUiText } from "@/hooks/useUiText";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { notificationDisplay } from "@/lib/notification-display";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "@/lib/router-compat";
 import { Bell, Clock } from "lucide-react";
@@ -7,6 +9,7 @@ import { useNotifications } from "@/hooks/useNotifications";
 
 const NotificationBell = () => {
   const tx = useUiText();
+  const { language } = useLanguage();
   const { notifications, unreadCount, markAllRead, requestPermission } = useNotifications();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -83,7 +86,9 @@ const NotificationBell = () => {
                 {tx(" No notifications yet ")}</div>
             ) : (
               <div className="divide-y divide-border">
-                {notifications.slice(0, 10).map((n) => (
+                {notifications.slice(0, 10).map((n) => {
+                  const display = notificationDisplay(n, language);
+                  return (
                   <div
                     key={n.id}
                     onClick={() => handleNotificationClick(n)}
@@ -94,15 +99,15 @@ const NotificationBell = () => {
                         n.type === "new_complaint" ? "bg-destructive" : "bg-success"
                       }`} />
                       <div className="min-w-0 flex-1">
-                        <p className="text-xs font-medium text-foreground leading-tight line-clamp-1">{n.title}</p>
-                        <p className="text-[10px] text-muted-foreground mt-0.5 line-clamp-1">{n.body}</p>
+                        <p className="text-xs font-medium text-foreground leading-tight break-words">{display.title}</p>
+                        <p className="text-[10px] text-muted-foreground mt-0.5 break-words">{display.body}</p>
                         <span className="text-[10px] text-muted-foreground mt-0.5 flex items-center gap-1">
                           <Clock className="w-2.5 h-2.5" />{timeAgo(n.created_at)}
                         </span>
                       </div>
                     </div>
                   </div>
-                ))}
+                ); })}
               </div>
             )}
           </motion.div>

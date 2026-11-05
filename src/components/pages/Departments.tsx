@@ -20,6 +20,7 @@ import { cappedStagger } from "@/lib/perf";
 interface DeptStat {
   id: string;
   name: string;
+  city: string | null;
   description: string | null;
   head_name: string | null;
   total: number;
@@ -92,7 +93,8 @@ const Departments = () => {
             : null;
         return {
           id: d.id,
-          name: d.city ? `${d.name} (${d.city})` : d.name,
+          name: d.name,
+          city: d.city,
           description: d.description,
           head_name: d.head_name,
           total: own.length,
@@ -164,7 +166,7 @@ const Departments = () => {
     e.preventDefault();
     const parsed = deptSchema.safeParse(form);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0].message);
+      toast.error(tx(parsed.error.issues[0].message));
       return;
     }
     createMutation.mutate(parsed.data);
@@ -184,8 +186,8 @@ const Departments = () => {
 
   const formatHours = (h: number | null) => {
     if (h === null) return "—";
-    if (h < 24) return `${h}h`;
-    return `${Math.round((h / 24) * 10) / 10}d`;
+    if (h < 24) return `${h} ${tx("hours")}`;
+    return `${Math.round((h / 24) * 10) / 10} ${tx("days")}`;
   };
 
   const medal = (i: number) => (i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`);
@@ -297,13 +299,13 @@ const Departments = () => {
                 <div className="text-2xl md:text-3xl font-bold w-12 text-center shrink-0">{medal(i)}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="font-semibold text-foreground">{tx(d.name)}</h2>
+                    <h2 className="font-semibold text-foreground">{tx(d.name)}{d.city ? ` (${tx(d.city)})` : ""}</h2>
                     {d.head_name && (
                       <span className="text-xs text-muted-foreground">· {d.head_name}</span>
                     )}
                   </div>
                   {d.description && (
-                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{d.description}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5 break-words">{tx(d.description)}</p>
                   )}
                   <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
                     <div

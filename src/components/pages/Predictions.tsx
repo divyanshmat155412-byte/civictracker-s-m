@@ -61,10 +61,12 @@ const Predictions = () => {
             {data?.summary && (
               <Card className="mb-6">
                 <CardContent className="p-5">
-                  <p className="text-sm text-foreground">{data.summary}</p>
+                  <p className="text-sm text-foreground">{data.summary === "Unable to generate predictions" ? tx(data.summary) : data.summary}</p>
                 </CardContent>
               </Card>
             )}
+
+            {data?.message === "Not enough data for predictions" && <p className="text-sm text-muted-foreground">{tx(data.message)}</p>}
 
             <div className="grid gap-4">
               {data?.predictions?.map((p: any, i: number) => (
