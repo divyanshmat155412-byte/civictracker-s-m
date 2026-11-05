@@ -34,6 +34,7 @@ import { Route as WorkerRouteImport } from './routes/worker'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminPollsRouteImport } from './routes/admin.polls'
 import { Route as AdminPostersRouteImport } from './routes/admin.posters'
+import { Route as AdminRootRouteImport } from './routes/admin.root'
 import { Route as AdminSmsRouteImport } from './routes/admin.sms'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminWardsRouteImport } from './routes/admin.wards'
@@ -180,6 +181,11 @@ const AdminPostersRoute = AdminPostersRouteImport.update({
   path: '/admin/posters',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRootRoute = AdminRootRouteImport.update({
+  id: '/admin/root',
+  path: '/admin/root',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminSmsRoute = AdminSmsRouteImport.update({
   id: '/admin/sms',
   path: '/admin/sms',
@@ -313,6 +319,7 @@ export interface FileRoutesByFullPath {
   '/worker': typeof WorkerRoute
   '/admin/polls': typeof AdminPollsRoute
   '/admin/posters': typeof AdminPostersRoute
+  '/admin/root': typeof AdminRootRoute
   '/admin/sms': typeof AdminSmsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/wards': typeof AdminWardsRoute
@@ -360,6 +367,7 @@ export interface FileRoutesByTo {
   '/worker': typeof WorkerRoute
   '/admin/polls': typeof AdminPollsRoute
   '/admin/posters': typeof AdminPostersRoute
+  '/admin/root': typeof AdminRootRoute
   '/admin/sms': typeof AdminSmsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/wards': typeof AdminWardsRoute
@@ -408,6 +416,7 @@ export interface FileRoutesById {
   '/worker': typeof WorkerRoute
   '/admin/polls': typeof AdminPollsRoute
   '/admin/posters': typeof AdminPostersRoute
+  '/admin/root': typeof AdminRootRoute
   '/admin/sms': typeof AdminSmsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/wards': typeof AdminWardsRoute
@@ -457,6 +466,7 @@ export interface FileRouteTypes {
     | '/worker'
     | '/admin/polls'
     | '/admin/posters'
+    | '/admin/root'
     | '/admin/sms'
     | '/admin/users'
     | '/admin/wards'
@@ -504,6 +514,7 @@ export interface FileRouteTypes {
     | '/worker'
     | '/admin/polls'
     | '/admin/posters'
+    | '/admin/root'
     | '/admin/sms'
     | '/admin/users'
     | '/admin/wards'
@@ -551,6 +562,7 @@ export interface FileRouteTypes {
     | '/worker'
     | '/admin/polls'
     | '/admin/posters'
+    | '/admin/root'
     | '/admin/sms'
     | '/admin/users'
     | '/admin/wards'
@@ -599,6 +611,7 @@ export interface RootRouteChildren {
   WorkerRoute: typeof WorkerRoute
   AdminPollsRoute: typeof AdminPollsRoute
   AdminPostersRoute: typeof AdminPostersRoute
+  AdminRootRoute: typeof AdminRootRoute
   AdminSmsRoute: typeof AdminSmsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminWardsRoute: typeof AdminWardsRoute
@@ -799,6 +812,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPostersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/root': {
+      id: '/admin/root'
+      path: '/admin/root'
+      fullPath: '/admin/root'
+      preLoaderRoute: typeof AdminRootRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/sms': {
       id: '/admin/sms'
       path: '/admin/sms'
@@ -967,6 +987,7 @@ const rootRouteChildren: RootRouteChildren = {
   WorkerRoute: WorkerRoute,
   AdminPollsRoute: AdminPollsRoute,
   AdminPostersRoute: AdminPostersRoute,
+  AdminRootRoute: AdminRootRoute,
   AdminSmsRoute: AdminSmsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminWardsRoute: AdminWardsRoute,
