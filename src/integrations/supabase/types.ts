@@ -83,6 +83,21 @@ export type Database = {
         }
         Relationships: []
       }
+      app_config: {
+        Row: {
+          key: string
+          value: string
+        }
+        Insert: {
+          key: string
+          value: string
+        }
+        Update: {
+          key?: string
+          value?: string
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           action: string
@@ -914,12 +929,77 @@ export type Database = {
         Returns: boolean
       }
       admin_cities: { Args: { _user_id: string }; Returns: string[] }
+      admin_grant_role_by_email: {
+        Args: {
+          _city?: string
+          _email: string
+          _role: Database["public"]["Enums"]["app_role"]
+        }
+        Returns: Json
+      }
+      admin_list_known_cities: {
+        Args: never
+        Returns: {
+          city: string
+          source: string
+        }[]
+      }
+      admin_list_role_assignments: {
+        Args: never
+        Returns: {
+          city: string
+          email: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }[]
+      }
+      admin_revoke_role_by_email: {
+        Args: { _email: string; _role: Database["public"]["Enums"]["app_role"] }
+        Returns: Json
+      }
+      get_complaint_whatsapp: {
+        Args: { _complaint_id: string }
+        Returns: string
+      }
+      get_my_profile_contact: {
+        Args: never
+        Returns: {
+          phone_number: string
+          sms_opt_in: boolean
+        }[]
+      }
+      get_poll_results: {
+        Args: { _poll_id: string }
+        Returns: {
+          option_id: string
+          vote_count: number
+        }[]
+      }
+      get_worker_phone: { Args: { _worker_id: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      is_main_admin: { Args: never; Returns: boolean }
+      list_complaints_for_admin_sms: {
+        Args: never
+        Returns: {
+          complaint_id: string
+          id: string
+          status: string
+          title: string
+          whatsapp_number: string
+        }[]
+      }
+      main_admin_email: { Args: never; Returns: string }
+      redeem_reward: { Args: { _reward_id: string }; Returns: Json }
+      set_my_home_city: { Args: { _city: string }; Returns: string }
+      update_my_profile_contact: {
+        Args: { _opt_in: boolean; _phone: string }
+        Returns: undefined
       }
     }
     Enums: {
