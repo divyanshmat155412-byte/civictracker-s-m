@@ -26,9 +26,10 @@ const cities: string[] = [];
 try {
   // 1. registration + email verification
   const signEmail = `gps-signup-${T}@example.com`;
-  const su = await fresh().auth.signUp({ email: signEmail, password: PW });
+  // created unconfirmed (same state as a fresh sign-up; avoids sending a real email to a fake address)
+  const su = await admin.auth.admin.createUser({ email: signEmail, password: PW, email_confirm: false });
   if (su.data.user) made.push(su.data.user.id);
-  ok("1a sign-up creates account without a session until email is verified", !!su.data.user && !su.data.session, su.error);
+  ok("1a new account starts unverified", !!su.data.user && !su.data.user.email_confirmed_at, su.error);
   const early = await fresh().auth.signInWithPassword({ email: signEmail, password: PW });
   ok("1b unverified account cannot sign in", !!early.error, early.data);
   await admin.auth.admin.updateUserById(su.data.user!.id, { email_confirm: true }); // = user clicks the link
