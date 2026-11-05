@@ -85,6 +85,13 @@
       "when": 1793867926514,
       "tag": "0011_escalation_scores_merging",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1793878737516,
+      "tag": "0012_grant_read_new_complaint_columns",
+      "breakpoints": true
     }
   ]
 }

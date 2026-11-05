@@ -1,0 +1,1 @@
+GRANT SELECT (location_status, routing_status, escalation_level, escalated_at, merged_into, merged_at) ON public.complaints TO anon, authenticated;
