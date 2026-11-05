@@ -127,6 +127,13 @@
       "when": 1793895101194,
       "tag": "0017_secure_photos_ownership_anonymity",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1793895991880,
+      "tag": "0018_anonymous_identity_reveal",
+      "breakpoints": true
     }
   ]
 }

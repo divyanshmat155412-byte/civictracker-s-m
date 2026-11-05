@@ -1352,6 +1352,10 @@ export type Database = {
         Returns: boolean
       }
       redeem_reward: { Args: { _reward_id: string }; Returns: Json }
+      reveal_anonymous_complainant: {
+        Args: { _complaint_id: string; _reason: string }
+        Returns: Json
+      }
       root_admin_id: { Args: never; Returns: string }
       root_decide_admin_request: {
         Args: {
