@@ -1,3 +1,4 @@
+// RUN ALONE: this test temporarily swaps the root ID; never run it alongside other e2e scripts.
 // End-to-end: City Admin applications, GPS ward/zone detection, city routing, corrections.
 // Uses temporary accounts and two temporary DEMO cities. Ward shapes below are invented
 // demonstration squares, NOT official boundaries. Everything is deleted at the end.
