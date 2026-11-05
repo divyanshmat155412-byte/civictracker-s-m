@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import "leaflet.heat";
+
 import { Flame, Filter, MapPin } from "lucide-react";
 import Layout from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
@@ -30,7 +30,7 @@ const HeatLayer = ({ points }: { points: [number, number, number][] }) => {
       map.removeLayer(layerRef.current);
       layerRef.current = null;
     }
-    if (points.length === 0) return;
+    if (points.length === 0 || !(L as any).heatLayer) return;
     // @ts-ignore - leaflet.heat extends L
     layerRef.current = L.heatLayer(points, {
       radius: 28,
@@ -58,6 +58,13 @@ const HeatLayer = ({ points }: { points: [number, number, number][] }) => {
 };
 
 const Heatmap = () => {
+  const [heatReady, setHeatReady] = useState(false);
+  useEffect(() => {
+    (window as any).L = L;
+    let active = true;
+    import("leaflet.heat").then(() => { if (active) setHeatReady(true); });
+    return () => { active = false; };
+  }, []);
   const tx = useUiText();
   const { cities: CITIES } = useCities();
   const [range, setRange] = useState<RangeKey>("7d");
@@ -210,7 +217,7 @@ const Heatmap = () => {
               attribution='&copy; OpenStreetMap'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <HeatLayer points={heatPoints} />
+            {heatReady && <HeatLayer points={heatPoints} />}
           </MapContainer>
         </div>
 

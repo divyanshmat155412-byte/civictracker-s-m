@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import "leaflet.heat";
+
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
@@ -51,6 +51,13 @@ const INDIA_ZOOM = 5;
 type ViewMode = "markers" | "heatmap" | "clusters";
 
 const MapView = () => {
+  const [heatReady, setHeatReady] = useState(false);
+  useEffect(() => {
+    (window as any).L = L;
+    let active = true;
+    import("leaflet.heat").then(() => { if (active) setHeatReady(true); });
+    return () => { active = false; };
+  }, []);
   const tx = useUiText();
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
@@ -150,6 +157,7 @@ const MapView = () => {
     if (mappable.length === 0) return;
 
     if (viewMode === "heatmap") {
+      if (!(L as any).heatLayer) return;
       const heatData = mappable.map((c: any) => [Number(c.latitude), Number(c.longitude), 1]);
       heatLayerRef.current = (L as any)
         .heatLayer(heatData, {
@@ -212,7 +220,7 @@ const MapView = () => {
         markersRef.current!.addLayer(marker);
       });
     }
-  }, [mappable, viewMode]);
+  }, [mappable, viewMode, heatReady]);
 
   // Fit bounds
   useEffect(() => {
