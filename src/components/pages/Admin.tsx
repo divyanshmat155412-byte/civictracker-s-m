@@ -221,6 +221,19 @@ const Admin = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-6">
+          {isMainAdmin && (
+            <>
+              <button onClick={() => navigate("/admin/root")} className="px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold flex items-center gap-2">
+                👑 Super Admin Dashboard
+              </button>
+              <button onClick={() => navigate("/admin/users")} className="px-3 py-2 rounded-lg bg-card border border-border hover:border-primary text-sm font-medium text-foreground flex items-center gap-2">
+                👥 Users & Roles
+              </button>
+            </>
+          )}
+          <button onClick={() => navigate("/admin/wards")} className="px-3 py-2 rounded-lg bg-card border border-border hover:border-primary text-sm font-medium text-foreground flex items-center gap-2">
+            🗺️ Wards & Zones
+          </button>
           <button onClick={() => navigate("/admin/polls")} className="px-3 py-2 rounded-lg bg-card border border-border hover:border-primary text-sm font-medium text-foreground flex items-center gap-2">
             🗳️ Manage Polls
           </button>
