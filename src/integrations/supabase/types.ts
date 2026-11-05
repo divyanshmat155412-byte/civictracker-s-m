@@ -160,6 +160,45 @@ export type Database = {
           },
         ]
       }
+      cities: {
+        Row: {
+          center_lat: number | null
+          center_lng: number | null
+          contact_email: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          is_active: boolean
+          municipal_body: string | null
+          name: string
+          state: string | null
+        }
+        Insert: {
+          center_lat?: number | null
+          center_lng?: number | null
+          contact_email?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          municipal_body?: string | null
+          name: string
+          state?: string | null
+        }
+        Update: {
+          center_lat?: number | null
+          center_lng?: number | null
+          contact_email?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          municipal_body?: string | null
+          name?: string
+          state?: string | null
+        }
+        Relationships: []
+      }
       complaint_comments: {
         Row: {
           complaint_id: string
@@ -445,6 +484,7 @@ export type Database = {
       }
       departments: {
         Row: {
+          city: string | null
           contact_email: string | null
           created_at: string
           description: string | null
@@ -453,6 +493,7 @@ export type Database = {
           name: string
         }
         Insert: {
+          city?: string | null
           contact_email?: string | null
           created_at?: string
           description?: string | null
@@ -461,6 +502,7 @@ export type Database = {
           name: string
         }
         Update: {
+          city?: string | null
           contact_email?: string | null
           created_at?: string
           description?: string | null
