@@ -72,22 +72,46 @@ try {
   ok("R6 31st request refused with retry_after", (r31.data as any)?.allowed === false && (r31.data as any).retry_after > 0 && (r31.data as any).retry_after <= 600, r31.data);
   const r31b = await a.c.rpc("consume_ai_quota" as never, { _endpoint: "brand-new-endpoint" } as never);
   ok("R7 changing endpoint name does not bypass shared limit", (r31b.data as any)?.allowed === false, r31b.data);
-  const sum = await admin.from("api_usage").select("request_count").eq("user_id", a.id);
-  ok("R8 counters total exactly 30", (sum.data ?? []).reduce((s, x) => s + x.request_count, 0) === 30, sum.data);
+  const sum = await admin.from("api_usage_events").select("id", { count: "exact", head: true }).eq("user_id", a.id);
+  ok("R8 usage entries total exactly 30", sum.count === 30, sum.count);
   const bOk = await b.c.rpc("consume_ai_quota" as never, { _endpoint: "civic-chat" } as never);
   ok("R9 other user has independent limit", (bOk.data as any)?.allowed === true, bOk.data);
   const conc = await Promise.all(Array.from({ length: 50 }, () => b.c.rpc("consume_ai_quota" as never, { _endpoint: "analyze-image" } as never)));
   const concOk = conc.filter(r => (r.data as any)?.allowed).length;
   ok("R10 50 simultaneous requests: exactly 29 more allowed (30 total)", concOk === 29, concOk);
-  // window reset (synthetic clock, service role only, 60s window)
-  const now = new Date("2030-01-01T00:00:10Z");
-  for (let i = 0; i < 3; i++) await admin.rpc("_consume_ai_quota" as never, { _uid: a.id, _endpoint: "civic-chat", _now: now.toISOString(), _limit: 3, _window_seconds: 60 } as never);
-  const full = await admin.rpc("_consume_ai_quota" as never, { _uid: a.id, _endpoint: "civic-chat", _now: now.toISOString(), _limit: 3, _window_seconds: 60 } as never);
-  ok("R11 limit hit within window", (full.data as any)?.allowed === false, full.data);
-  const next = await admin.rpc("_consume_ai_quota" as never, { _uid: a.id, _endpoint: "civic-chat", _now: "2030-01-01T00:01:01Z", _limit: 3, _window_seconds: 60 } as never);
-  ok("R12 counter resets when the window expires", (next.data as any)?.allowed === true && (next.data as any).used === 1, next.data);
-  const tenMin = await admin.rpc("_consume_ai_quota" as never, { _uid: b.id, _endpoint: "civic-chat", _now: new Date(Date.now() + 601_000).toISOString(), _limit: 30, _window_seconds: 600 } as never);
-  ok("R13 production 10-minute window: fresh after 10 minutes", (tenMin.data as any)?.allowed === true && (tenMin.data as any).used === 1, tenMin.data);
+  // ---- Rolling window (synthetic clock, service role only; production limit 30 / 600s)
+  const R = (uid: string, t: number, ep = "civic-chat") => admin.rpc("_consume_ai_quota_rolling" as never, { _uid: uid, _endpoint: ep, _now: new Date(t).toISOString(), _limit: 30, _window_seconds: 600 } as never).then(r => r.data as any);
+  const c = await user("clock"); const T0 = Date.parse("2030-01-01T10:09:00Z");
+  let early = 0; for (let k = 0; k < 30; k++) if ((await R(c.id, T0 + k * 1000)).allowed) early++;   // 10:09:00..10:09:29
+  ok("B1 30 requests in first burst allowed", early === 30, early);
+  let late = 0; for (let k = 0; k < 30; k++) if ((await R(c.id, T0 + 60_000 + k * 100)).allowed) late++; // 10:10:00.. (old fixed-window boundary)
+  ok("B2 old boundary trick: 0 more allowed right after the 10-minute mark", late === 0, late);
+  const at599 = await R(c.id, T0 + 599_000);
+  ok("B3 at 599s after oldest: refused, Retry-After = 2s", at599.allowed === false && at599.retry_after === 2, at599);
+  const at600 = await R(c.id, T0 + 600_000);
+  ok("B4 at exactly 600s after oldest: refused, Retry-After = 1s", at600.allowed === false && at600.retry_after === 1, at600);
+  const at601 = await R(c.id, T0 + 601_000);
+  ok("B5 at 601s after oldest: allowed (oldest fell out)", at601.allowed === true && at601.used === 30, at601);
+  const s15 = await R(c.id, T0 + 601_500);
+  ok("B6a at 601.5s the 1s entry has aged out: one more allowed", s15.allowed === true && s15.used === 30, s15);
+  const again = await R(c.id, T0 + 601_500);
+  ok("B6b immediate next request refused, Retry-After 1s (oldest at 2s frees at 602s+)", again.allowed === false && again.retry_after === 1, again);
+  const evCount = await admin.from("api_usage_events").select("id", { count: "exact", head: true }).eq("user_id", c.id);
+  ok("B7 refused requests are not stored (32 entries total)", evCount.count === 32, evCount.count);
+  // concurrency at the boundary: 20 simultaneous calls when 1 slot frees
+  const conc2 = await Promise.all(Array.from({ length: 20 }, () => R(c.id, T0 + 602_500)));
+  ok("B8 20 simultaneous calls when 1 slot opens: exactly 1 allowed", conc2.filter(x => x.allowed).length === 1, conc2.filter(x => x.allowed).length);
+  const tenMin = await R(b.id, Date.now() + 601_000);
+  ok("B9 user B fresh again 601s later", tenMin.allowed === true && tenMin.used === 1, tenMin);
+  // ---- 24h cleanup (real clock)
+  const old = await R(c.id, Date.now() - 25 * 3600_000, "cleanup-test");
+  ok("C1 entry dated 25h ago recorded", old.allowed === true, old);
+  const oldOther = await R(b.id, Date.now() - 26 * 3600_000, "cleanup-test");
+  await R(a.id, Date.now(), "cleanup-trigger"); // any call triggers cleanup (a is over limit; still cleans)
+  const leftOld = await admin.from("api_usage_events").select("id").eq("endpoint", "cleanup-test");
+  ok("C2 entries older than 24h removed automatically (own and other users')", oldOther.allowed && (leftOld.data?.length ?? 1) === 0, leftOld.data);
+  const keptNew = await admin.from("api_usage_events").select("id", { count: "exact", head: true }).eq("user_id", a.id);
+  ok("C3 recent entries kept", (keptNew.count ?? 0) >= 30, keptNew.count);
 
   // ---- SA-06 HTTP layer: user A is already over the limit, so no AI is called
   for (const ep of ENDPOINTS) {
@@ -104,14 +128,14 @@ try {
   const fresh = await user("fresh");
   const chat = await fetch(`${APP}/api/public/fn/civic-chat`, { method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${fresh.token}` }, body: JSON.stringify({ messages: [{ role: "user", content: "Say hello in 3 words" }], language: "en" }) });
   ok("H9 below limit: civic chat still answers (1 real AI call)", chat.status === 200, chat.status);
-  const fu = await admin.from("api_usage").select("endpoint,request_count").eq("user_id", fresh.id);
-  ok("H10 that call counted once against civic-chat", fu.data?.length === 1 && fu.data[0].request_count === 1 && fu.data[0].endpoint === "civic-chat", fu.data);
+  const fu = await admin.from("api_usage_events").select("endpoint").eq("user_id", fresh.id);
+  ok("H10 that call counted once against civic-chat", fu.data?.length === 1 && fu.data[0].endpoint === "civic-chat", fu.data);
   const counts1 = await Promise.all(["complaints", "profiles", "audit_logs"].map(t => admin.from(t).select("*", { count: "exact", head: true })));
   console.log("DURING (incl. test rows) complaints/profiles/audits:", counts1.map(c => c.count).join("/"));
 } catch (e) { fail++; console.error("ERROR", e); }
 finally {
   if (complaints.length) await admin.from("complaints").delete().in("id", complaints);
-  if (users.length) { await admin.from("api_usage").delete().in("user_id", users); await admin.from("user_roles").delete().in("user_id", users); }
+  if (users.length) { await admin.from("api_usage").delete().in("user_id", users); await admin.from("api_usage_events").delete().in("user_id", users); await admin.from("user_roles").delete().in("user_id", users); }
   for (const id of users) await admin.auth.admin.deleteUser(id);
   const c = await admin.from("complaints").select("*", { count: "exact", head: true });
   console.log("AFTER cleanup complaints:", c.count);
