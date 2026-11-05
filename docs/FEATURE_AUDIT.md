@@ -55,3 +55,14 @@ Test: `bun scripts/e2e-gps-routing-applications.ts`. Temporary accounts, two tem
 | UI | Ward preview on complaint form; city/ward/zone/department panel + correction on complaint page; "needs checking" list; routing editor | NOT TESTED in browser | Type-checks pass; no signed-in browser session was available. |
 
 Existing Ratlam wards are now labelled **demonstration data** (they were never official boundaries). Real ward maps need to come from the Nagar Nigam.
+
+## Innovation round (NEW, prototype-round improvements — 2026-11-05)
+Tested by `scripts/e2e-innovation.ts` (25/25 PASS, temporary accounts + demo cities). Regression: complaint flow 21/21, security 45/45, city onboarding 21/21, GPS/routing/applications 38/38; unit tests 15/15.
+
+| Feature | Status | Notes |
+|---|---|---|
+| Automatic escalation on missed deadline | PASS | L1 officers at deadline, L2 City Admin at +24h, L3 Super Admin at +72h; hourly database job; city-scoped alerts, no repeats, audited, resets when deadline extended. Badge + "Escalated" admin filter. |
+| Public Department Accountability Score | PASS | 50% proof-backed resolutions + 30% on time + 20% not overdue; <5 complaints = "Not enough data"; public, aggregates only. |
+| Duplicate detection + safe merge | PASS | Same city/category, ≤300 m, ±7 days, ranked by text similarity; City Admin only, reversible, reporter notified, audited, cross-city blocked. |
+| Hindi voice confirmation | Implemented, NOT TESTED in browser | Transcript shown for edit/confirm before entering the form. Needs a real microphone. |
+| Photo AI suggestion + department | Implemented, NOT TESTED with live photo | Shows category, confidence and city's routed department; citizen must Accept or choose; low confidence shows "couldn't identify". |
