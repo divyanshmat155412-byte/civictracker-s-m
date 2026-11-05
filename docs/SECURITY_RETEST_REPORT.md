@@ -17,7 +17,7 @@ Run 2026-11-05 ~17:05–17:15 UTC against the preview build and the shared live 
 
 | Suite | Result |
 |-------|--------|
-| Unit tests (vitest, 8 files) | 39 passed / 0 failed (includes 10 new webhook checks) |
+| Unit tests (vitest, 8 files) | 29 passed / 0 failed (8 files, includes the 10 new webhook checks) |
 | Security (`e2e-security`) | 45 / 45 PASS |
 | Scan fixes (`e2e-scan-fixes`) | 31 / 31 PASS |
 | Photo, ownership, anonymity (`e2e-photo-ownership`) | 42 / 42 PASS |
