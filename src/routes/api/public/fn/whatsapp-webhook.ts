@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
+import { getCaller, isStaff } from "@/lib/api-guard";
+import { authorizeWebhook, cleanWhatsAppInput } from "@/lib/whatsapp-guard";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -13,6 +15,21 @@ const corsHeaders = {
 // Twilio sends form-urlencoded; Meta sends JSON. We support both, plus a simple JSON test format.
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  if (req.method !== "POST") {
+    return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+  }
+
+  // This endpoint writes with full privileges and spends AI credits, so the
+  // caller must be the configured provider (shared token) or signed-in staff
+  // using the in-app simulator.
+  const authorized = await authorizeWebhook(req, process.env["WHATSAPP_WEBHOOK_SECRET"], async () => {
+    const caller = await getCaller(req);
+    return !!caller && (await isStaff(caller));
+  });
+  if (!authorized) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+  }
 
   try {
     const supabase = createClient(
@@ -61,6 +78,8 @@ const handler = async (req: Request): Promise<Response> => {
         }
       }
     }
+
+    ({ from, body, mediaUrl, latitude, longitude } = cleanWhatsAppInput({ from, body, mediaUrl, latitude, longitude }));
 
     if (!body && !mediaUrl) {
       return new Response(JSON.stringify({ status: "ignored", reason: "empty message" }), {
@@ -155,7 +174,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (e) {
     console.error("whatsapp-webhook error:", e);
     return new Response(
-      JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
+      JSON.stringify({ error: "Could not process the message" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
@@ -166,7 +185,6 @@ export const Route = createFileRoute("/api/public/fn/whatsapp-webhook")({
   server: {
     handlers: {
       POST: ({ request }) => handler(request),
-      GET: ({ request }) => handler(request),
       OPTIONS: ({ request }) => handler(request),
     },
   },

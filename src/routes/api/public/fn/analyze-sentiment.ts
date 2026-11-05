@@ -93,7 +93,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (e) {
     console.error("analyze-sentiment error:", e);
     return new Response(
-      JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }),
+      JSON.stringify({ error: "Request could not be completed. Please try again." }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
