@@ -62,13 +62,13 @@ export default function AccountabilityScores() {
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-foreground truncate">{tx(r.department_name)}</p>
                 <p className="text-[11px] text-muted-foreground">
-                  {r.total} {tx(" total · ")}{r.resolved_with_proof} {tx(" fixed with proof · ")}{r.open_overdue} {tx(" overdue ")}{r.avg_resolution_hours !== null && <> {tx(" · avg ")}{Number(r.avg_resolution_hours)}h</>}
+                  {r.total} {tx(" total · ")}{r.resolved_with_proof} {tx(" fixed with proof · ")}{r.open_overdue} {tx(" overdue ")}{r.avg_resolution_hours !== null && <> {tx(" · avg ")}{Number(r.avg_resolution_hours)} {tx("hours")}</>}
                 </p>
               </div>
             </div>
           ))}
           {data.filter((r) => r.total > 0).length === 0 && (
-            <p className="text-sm text-muted-foreground">{tx("No complaints routed to departments yet")}{city ? ` in ${city}` : ""}.</p>
+            <p className="text-sm text-muted-foreground">{tx("No complaints routed to departments yet")}{city ? ` · ${tx(city)}` : ""}.</p>
           )}
         </div>
       )}

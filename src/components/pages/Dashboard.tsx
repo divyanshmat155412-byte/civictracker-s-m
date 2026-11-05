@@ -120,7 +120,7 @@ const Dashboard = () => {
     { label: t("dashboard.resolved"), value: resolved, icon: CheckCircle, color: "text-green-500" },
     { label: t("dashboard.pending"), value: pending, icon: Clock, color: "text-amber-500" },
     { label: t("dashboard.escalated"), value: escalated, icon: AlertTriangle, color: "text-destructive" },
-    { label: t("dashboard.avgResolution"), value: `${avgResolutionDays}d`, icon: Timer, color: "text-blue-500" },
+    { label: t("dashboard.avgResolution"), value: `${avgResolutionDays} ${tx("days")}`, icon: Timer, color: "text-blue-500" },
     { label: t("dashboard.resolutionRate"), value: total > 0 ? `${Math.round((resolved / total) * 100)}%` : "0%", icon: TrendingUp, color: "text-green-600" },
   ];
 

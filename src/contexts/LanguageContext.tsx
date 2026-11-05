@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback, useEffect, useMemo, ReactNode } from "react";
+import { translateUi } from "@/lib/ui-translations";
 import { Language, translations, TranslationKey } from "@/lib/translations";
 
 interface LanguageContextType {
@@ -44,7 +45,8 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
   const t = useCallback(
     (key: TranslationKey): string => {
-      return translations[key]?.[language] || translations[key]?.en || key;
+      const text = translations[key]?.[language] || translations[key]?.en || key;
+      return language === "hi" ? translateUi(translations[key]?.en || text, language) : text;
     },
     [language]
   );

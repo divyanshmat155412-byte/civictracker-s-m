@@ -296,7 +296,7 @@ const AdminUsers = () => {
                           </TableCell>
                           <TableCell>
                             <Badge variant={(a.status ?? "active") === "active" ? "secondary" : "destructive"} className="capitalize">
-                              {a.status ?? tx("active")}
+                              {tx(a.status ?? "active")}
                             </Badge>
                           </TableCell>
                           <TableCell className="text-right space-x-1 whitespace-nowrap">

@@ -13,12 +13,15 @@ import { SUPER_ADMIN_LABEL } from "@/lib/main-admin";
 
 type Overview = Record<string, any>;
 
-const Stat = ({ label, value }: { label: string; value: any }) => (
+const Stat = ({ label, value }: { label: string; value: any }) => {
+  const tx = useUiText();
+  return (
   <Card><CardContent className="p-4">
-    <div className="text-xs text-muted-foreground">{label}</div>
+    <div className="text-xs text-muted-foreground">{tx(label)}</div>
     <div className="text-2xl font-bold text-foreground">{value ?? "—"}</div>
   </CardContent></Card>
 );
+};
 
 const SuperAdminDashboard = () => {
   const tx = useUiText();

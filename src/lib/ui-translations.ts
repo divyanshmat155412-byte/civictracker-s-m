@@ -956,7 +956,7 @@ export const uiHindi: Readonly<Record<string, string>> = {
   "items": "वस्तुएं",
   "item": "वस्तु",
   "No rewards available yet — check back soon.": "अभी कोई पुरस्कार उपलब्ध नहीं — जल्द ही फिर देखें।",
-  "points": "पॉइंट्स",
+  "points": "अंक",
   "Redeem": "भुनाएं",
   "Not enough points": "पर्याप्त पॉइंट्स नहीं",
   "My Redemptions": "मेरे रिडेम्पशन",
@@ -1039,7 +1039,13 @@ export const uiHindi: Readonly<Record<string, string>> = {
   "Click 'Print' to send it to the printer.": "प्रिंटर को भेजने के लिए ‘प्रिंट’ दबाएँ।",
   "Click the green 'Download PDF now' button below.": "नीचे ‘पीडीएफ अभी डाउनलोड करें’ दबाएँ।",
   "We'll generate an A4 poster of this complaint instantly.": "इस शिकायत का ए4 पोस्टर तैयार किया जाएगा।",
-  "Open the file from your Downloads to view, share, or print it.": "डाउनलोड की गई फ़ाइल खोलकर देखें, साझा करें या प्रिंट करें।"
+  "Open the file from your Downloads to view, share, or print it.": "डाउनलोड की गई फ़ाइल खोलकर देखें, साझा करें या प्रिंट करें।",
+  "Public Works": "लोक निर्माण",
+  "Sanitation": "स्वच्छता",
+  "total": "कुल",
+  "L1 · Department head": "स्तर 1 · विभाग प्रमुख",
+  "L2 · City administration": "स्तर 2 · शहर प्रशासन",
+  "L3 · Platform admin": "स्तर 3 · मुख्य प्रशासक"
 };
 
 export function translateUi(text: string, language: "en" | "hi"): string {
