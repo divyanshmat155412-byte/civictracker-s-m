@@ -15,7 +15,8 @@ export const translations = {
   "nav.civicTracker": { en: "Civic Tracker", hi: "सिविक ट्रैकर" },
   "nav.polls": { en: "Polls", hi: "मतदान" },
   "nav.heatmap": { en: "Heatmap", hi: "हीटमैप" },
-  "nav.departments": { en: "IT Departments", hi: "आईटी विभाग" },
+  "nav.departments": { en: "Departments", hi: "विभाग" },
+  "nav.worker": { en: "My Jobs", hi: "मेरे काम" },
   "dept.inProgress": { en: "In Progress", hi: "प्रगति में" },
 
   // Hero

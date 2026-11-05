@@ -24,16 +24,19 @@ import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as PollsRouteImport } from './routes/polls'
 import { Route as PredictionsRouteImport } from './routes/predictions'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as RequestAdminRouteImport } from './routes/request-admin'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RewardsRouteImport } from './routes/rewards'
+import { Route as WorkerRouteImport } from './routes/worker'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminPollsRouteImport } from './routes/admin.polls'
 import { Route as AdminPostersRouteImport } from './routes/admin.posters'
 import { Route as AdminSmsRouteImport } from './routes/admin.sms'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminWardsRouteImport } from './routes/admin.wards'
 import { Route as AdminWhatsappRouteImport } from './routes/admin.whatsapp'
 import { Route as AdminWorkersRouteImport } from './routes/admin.workers'
 import { Route as ComplaintsIndexRouteImport } from './routes/complaints.index'
@@ -127,6 +130,11 @@ const PredictionsRoute = PredictionsRouteImport.update({
   path: '/predictions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -152,6 +160,11 @@ const RewardsRoute = RewardsRouteImport.update({
   path: '/rewards',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkerRoute = WorkerRouteImport.update({
+  id: '/worker',
+  path: '/worker',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
@@ -175,6 +188,11 @@ const AdminSmsRoute = AdminSmsRouteImport.update({
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/admin/users',
   path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminWardsRoute = AdminWardsRouteImport.update({
+  id: '/admin/wards',
+  path: '/admin/wards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminWhatsappRoute = AdminWhatsappRouteImport.update({
@@ -286,15 +304,18 @@ export interface FileRoutesByFullPath {
   '/map': typeof MapRoute
   '/polls': typeof PollsRoute
   '/predictions': typeof PredictionsRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/reports': typeof ReportsRoute
   '/request-admin': typeof RequestAdminRoute
   '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
+  '/worker': typeof WorkerRoute
   '/admin/polls': typeof AdminPollsRoute
   '/admin/posters': typeof AdminPostersRoute
   '/admin/sms': typeof AdminSmsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/wards': typeof AdminWardsRoute
   '/admin/whatsapp': typeof AdminWhatsappRoute
   '/admin/workers': typeof AdminWorkersRoute
   '/admin/': typeof AdminIndexRoute
@@ -330,15 +351,18 @@ export interface FileRoutesByTo {
   '/map': typeof MapRoute
   '/polls': typeof PollsRoute
   '/predictions': typeof PredictionsRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/reports': typeof ReportsRoute
   '/request-admin': typeof RequestAdminRoute
   '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
+  '/worker': typeof WorkerRoute
   '/admin/polls': typeof AdminPollsRoute
   '/admin/posters': typeof AdminPostersRoute
   '/admin/sms': typeof AdminSmsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/wards': typeof AdminWardsRoute
   '/admin/whatsapp': typeof AdminWhatsappRoute
   '/admin/workers': typeof AdminWorkersRoute
   '/admin': typeof AdminIndexRoute
@@ -375,15 +399,18 @@ export interface FileRoutesById {
   '/map': typeof MapRoute
   '/polls': typeof PollsRoute
   '/predictions': typeof PredictionsRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/reports': typeof ReportsRoute
   '/request-admin': typeof RequestAdminRoute
   '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
+  '/worker': typeof WorkerRoute
   '/admin/polls': typeof AdminPollsRoute
   '/admin/posters': typeof AdminPostersRoute
   '/admin/sms': typeof AdminSmsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/wards': typeof AdminWardsRoute
   '/admin/whatsapp': typeof AdminWhatsappRoute
   '/admin/workers': typeof AdminWorkersRoute
   '/admin/': typeof AdminIndexRoute
@@ -421,15 +448,18 @@ export interface FileRouteTypes {
     | '/map'
     | '/polls'
     | '/predictions'
+    | '/privacy'
     | '/profile'
     | '/reports'
     | '/request-admin'
     | '/reset-password'
     | '/rewards'
+    | '/worker'
     | '/admin/polls'
     | '/admin/posters'
     | '/admin/sms'
     | '/admin/users'
+    | '/admin/wards'
     | '/admin/whatsapp'
     | '/admin/workers'
     | '/admin/'
@@ -465,15 +495,18 @@ export interface FileRouteTypes {
     | '/map'
     | '/polls'
     | '/predictions'
+    | '/privacy'
     | '/profile'
     | '/reports'
     | '/request-admin'
     | '/reset-password'
     | '/rewards'
+    | '/worker'
     | '/admin/polls'
     | '/admin/posters'
     | '/admin/sms'
     | '/admin/users'
+    | '/admin/wards'
     | '/admin/whatsapp'
     | '/admin/workers'
     | '/admin'
@@ -509,15 +542,18 @@ export interface FileRouteTypes {
     | '/map'
     | '/polls'
     | '/predictions'
+    | '/privacy'
     | '/profile'
     | '/reports'
     | '/request-admin'
     | '/reset-password'
     | '/rewards'
+    | '/worker'
     | '/admin/polls'
     | '/admin/posters'
     | '/admin/sms'
     | '/admin/users'
+    | '/admin/wards'
     | '/admin/whatsapp'
     | '/admin/workers'
     | '/admin/'
@@ -554,15 +590,18 @@ export interface RootRouteChildren {
   MapRoute: typeof MapRoute
   PollsRoute: typeof PollsRoute
   PredictionsRoute: typeof PredictionsRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   ReportsRoute: typeof ReportsRoute
   RequestAdminRoute: typeof RequestAdminRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   RewardsRoute: typeof RewardsRoute
+  WorkerRoute: typeof WorkerRoute
   AdminPollsRoute: typeof AdminPollsRoute
   AdminPostersRoute: typeof AdminPostersRoute
   AdminSmsRoute: typeof AdminSmsRoute
   AdminUsersRoute: typeof AdminUsersRoute
+  AdminWardsRoute: typeof AdminWardsRoute
   AdminWhatsappRoute: typeof AdminWhatsappRoute
   AdminWorkersRoute: typeof AdminWorkersRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -690,6 +729,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PredictionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -725,6 +771,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RewardsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/worker': {
+      id: '/worker'
+      path: '/worker'
+      fullPath: '/worker'
+      preLoaderRoute: typeof WorkerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/admin'
@@ -758,6 +811,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/users'
       fullPath: '/admin/users'
       preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/wards': {
+      id: '/admin/wards'
+      path: '/admin/wards'
+      fullPath: '/admin/wards'
+      preLoaderRoute: typeof AdminWardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/whatsapp': {
@@ -898,15 +958,18 @@ const rootRouteChildren: RootRouteChildren = {
   MapRoute: MapRoute,
   PollsRoute: PollsRoute,
   PredictionsRoute: PredictionsRoute,
+  PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   ReportsRoute: ReportsRoute,
   RequestAdminRoute: RequestAdminRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   RewardsRoute: RewardsRoute,
+  WorkerRoute: WorkerRoute,
   AdminPollsRoute: AdminPollsRoute,
   AdminPostersRoute: AdminPostersRoute,
   AdminSmsRoute: AdminSmsRoute,
   AdminUsersRoute: AdminUsersRoute,
+  AdminWardsRoute: AdminWardsRoute,
   AdminWhatsappRoute: AdminWhatsappRoute,
   AdminWorkersRoute: AdminWorkersRoute,
   AdminIndexRoute: AdminIndexRoute,

@@ -154,6 +154,16 @@ const ComplaintDetail = () => {
                 🌆 {complaint.city}
               </span>
             )}
+            {(complaint as { zone?: string | null }).zone && (
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary/15 text-secondary-foreground/80 font-medium">
+                🗺️ {(complaint as { zone?: string | null }).zone}
+              </span>
+            )}
+            {(complaint as { due_at?: string | null }).due_at && complaint.status !== "resolved" && (
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-warning/15 text-warning font-medium">
+                ⏰ Due {new Date((complaint as { due_at: string }).due_at).toLocaleDateString()}
+              </span>
+            )}
           </div>
 
           <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">{complaint.title}</h1>
