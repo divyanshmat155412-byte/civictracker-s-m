@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { ThumbsUp, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -11,6 +12,7 @@ interface UpvoteButtonProps {
 }
 
 const UpvoteButton = ({ complaintId, upvotes }: UpvoteButtonProps) => {
+  const tx = useUiText();
   const { user } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -48,14 +50,14 @@ const UpvoteButton = ({ complaintId, upvotes }: UpvoteButtonProps) => {
       queryClient.invalidateQueries({ queryKey: ["all-complaints"] });
       toast.success(hasUpvoted ? "Like removed" : "Liked!");
     },
-    onError: () => toast.error("Action failed"),
+    onError: () => toast.error(tx("Action failed")),
   });
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
     if (!user) {
-      toast.error("Please sign in to like");
+      toast.error(tx("Please sign in to like"));
       navigate("/auth");
       return;
     }
@@ -86,7 +88,7 @@ const UpvoteButton = ({ complaintId, upvotes }: UpvoteButtonProps) => {
         )}
       </span>
       <span className="tabular-nums">{upvotes}</span>
-      <span className="hidden sm:inline">Like{upvotes !== 1 ? "s" : ""}</span>
+      <span className="hidden sm:inline">{tx("Like")}{upvotes !== 1 ? "s" : ""}</span>
     </button>
   );
 };

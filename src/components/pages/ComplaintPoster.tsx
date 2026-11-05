@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useEffect } from "react";
 import { useParams, Link } from "@/lib/router-compat";
 import { ArrowLeft, Printer } from "lucide-react";
@@ -7,6 +8,7 @@ import { COMPLAINT_COLS } from "@/lib/db-columns";
 import PosterSheet from "@/components/PosterSheet";
 
 const ComplaintPoster = () => {
+  const tx = useUiText();
   const { id } = useParams<{ id: string }>();
 
   const { data: complaint, isLoading } = useQuery({
@@ -39,14 +41,14 @@ const ComplaintPoster = () => {
   }, [complaint]);
 
   if (isLoading) {
-    return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading poster…</div>;
+    return <div className="min-h-screen flex items-center justify-center text-muted-foreground">{tx("Loading poster…")}</div>;
   }
 
   if (!complaint) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-6 text-center">
-        <h1 className="font-display text-2xl font-bold">Complaint not found</h1>
-        <Link to="/complaints" className="text-primary text-sm">← Back to complaints</Link>
+        <h1 className="font-display text-2xl font-bold">{tx("Complaint not found")}</h1>
+        <Link to="/complaints" className="text-primary text-sm">{tx("← Back to complaints")}</Link>
       </div>
     );
   }
@@ -74,14 +76,12 @@ const ComplaintPoster = () => {
             to={`/complaints/${complaint.complaint_id}`}
             className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to complaint
-          </Link>
+            <ArrowLeft className="w-4 h-4" /> {tx(" Back to complaint ")}</Link>
           <button
             onClick={() => window.print()}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >
-            <Printer className="w-4 h-4" /> Print poster
-          </button>
+            <Printer className="w-4 h-4" /> {tx(" Print poster ")}</button>
         </div>
       </div>
 

@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "@/lib/router-compat";
 import { Bell, Clock } from "lucide-react";
@@ -5,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNotifications } from "@/hooks/useNotifications";
 
 const NotificationBell = () => {
+  const tx = useUiText();
   const { notifications, unreadCount, markAllRead, requestPermission } = useNotifications();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -33,9 +35,9 @@ const NotificationBell = () => {
 
   const timeAgo = (dateStr: string) => {
     const hours = Math.floor((Date.now() - new Date(dateStr).getTime()) / 3600000);
-    if (hours < 1) return "Just now";
-    if (hours < 24) return `${hours}h ago`;
-    return `${Math.floor(hours / 24)}d ago`;
+    if (hours < 1) return tx("Just now");
+    if (hours < 24) return `${hours} ${tx("hours ago")}`;
+    return `${Math.floor(hours / 24)} ${tx("days ago")}`;
   };
 
   return (
@@ -46,7 +48,7 @@ const NotificationBell = () => {
           if (!open) markAllRead();
         }}
         className="relative p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-        aria-label="Notifications"
+        aria-label={tx("Notifications")}
       >
         <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
@@ -70,7 +72,7 @@ const NotificationBell = () => {
             className="fixed sm:absolute right-2 sm:right-0 top-14 sm:top-12 w-[calc(100vw-1rem)] sm:w-72 max-h-72 overflow-y-auto bg-card rounded-xl border border-border shadow-elevated z-50"
           >
             <div className="p-2.5 border-b border-border flex items-center justify-between">
-              <h3 className="font-display font-semibold text-foreground text-xs">Notifications</h3>
+              <h3 className="font-display font-semibold text-foreground text-xs">{tx("Notifications")}</h3>
               {notifications.length > 0 && (
                 <span className="text-[10px] text-muted-foreground">{notifications.length}</span>
               )}
@@ -78,8 +80,7 @@ const NotificationBell = () => {
 
             {notifications.length === 0 ? (
               <div className="p-4 text-center text-muted-foreground text-xs">
-                No notifications yet
-              </div>
+                {tx(" No notifications yet ")}</div>
             ) : (
               <div className="divide-y divide-border">
                 {notifications.slice(0, 10).map((n) => (

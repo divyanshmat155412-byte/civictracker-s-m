@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState } from "react";
 import { UserPlus, Check, X } from "lucide-react";
 import { toast } from "sonner";
@@ -8,6 +9,7 @@ import { useCities } from "@/hooks/useCities";
 
 /** Private approval inbox — visible and usable only by the Platform Super Admin (enforced in the database). */
 const AdminRequestsManager = () => {
+  const tx = useUiText();
   const { cities: CITIES } = useCities();
   const queryClient = useQueryClient();
   const { isMainAdmin } = useIsRootAdmin();
@@ -47,39 +49,37 @@ const AdminRequestsManager = () => {
     <div className="mt-10">
       <div className="flex items-center gap-2 mb-4">
         <UserPlus className="w-5 h-5 text-secondary" />
-        <h2 className="font-display text-xl font-bold text-foreground">City Admin Applications</h2>
+        <h2 className="font-display text-xl font-bold text-foreground">{tx("City Admin Applications")}</h2>
         {pending.length > 0 && (
-          <span className="px-2 py-0.5 rounded-full bg-destructive/10 text-destructive text-xs font-semibold">{pending.length} pending</span>
+          <span className="px-2 py-0.5 rounded-full bg-destructive/10 text-destructive text-xs font-semibold">{pending.length} {tx(" pending")}</span>
         )}
       </div>
-      <p className="text-sm text-muted-foreground mb-3">Normal workflow: people apply from their own verified account; you assign the city when approving. The applicant is notified either way.</p>
-      {requests.length === 0 && <p className="text-muted-foreground text-sm py-6 text-center">No applications yet.</p>}
+      <p className="text-sm text-muted-foreground mb-3">{tx("Normal workflow: people apply from their own verified account; you assign the city when approving. The applicant is notified either way.")}</p>
+      {requests.length === 0 && <p className="text-muted-foreground text-sm py-6 text-center">{tx("No applications yet.")}</p>}
 
       <div className="space-y-3 mb-6">
         {pending.map((r: any) => {
           const city = cityFor[r.id] ?? r.requested_city ?? "";
           return (
             <div key={r.id} className="bg-card rounded-xl border border-border p-4 shadow-card">
-              <p className="font-semibold text-foreground">{r.full_name || "No name"}</p>
+              <p className="font-semibold text-foreground">{r.full_name || tx("No name")}</p>
               <p className="text-xs text-muted-foreground">{r.email}</p>
               {r.reason && <p className="text-sm text-muted-foreground mt-1 italic">"{r.reason}"</p>}
               <p className="text-xs text-muted-foreground mt-1">
-                Requested city: <b>{r.requested_city || "—"}</b> · {new Date(r.created_at).toLocaleDateString()}
+                {tx(" Requested city: ")}<b>{r.requested_city || "—"}</b> · {new Date(r.created_at).toLocaleDateString()}
               </p>
               <div className="flex flex-wrap items-center gap-2 mt-3">
                 <select value={city} onChange={(e) => setCityFor((s) => ({ ...s, [r.id]: e.target.value }))}
                   className="rounded-lg border border-input bg-card px-3 py-2 text-sm">
-                  <option value="">Assign city…</option>
-                  {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                  <option value="">{tx("Assign city…")}</option>
+                  {CITIES.map((c) => <option key={c} value={c}>{tx(c)}</option>)}
                 </select>
                 <button disabled={decide.isPending || !city} onClick={() => decide.mutate({ id: r.id, approve: true, city })}
                   className="px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold flex items-center gap-1 disabled:opacity-50">
-                  <Check className="w-4 h-4" /> Approve
-                </button>
+                  <Check className="w-4 h-4" /> {tx(" Approve ")}</button>
                 <button disabled={decide.isPending} onClick={() => decide.mutate({ id: r.id, approve: false })}
                   className="px-3 py-2 rounded-lg bg-destructive/10 text-destructive text-sm font-semibold flex items-center gap-1">
-                  <X className="w-4 h-4" /> Reject
-                </button>
+                  <X className="w-4 h-4" /> {tx(" Reject ")}</button>
               </div>
             </div>
           );
@@ -88,17 +88,17 @@ const AdminRequestsManager = () => {
 
       {past.length > 0 && (
         <div className="space-y-2">
-          <h3 className="text-sm font-medium text-muted-foreground mb-2">Application history</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">{tx("Application history")}</h3>
           {past.map((r: any) => (
             <div key={r.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50 text-sm gap-2">
-              <span className="font-medium text-foreground">{r.full_name || "Citizen"} · {r.requested_city || "—"}</span>
+              <span className="font-medium text-foreground">{r.full_name || tx("Citizen")} · {r.requested_city || "—"}</span>
               <span className="text-xs text-muted-foreground">
-                <b className={r.status === "approved" ? "text-primary" : "text-destructive"}>{r.status}</b>
+                <b className={r.status === "approved" ? "text-primary" : "text-destructive"}>{tx(r.status)}</b>
                 {r.reviewed_at && ` · ${new Date(r.reviewed_at).toLocaleDateString()}`}
               </span>
             </div>
           ))}
-          <p className="text-xs text-muted-foreground">To suspend or remove an approved City Admin, use Manage Users & Roles.</p>
+          <p className="text-xs text-muted-foreground">{tx("To suspend or remove an approved City Admin, use Manage Users & Roles.")}</p>
         </div>
       )}
     </div>

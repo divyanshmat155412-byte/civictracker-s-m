@@ -21,3 +21,4 @@
 - AI photo/voice results are suggestions the citizen must confirm; never auto-fill the form — avoids presenting AI guesses as facts.
 - Every e2e script must call `acquireSafety()` from `scripts/_safety.ts` (exclusive lock + Super Admin snapshot) and must never write to the root account or swap `root_admin_user_id` — the shared live database once lost the root roles this way.
 - Complaint columns added later need an explicit column-level `GRANT SELECT` to anon/authenticated when non-private; otherwise every list using `COMPLAINT_COLS` fails silently.
+- Fixed interface translations use local dictionaries and React language context; never translate citizen content or change stored records for localization.

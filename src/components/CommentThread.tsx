@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useEffect } from "react";
 import { MessageCircle, Send, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,6 +14,7 @@ interface Comment {
 }
 
 const CommentThread = ({ complaintId }: { complaintId: string }) => {
+  const tx = useUiText();
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [open, setOpen] = useState(false);
@@ -59,23 +61,23 @@ const CommentThread = ({ complaintId }: { complaintId: string }) => {
 
   const timeAgo = (d: string) => {
     const mins = Math.floor((Date.now() - new Date(d).getTime()) / 60000);
-    if (mins < 1) return "just now";
-    if (mins < 60) return `${mins}m ago`;
-    if (mins < 1440) return `${Math.floor(mins / 60)}h ago`;
-    return `${Math.floor(mins / 1440)}d ago`;
+    if (mins < 1) return tx("Just now");
+    if (mins < 60) return `${mins} ${tx("minutes ago")}`;
+    if (mins < 1440) return `${Math.floor(mins / 60)} ${tx("hours ago")}`;
+    return `${Math.floor(mins / 1440)} ${tx("days ago")}`;
   };
 
   return (
     <div className="mt-3">
       <button onClick={() => setOpen(!open)} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors">
         <MessageCircle className="w-3.5 h-3.5" />
-        <span>{comments.length > 0 ? `${comments.length} comments` : "Comment"}</span>
+        <span>{comments.length > 0 ? `${comments.length} ${tx("comments")}` : tx("Comment")}</span>
       </button>
 
       {open && (
         <div className="mt-2 rounded-lg border border-border bg-muted/30 p-3 space-y-2">
           {comments.length === 0 && (
-            <p className="text-xs text-muted-foreground text-center py-2">No comments yet. Be the first!</p>
+            <p className="text-xs text-muted-foreground text-center py-2">{tx("No comments yet. Be the first!")}</p>
           )}
           <div className="max-h-48 overflow-y-auto space-y-2">
             {comments.map((c) => (
@@ -105,7 +107,7 @@ const CommentThread = ({ complaintId }: { complaintId: string }) => {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                placeholder="Write a comment..."
+                placeholder={tx("Write a comment...")}
                 maxLength={500}
                 className="flex-1 text-xs px-3 py-1.5 rounded-md border border-input bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
               />
@@ -114,7 +116,7 @@ const CommentThread = ({ complaintId }: { complaintId: string }) => {
               </button>
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground text-center">Login to comment</p>
+            <p className="text-xs text-muted-foreground text-center">{tx("Login to comment")}</p>
           )}
         </div>
       )}

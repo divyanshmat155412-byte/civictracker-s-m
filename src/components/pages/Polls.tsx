@@ -1,3 +1,5 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useUiText } from "@/hooks/useUiText";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -10,6 +12,8 @@ import { toast } from "sonner";
 import { Link } from "@/lib/router-compat";
 
 const Polls = () => {
+  const tx = useUiText();
+  const { language } = useLanguage();
   const { user } = useAuth();
   const { isAdmin } = useUserRole();
   const queryClient = useQueryClient();
@@ -51,28 +55,28 @@ const Polls = () => {
 
   const handleVote = async (pollId: string, optionId: string) => {
     if (!user) {
-      toast.error("Sign in to vote");
+      toast.error(tx("Sign in to vote"));
       return;
     }
     const { error } = await supabase.from("poll_votes").insert({
       poll_id: pollId, option_id: optionId, user_id: user.id,
     });
     if (error) {
-      if (error.code === "23505") toast.error("You already voted on this poll");
+      if (error.code === "23505") toast.error(tx("You already voted on this poll"));
       else toast.error(error.message);
     } else {
-      toast.success("Vote recorded! 🗳️");
+      toast.success(tx("Vote recorded! 🗳️"));
       queryClient.invalidateQueries({ queryKey: ["polls-data", user.id] });
     }
   };
 
   const handleDelete = async (pollId: string) => {
-    if (!confirm("Delete this poll and all its votes? This cannot be undone.")) return;
+    if (!confirm(tx("Delete this poll and all its votes? This cannot be undone."))) return;
     const { error } = await supabase.from("polls").delete().eq("id", pollId);
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("Poll deleted");
+      toast.success(tx("Poll deleted"));
       queryClient.invalidateQueries({ queryKey: ["polls-data", user?.id] });
     }
   };
@@ -88,23 +92,22 @@ const Polls = () => {
         <div className="flex items-start justify-between gap-3 mb-2 flex-wrap">
           <div className="min-w-0 flex-1">
             <h1 className="font-display text-xl sm:text-2xl md:text-3xl font-bold flex items-center gap-2 break-words">
-              <Vote className="w-6 h-6 md:w-7 md:h-7 text-primary shrink-0" /> <span className="break-words">Community Polls</span>
+              <Vote className="w-6 h-6 md:w-7 md:h-7 text-primary shrink-0" /> <span className="break-words">{tx("Community Polls")}</span>
             </h1>
-            <p className="text-muted-foreground mt-1 text-sm md:text-base">Voice your opinion on local civic issues.</p>
+            <p className="text-muted-foreground mt-1 text-sm md:text-base">{tx("Voice your opinion on local civic issues.")}</p>
           </div>
           {isAdmin && (
             <Link to="/admin/polls" className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90">
-              <Plus className="w-4 h-4" /> Create
-            </Link>
+              <Plus className="w-4 h-4" /> {tx(" Create ")}</Link>
           )}
         </div>
 
-        {isLoading && <p className="text-muted-foreground mt-8 text-center">Loading polls...</p>}
+        {isLoading && <p className="text-muted-foreground mt-8 text-center">{tx("Loading polls...")}</p>}
         {!isLoading && polls.length === 0 && (
           <div className="text-center py-16 text-muted-foreground">
             <Vote className="w-12 h-12 mx-auto mb-3 opacity-30" />
-            <p className="text-lg font-medium">No polls yet</p>
-            <p className="text-sm">Check back soon — admins post new polls regularly.</p>
+            <p className="text-lg font-medium">{tx("No polls yet")}</p>
+            <p className="text-sm">{tx("Check back soon — admins post new polls regularly.")}</p>
           </div>
         )}
 
@@ -129,18 +132,16 @@ const Polls = () => {
                   <div className="flex items-center gap-1.5 shrink-0">
                     {ended ? (
                       <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
-                        Ended
-                      </span>
+                        {tx(" Ended ")}</span>
                     ) : (
                       <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary flex items-center gap-1">
-                        <Clock className="w-2.5 h-2.5" /> Live
-                      </span>
+                        <Clock className="w-2.5 h-2.5" /> {tx(" Live ")}</span>
                     )}
                     {isAdmin && (
                       <button
                         type="button"
                         onClick={() => handleDelete(poll.id)}
-                        aria-label="Delete poll"
+                        aria-label={tx("Delete poll")}
                         className="p-1.5 rounded-md text-destructive hover:bg-destructive/10 transition-colors touch-manipulation"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -190,10 +191,10 @@ const Polls = () => {
                 </div>
 
                 <div className="flex items-center gap-3 mt-4 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1"><BarChart3 className="w-3 h-3" />{totalVotes} vote{totalVotes !== 1 ? "s" : ""}</span>
+                  <span className="flex items-center gap-1"><BarChart3 className="w-3 h-3" />{totalVotes} {tx(" vote")}{language === "en" && totalVotes !== 1 ? "s" : ""}</span>
                   <span>•</span>
-                  <span>Ends {new Date(poll.ends_at).toLocaleDateString()}</span>
-                  {!user && !ended && <span className="text-primary ml-auto"><Link to="/auth">Sign in to vote</Link></span>}
+                  <span>{tx("Ends ")}{new Date(poll.ends_at).toLocaleDateString()}</span>
+                  {!user && !ended && <span className="text-primary ml-auto"><Link to="/auth">{tx("Sign in to vote")}</Link></span>}
                 </div>
               </motion.div>
             );

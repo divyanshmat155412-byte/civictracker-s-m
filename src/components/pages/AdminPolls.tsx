@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState } from "react";
 import { useNavigate } from "@/lib/router-compat";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -9,6 +10,7 @@ import { useUserRole } from "@/hooks/useUserRole";
 import { toast } from "sonner";
 
 const AdminPolls = () => {
+  const tx = useUiText();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { isAdmin, isLoading } = useUserRole();
@@ -33,8 +35,8 @@ const AdminPolls = () => {
     },
   });
 
-  if (isLoading) return <Layout><div className="container py-12 text-center text-muted-foreground">Loading...</div></Layout>;
-  if (!isAdmin) return <Layout><div className="container py-12 text-center"><p className="text-destructive font-semibold">Admin access required.</p></div></Layout>;
+  if (isLoading) return <Layout><div className="container py-12 text-center text-muted-foreground">{tx("Loading...")}</div></Layout>;
+  if (!isAdmin) return <Layout><div className="container py-12 text-center"><p className="text-destructive font-semibold">{tx("Admin access required.")}</p></div></Layout>;
 
   const addOption = () => setOptions([...options, ""]);
   const removeOption = (i: number) => setOptions(options.filter((_, idx) => idx !== i));
@@ -44,7 +46,7 @@ const AdminPolls = () => {
     e.preventDefault();
     const validOptions = options.map(o => o.trim()).filter(Boolean);
     if (!question.trim() || validOptions.length < 2) {
-      toast.error("Add a question and at least 2 options.");
+      toast.error(tx("Add a question and at least 2 options."));
       return;
     }
     setSubmitting(true);
@@ -66,7 +68,7 @@ const AdminPolls = () => {
       );
       if (oErr) throw oErr;
 
-      toast.success("Poll created! 🗳️");
+      toast.success(tx("Poll created! 🗳️"));
       setQuestion(""); setDescription(""); setOptions(["", ""]);
       queryClient.invalidateQueries({ queryKey: ["admin-polls"] });
     } catch (err: any) {
@@ -77,11 +79,11 @@ const AdminPolls = () => {
   };
 
   const deletePoll = async (id: string) => {
-    if (!confirm("Delete this poll and all its votes?")) return;
+    if (!confirm(tx("Delete this poll and all its votes?"))) return;
     const { error } = await supabase.from("polls").delete().eq("id", id);
     if (error) toast.error(error.message);
     else {
-      toast.success("Poll deleted");
+      toast.success(tx("Poll deleted"));
       queryClient.invalidateQueries({ queryKey: ["admin-polls"] });
     }
   };
@@ -90,26 +92,25 @@ const AdminPolls = () => {
     <Layout>
       <div className="container py-8 max-w-3xl">
         <button onClick={() => navigate("/polls")} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4">
-          <ArrowLeft className="w-4 h-4" /> Back to Polls
-        </button>
+          <ArrowLeft className="w-4 h-4" /> {tx(" Back to Polls ")}</button>
 
-        <h1 className="font-display text-2xl font-bold mb-6">Manage Polls</h1>
+        <h1 className="font-display text-2xl font-bold mb-6">{tx("Manage Polls")}</h1>
 
         <form onSubmit={handleCreate} className="bg-card rounded-xl border border-border p-5 shadow-card mb-8">
-          <h2 className="font-semibold mb-4">Create New Poll</h2>
+          <h2 className="font-semibold mb-4">{tx("Create New Poll")}</h2>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-foreground">Question</label>
+              <label className="text-sm font-medium text-foreground">{tx("Question")}</label>
               <input
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
-                placeholder="E.g. What's the biggest issue in your area this month?"
+                placeholder={tx("E.g. What's the biggest issue in your area this month?")}
                 className="w-full mt-1 px-3 py-2 rounded-lg border border-input bg-background text-sm"
                 required
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Description (optional)</label>
+              <label className="text-sm font-medium text-foreground">{tx("Description (optional)")}</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -118,7 +119,7 @@ const AdminPolls = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Ends at</label>
+              <label className="text-sm font-medium text-foreground">{tx("Ends at")}</label>
               <input
                 type="datetime-local"
                 value={endsAt}
@@ -128,7 +129,7 @@ const AdminPolls = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Options</label>
+              <label className="text-sm font-medium text-foreground">{tx("Options")}</label>
               <div className="space-y-2 mt-1">
                 {options.map((opt, i) => (
                   <div key={i} className="flex gap-2">
@@ -146,24 +147,23 @@ const AdminPolls = () => {
                   </div>
                 ))}
                 <button type="button" onClick={addOption} className="text-xs flex items-center gap-1 text-primary font-semibold hover:underline">
-                  <Plus className="w-3 h-3" /> Add option
-                </button>
+                  <Plus className="w-3 h-3" /> {tx(" Add option ")}</button>
               </div>
             </div>
             <button type="submit" disabled={submitting} className="w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold disabled:opacity-50">
-              {submitting ? "Creating..." : "Create Poll"}
+              {submitting ? tx("Creating...") : tx("Create Poll")}
             </button>
           </div>
         </form>
 
-        <h2 className="font-semibold mb-3">Existing Polls ({polls.length})</h2>
+        <h2 className="font-semibold mb-3">{tx("Existing Polls (")}{polls.length})</h2>
         <div className="space-y-2">
           {polls.map((p: any) => (
             <div key={p.id} className="bg-card border border-border rounded-lg p-3 flex items-center justify-between">
               <div className="min-w-0">
                 <p className="font-medium text-foreground text-sm truncate">{p.question}</p>
                 <p className="text-xs text-muted-foreground">
-                  {p.poll_options?.length || 0} options • {p.poll_votes?.length || 0} votes • Ends {new Date(p.ends_at).toLocaleDateString()}
+                  {p.poll_options?.length || 0} {tx(" options • ")}{p.poll_votes?.length || 0} {tx(" votes • Ends ")}{new Date(p.ends_at).toLocaleDateString()}
                 </p>
               </div>
               <button onClick={() => deletePoll(p.id)} className="p-2 text-destructive hover:bg-destructive/10 rounded">

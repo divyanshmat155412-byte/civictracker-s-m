@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Shield, Send, Clock, CheckCircle, XCircle } from "lucide-react";
@@ -9,6 +10,7 @@ import { useCities } from "@/hooks/useCities";
 
 
 const AdminRequestForm = () => {
+  const tx = useUiText();
   const { cities: CITIES } = useCities();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -57,8 +59,8 @@ const AdminRequestForm = () => {
     return (
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto mt-6 p-6 rounded-xl bg-card border border-border shadow-card text-center">
         <Shield className="w-8 h-8 text-secondary mx-auto" />
-        <h3 className="font-display font-semibold text-foreground mt-3 mb-1">You are the Platform Super Admin</h3>
-        <p className="text-muted-foreground text-sm">You already have full admin access. No request needed.</p>
+        <h3 className="font-display font-semibold text-foreground mt-3 mb-1">{tx("You are the Platform Super Admin")}</h3>
+        <p className="text-muted-foreground text-sm">{tx("You already have full admin access. No request needed.")}</p>
       </motion.div>
     );
   }
@@ -78,12 +80,12 @@ const AdminRequestForm = () => {
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto mt-6 p-6 rounded-xl bg-card border border-border shadow-card text-center">
         {statusIcons[existingRequest.status as keyof typeof statusIcons]}
         <h3 className="font-display font-semibold text-foreground mt-3 mb-1">
-          Request {existingRequest.status === "pending" ? "Submitted" : existingRequest.status === "approved" ? "Approved" : "Rejected"}
+          {tx(" Request ")}{existingRequest.status === "pending" ? tx("Submitted") : existingRequest.status === "approved" ? tx("Approved") : tx("Rejected")}
         </h3>
         <p className="text-muted-foreground text-sm">
           {statusMessages[existingRequest.status as keyof typeof statusMessages]}
         </p>
-        {existingRequest.decision_note && <p className="text-sm text-foreground mt-2">Note from Super Admin: {existingRequest.decision_note}</p>}
+        {existingRequest.decision_note && <p className="text-sm text-foreground mt-2">{tx("Note from Super Admin: ")}{existingRequest.decision_note}</p>}
       </motion.div>
     );
   }
@@ -91,43 +93,42 @@ const AdminRequestForm = () => {
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto mt-6">
       <div className="p-6 rounded-xl bg-card border border-border shadow-card">
-        <h3 className="font-display font-semibold text-foreground mb-1">Nagar Palika Employee — Request Admin Access</h3>
+        <h3 className="font-display font-semibold text-foreground mb-1">{tx("Nagar Palika Employee — Request Admin Access")}</h3>
         <p className="text-muted-foreground text-sm mb-4">
-          If you are a Nagar Palika employee or municipal official, submit a request below. The Platform Super Admin will review and approve your access.
-        </p>
+          {tx(" If you are a Nagar Palika employee or municipal official, submit a request below. The Platform Super Admin will review and approve your access. ")}</p>
         {!user?.email_confirmed_at ? (
-          <p className="text-sm text-destructive">Please verify your email address first (check your inbox for the link), then sign in again.</p>
+          <p className="text-sm text-destructive">{tx("Please verify your email address first (check your inbox for the link), then sign in again.")}</p>
         ) : (
         <div className="space-y-3">
-          <p className="text-xs text-muted-foreground">Applying as <strong className="text-foreground">{user.email}</strong> (your verified account email). Only the Platform Super Admin sees this application.</p>
+          <p className="text-xs text-muted-foreground">{tx("Applying as ")}<strong className="text-foreground">{user.email}</strong> {tx(" (your verified account email). Only the Platform Super Admin sees this application.")}</p>
           <input
             type="text"
-            placeholder="Your full name"
+            placeholder={tx("Your full name")}
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             className="w-full rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           />
           <input
             type="text"
-            placeholder="Designation / Department (e.g. Sanitary Inspector, Ward Officer)"
+            placeholder={tx("Designation / Department (e.g. Sanitary Inspector, Ward Officer)")}
             value={designation}
             onChange={(e) => setDesignation(e.target.value)}
             className="w-full rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           />
           <input
             type="text"
-            placeholder="Employee ID (optional)"
+            placeholder={tx("Employee ID (optional)")}
             value={employeeId}
             onChange={(e) => setEmployeeId(e.target.value)}
             className="w-full rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           />
           <select value={city} onChange={(e) => setCity(e.target.value)}
             className="w-full rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground">
-            <option value="">City you work for…</option>
-            {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            <option value="">{tx("City you work for…")}</option>
+            {CITIES.map((c) => <option key={c} value={c}>{tx(c)}</option>)}
           </select>
           <textarea
-            placeholder="Why do you need admin access? Mention your role and responsibilities."
+            placeholder={tx("Why do you need admin access? Mention your role and responsibilities.")}
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             rows={3}
@@ -139,7 +140,7 @@ const AdminRequestForm = () => {
             className="w-full py-3 rounded-lg gradient-accent text-accent-foreground font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
           >
             <Send className="w-4 h-4" />
-            {submitMutation.isPending ? "Submitting..." : "Submit Request"}
+            {submitMutation.isPending ? tx("Submitting...") : tx("Submit Request")}
           </button>
           {submitMutation.error && <p className="text-sm text-destructive">{(submitMutation.error as Error).message}</p>}
         </div>

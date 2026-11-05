@@ -9,7 +9,10 @@ interface SLACountdownProps {
   status: string;
 }
 
+import { useUiText } from "@/hooks/useUiText";
+
 const SLACountdown = ({ category, createdAt, status }: SLACountdownProps) => {
+  const tx = useUiText();
   const [now, setNow] = useState(Date.now());
 
   const { data: slaConfig } = useQuery({
@@ -49,7 +52,7 @@ const SLACountdown = ({ category, createdAt, status }: SLACountdownProps) => {
   return (
     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium border ${colors[urgency]}`}>
       {isOverdue ? <AlertTriangle className="w-2.5 h-2.5" /> : <Timer className="w-2.5 h-2.5" />}
-      {isOverdue ? `Overdue ${hoursLeft}h ${minsLeft}m` : `${hoursLeft}h ${minsLeft}m left`}
+      {isOverdue ? `${tx("Overdue")} ${hoursLeft} ${tx("hours")} ${minsLeft} ${tx("minutes")}` : `${hoursLeft} ${tx("hours")} ${minsLeft} ${tx("minutes")} ${tx("left")}`}
     </span>
   );
 };

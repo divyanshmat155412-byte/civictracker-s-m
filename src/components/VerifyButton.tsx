@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,6 +12,7 @@ interface VerifyButtonProps {
 }
 
 const VerifyButton = ({ complaintId, verificationCount }: VerifyButtonProps) => {
+  const tx = useUiText();
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -69,7 +71,7 @@ const VerifyButton = ({ complaintId, verificationCount }: VerifyButtonProps) => 
       queryClient.invalidateQueries({ queryKey: ["complaint-detail"] });
       toast.success(hasVerified ? "Verification removed" : "Complaint verified!");
     },
-    onError: () => toast.error("Verification update failed"),
+    onError: () => toast.error(tx("Verification update failed")),
   });
 
   if (!user) return null;
@@ -98,7 +100,7 @@ const VerifyButton = ({ complaintId, verificationCount }: VerifyButtonProps) => 
         )}
       </span>
       <span className="tabular-nums">{liveVerificationCount}</span>
-      <span className="hidden sm:inline">Verified</span>
+      <span className="hidden sm:inline">{tx("Verified")}</span>
     </button>
   );
 };

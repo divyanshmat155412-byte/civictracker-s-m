@@ -58,7 +58,7 @@ const Install = () => {
           </h1>
           <p className="text-muted-foreground text-lg">
             {isHindi
-              ? "Civic Tracker को ऐप की तरह इंस्टॉल करें — तेज़, आसान, और हमेशा एक टैप दूर।"
+              ? "सिविक ट्रैकर को ऐप की तरह इंस्टॉल करें — तेज़, आसान, और हमेशा एक टैप दूर।"
               : "Get Civic Tracker as an app — fast, easy, always one tap away."}
           </p>
         </motion.div>
@@ -132,15 +132,15 @@ const Install = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
-                  {isHindi ? "Share बटन (⬆) पर टैप करें" : "Tap the Share button (⬆)"}
+                  {isHindi ? "साझा करने के बटन (⬆) पर टैप करें" : "Tap the Share button (⬆)"}
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
-                  {isHindi ? "नीचे स्क्रॉल करें और \"Add to Home Screen\" चुनें" : 'Scroll down and select "Add to Home Screen"'}
+                  {isHindi ? "नीचे स्क्रॉल करें और \"होम स्क्रीन पर जोड़ें\" चुनें" : 'Scroll down and select "Add to Home Screen"'}
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
-                  {isHindi ? "\"Add\" पर टैप करें — बस! 🎉" : 'Tap "Add" — you\'re set! 🎉'}
+                  {isHindi ? "\"जोड़ें\" पर टैप करें — बस! 🎉" : 'Tap "Add" — you\'re set! 🎉'}
                 </li>
               </ol>
             </motion.div>
@@ -152,7 +152,7 @@ const Install = () => {
               </h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 {(isHindi
-                  ? ["⚡ तेज़ लोडिंग — ऐप जैसा अनुभव", "📱 होम स्क्रीन से एक टैप में खोलें", "🔔 Full-screen अनुभव, कोई ब्राउज़र बार नहीं", "💾 कम डेटा खर्च"]
+                  ? ["⚡ तेज़ लोडिंग — ऐप जैसा अनुभव", "📱 होम स्क्रीन से एक टैप में खोलें", "🔔 पूर्ण स्क्रीन अनुभव, कोई ब्राउज़र बार नहीं", "💾 कम डेटा खर्च"]
                   : ["⚡ Faster loading — app-like experience", "📱 One-tap access from home screen", "🔔 Full-screen experience, no browser bar", "💾 Uses less data"]
                 ).map((b, i) => (
                   <li key={i}>{b}</li>

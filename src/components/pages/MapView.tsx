@@ -1,10 +1,11 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useRef, useEffect, useMemo } from "react";
 import Layout from "@/components/Layout";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import "leaflet.heat";
+
 import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
@@ -50,6 +51,14 @@ const INDIA_ZOOM = 5;
 type ViewMode = "markers" | "heatmap" | "clusters";
 
 const MapView = () => {
+  const [heatReady, setHeatReady] = useState(false);
+  useEffect(() => {
+    (window as any).L = L;
+    let active = true;
+    import("leaflet.heat").then(() => { if (active) setHeatReady(true); });
+    return () => { active = false; };
+  }, []);
+  const tx = useUiText();
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [viewMode, setViewMode] = useState<ViewMode>("clusters");
@@ -148,6 +157,7 @@ const MapView = () => {
     if (mappable.length === 0) return;
 
     if (viewMode === "heatmap") {
+      if (!(L as any).heatLayer) return;
       const heatData = mappable.map((c: any) => [Number(c.latitude), Number(c.longitude), 1]);
       heatLayerRef.current = (L as any)
         .heatLayer(heatData, {
@@ -184,13 +194,13 @@ const MapView = () => {
           `<div style="min-width:220px;font-family:system-ui,sans-serif">
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
               <span style="font-size:10px;font-family:monospace;color:#888">#${c.complaint_id}</span>
-              <span style="font-size:10px;padding:1px 6px;border-radius:10px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${c.status}</span>
+              <span style="font-size:10px;padding:1px 6px;border-radius:10px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${tx(c.status)}</span>
             </div>
             <h3 style="font-weight:700;font-size:14px;margin:0 0 4px;color:#111">${c.title}</h3>
             <p style="font-size:12px;color:#666;margin:0 0 8px;line-height:1.4">${(c.description || "").slice(0, 120)}${(c.description || "").length > 120 ? "..." : ""}</p>
             <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">
-              <span style="font-size:10px;padding:2px 8px;border:1px solid ${CATEGORY_COLORS[c.category] || "#ddd"};border-radius:10px;color:${CATEGORY_COLORS[c.category] || "#666"}">${c.category}</span>
-              <span style="font-size:10px;padding:2px 8px;background:#f3f4f6;border-radius:10px">${c.priority} priority</span>
+              <span style="font-size:10px;padding:2px 8px;border:1px solid ${CATEGORY_COLORS[c.category] || "#ddd"};border-radius:10px;color:${CATEGORY_COLORS[c.category] || "#666"}">${tx(c.category)}</span>
+              <span style="font-size:10px;padding:2px 8px;background:#f3f4f6;border-radius:10px">${tx(c.priority)} ${tx("Priority")}</span>
               ${c.upvotes > 0 ? `<span style="font-size:10px;padding:2px 8px;background:#f3f4f6;border-radius:10px">👍 ${c.upvotes}</span>` : ""}
             </div>
             <p style="font-size:10px;color:#999;margin:0">📍 ${c.location}</p>
@@ -205,12 +215,12 @@ const MapView = () => {
       mappable.forEach((c: any) => {
         const marker = L.marker([Number(c.latitude), Number(c.longitude)], { icon: createIcon(c.status) });
         marker.bindPopup(
-          `<div style="min-width:200px"><h3 style="font-weight:bold;font-size:14px;margin-bottom:4px">${c.title}</h3><p style="font-size:12px;color:#666;margin-bottom:8px">${(c.description || "").slice(0, 100)}</p><div style="display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 6px;border:1px solid #ddd;border-radius:4px">${c.category}</span><span style="font-size:10px;padding:2px 6px;border-radius:4px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${c.status}</span></div><p style="font-size:10px;color:#999;margin-top:6px">📍 ${c.location}</p></div>`
+          `<div style="min-width:200px"><h3 style="font-weight:bold;font-size:14px;margin-bottom:4px">${c.title}</h3><p style="font-size:12px;color:#666;margin-bottom:8px">${(c.description || "").slice(0, 100)}</p><div style="display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 6px;border:1px solid #ddd;border-radius:4px">${tx(c.category)}</span><span style="font-size:10px;padding:2px 6px;border-radius:4px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${tx(c.status)}</span></div><p style="font-size:10px;color:#999;margin-top:6px">📍 ${c.location}</p></div>`
         );
         markersRef.current!.addLayer(marker);
       });
     }
-  }, [mappable, viewMode]);
+  }, [mappable, viewMode, heatReady, tx]);
 
   // Fit bounds
   useEffect(() => {
@@ -241,7 +251,7 @@ const MapView = () => {
           {/* Status filter */}
           <div className="flex flex-wrap items-center gap-2">
             <Filter className="w-4 h-4 text-muted-foreground" />
-            <span className="text-xs font-medium text-muted-foreground mr-1">Status:</span>
+            <span className="text-xs font-medium text-muted-foreground mr-1">{tx("Status:")}</span>
             {["all", "pending", "in-progress", "resolved", "escalated"].map((s) => (
               <button
                 key={s}
@@ -252,7 +262,7 @@ const MapView = () => {
                     : "bg-card text-muted-foreground border-border hover:bg-muted"
                 }`}
               >
-                {s === "all" ? t("map.all") : s.charAt(0).toUpperCase() + s.slice(1)}
+                {s === "all" ? t("map.all") : tx(s)}
                 {s !== "all" && (
                   <span className="inline-block w-2 h-2 rounded-full ml-1.5" style={{ backgroundColor: STATUS_COLORS[s] }} />
                 )}
@@ -263,7 +273,7 @@ const MapView = () => {
           {/* Category filter */}
           <div className="flex flex-wrap items-center gap-2">
             <Filter className="w-4 h-4 text-muted-foreground" />
-            <span className="text-xs font-medium text-muted-foreground mr-1">Category:</span>
+            <span className="text-xs font-medium text-muted-foreground mr-1">{tx("Category:")}</span>
             <button
               onClick={() => setCategoryFilter("all")}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border ${
@@ -272,8 +282,7 @@ const MapView = () => {
                   : "bg-card text-muted-foreground border-border hover:bg-muted"
               }`}
             >
-              All
-            </button>
+              {tx(" All ")}</button>
             {Object.entries(CATEGORY_CONFIG).map(([key, config]) => (
               <button
                 key={key}
@@ -284,7 +293,7 @@ const MapView = () => {
                     : "bg-card text-muted-foreground border-border hover:bg-muted"
                 }`}
               >
-                {config.label}
+                {tx(config.label)}
               </button>
             ))}
           </div>
@@ -292,7 +301,7 @@ const MapView = () => {
           {/* View mode + area stats toggle */}
           <div className="flex flex-wrap items-center gap-2">
             <Layers className="w-4 h-4 text-muted-foreground" />
-            <span className="text-xs font-medium text-muted-foreground mr-1">View:</span>
+            <span className="text-xs font-medium text-muted-foreground mr-1">{tx("View:")}</span>
             {(
               [
                 { key: "clusters", label: "Clusters" },
@@ -309,7 +318,7 @@ const MapView = () => {
                     : "bg-card text-muted-foreground border-border hover:bg-muted"
                 }`}
               >
-                {v.label}
+                {tx(v.label)}
               </button>
             ))}
 
@@ -322,8 +331,7 @@ const MapView = () => {
               }`}
             >
               <BarChart3 className="w-3.5 h-3.5" />
-              Area Stats
-            </button>
+              {tx(" Area Stats ")}</button>
           </div>
         </div>
 
@@ -337,12 +345,11 @@ const MapView = () => {
           >
             <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-primary" />
-              Area Statistics ({areaStats.total} complaints)
-            </h3>
+              {tx(" Area Statistics (")}{areaStats.total} {tx(" complaints) ")}</h3>
             <div className="grid grid-cols-2 gap-4">
               {/* By Category */}
               <div>
-                <p className="text-xs font-medium text-muted-foreground mb-2">By Category</p>
+                <p className="text-xs font-medium text-muted-foreground mb-2">{tx("By Category")}</p>
                 <div className="space-y-1.5">
                   {Object.entries(areaStats.catCount)
                     .sort(([, a], [, b]) => b - a)
@@ -364,7 +371,7 @@ const MapView = () => {
               </div>
               {/* By Status */}
               <div>
-                <p className="text-xs font-medium text-muted-foreground mb-2">By Status</p>
+                <p className="text-xs font-medium text-muted-foreground mb-2">{tx("By Status")}</p>
                 <div className="space-y-1.5">
                   {Object.entries(areaStats.statusCount)
                     .sort(([, a], [, b]) => b - a)
@@ -378,7 +385,7 @@ const MapView = () => {
                           }}
                         />
                         <span className="text-xs text-muted-foreground whitespace-nowrap">
-                          {status.charAt(0).toUpperCase() + status.slice(1)} ({count})
+                          {tx(status)} ({count})
                         </span>
                       </div>
                     ))}
@@ -397,8 +404,7 @@ const MapView = () => {
                 onClick={() => { setStatusFilter("all"); setCategoryFilter("all"); }}
                 className="ml-2 text-primary hover:underline"
               >
-                Clear filters
-              </button>
+                {tx(" Clear filters ")}</button>
             )}
           </span>
           {viewMode === "heatmap" && (
@@ -433,7 +439,7 @@ const MapView = () => {
             {Object.entries(STATUS_COLORS).map(([status, color]) => (
               <div key={status} className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <div className="w-3 h-3 rounded-full border-2 border-white shadow-sm" style={{ backgroundColor: color }} />
-                {status.charAt(0).toUpperCase() + status.slice(1)}
+                {tx(status)}
               </div>
             ))}
           </div>

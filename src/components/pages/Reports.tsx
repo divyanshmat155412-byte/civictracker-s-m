@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { invokeFunction } from "@/lib/invoke-function";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -32,7 +33,8 @@ interface ReportData {
 }
 
 const Reports = () => {
-  const { t } = useLanguage();
+  const tx = useUiText();
+  const { t, language } = useLanguage();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [period, setPeriod] = useState<"weekly" | "monthly">("weekly");
@@ -97,7 +99,7 @@ const Reports = () => {
     <Layout>
       <div className="container py-8 md:py-12 max-w-5xl">
         <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex flex-wrap items-center gap-3 mb-6">
             <div className="w-12 h-12 rounded-xl gradient-hero flex items-center justify-center">
               <BarChart3 className="w-6 h-6 text-primary-foreground" />
             </div>
@@ -108,7 +110,7 @@ const Reports = () => {
           </div>
 
           {/* Period selector */}
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex flex-wrap items-center gap-3 mb-6">
             <div className="flex bg-muted rounded-lg p-1">
               {(["weekly", "monthly"] as const).map((p) => (
                 <button key={p} onClick={() => { setPeriod(p); setReport(null); }}
@@ -138,7 +140,7 @@ const Reports = () => {
                 <div key={stat.label} className="bg-card rounded-xl border border-border p-4 shadow-card">
                   <stat.icon className={`w-5 h-5 ${stat.color} mb-2`} />
                   <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                  <p className="text-xs text-muted-foreground">{tx(stat.label)}</p>
                 </div>
               ))}
             </div>
@@ -179,7 +181,7 @@ const Reports = () => {
                     .sort((a, b) => b[1] - a[1])
                     .map(([cat, count]) => (
                       <div key={cat} className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground capitalize">{cat}</span>
+                        <span className="text-sm text-muted-foreground capitalize">{tx(cat)}</span>
                         <div className="flex items-center gap-2">
                           <div className="h-2 bg-primary/20 rounded-full w-20">
                             <div className="h-full bg-primary rounded-full" style={{ width: `${(count / report.summary.total) * 100}%` }} />
@@ -199,7 +201,7 @@ const Reports = () => {
                       <div key={priority} className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: priorityColors[priority] || "#888" }} />
-                          <span className="text-sm text-muted-foreground capitalize">{priority}</span>
+                          <span className="text-sm text-muted-foreground capitalize">{tx(priority)}</span>
                         </div>
                         <span className="text-sm font-medium text-foreground">{count}</span>
                       </div>
@@ -249,7 +251,7 @@ const Reports = () => {
                     <div key={c.id} className="flex items-center gap-3 text-sm p-2 rounded-lg hover:bg-muted/50">
                       <span className="font-mono text-xs text-muted-foreground">#{c.complaint_id || c.id.slice(0, 6)}</span>
                       <span className="flex-1 truncate text-foreground">{c.title}</span>
-                      <span className="text-xs capitalize px-2 py-0.5 rounded-full bg-muted text-muted-foreground">{c.status}</span>
+                      <span className="text-xs capitalize px-2 py-0.5 rounded-full bg-muted text-muted-foreground">{tx(c.status)}</span>
                     </div>
                   ))}
                 </div>
@@ -257,7 +259,7 @@ const Reports = () => {
             )}
 
             <p className="text-center text-xs text-muted-foreground">
-              {t("reports.generatedAt")} {new Date(report.generatedAt).toLocaleString()} • {t("reports.dataSince")} {new Date(report.since).toLocaleDateString()}
+              {t("reports.generatedAt")} {new Date(report.generatedAt).toLocaleString(language === "hi" ? "hi-IN" : "en-IN")} • {t("reports.dataSince")} {new Date(report.since).toLocaleDateString(language === "hi" ? "hi-IN" : "en-IN")}
             </p>
           </motion.div>
         )}

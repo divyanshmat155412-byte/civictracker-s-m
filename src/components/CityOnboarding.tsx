@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -10,6 +11,7 @@ import { Input } from "@/components/ui/input";
 
 /** Super Admin: onboard a new city with its profile, then link to wards/departments/admins. */
 const CityOnboarding = () => {
+  const tx = useUiText();
   const qc = useQueryClient();
   const { profiles } = useCities();
   const [f, setF] = useState({ name: "", state: "", municipal_body: "", center_lat: "", center_lng: "", contact_email: "" });
@@ -37,28 +39,27 @@ const CityOnboarding = () => {
 
   return (
     <Card>
-      <CardHeader><CardTitle className="text-base flex items-center gap-2"><MapPinned className="h-5 w-5" /> Onboard a new city</CardTitle></CardHeader>
+      <CardHeader><CardTitle className="text-base flex items-center gap-2"><MapPinned className="h-5 w-5" /> {tx(" Onboard a new city")}</CardTitle></CardHeader>
       <CardContent className="space-y-4">
         <form onSubmit={add} className="grid sm:grid-cols-3 gap-2">
-          <Input required placeholder="City name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />
-          <Input placeholder="State" value={f.state} onChange={(e) => setF({ ...f, state: e.target.value })} />
-          <Input placeholder="Municipal body (e.g. Nagar Nigam)" value={f.municipal_body} onChange={(e) => setF({ ...f, municipal_body: e.target.value })} />
-          <Input placeholder="Centre latitude" inputMode="decimal" value={f.center_lat} onChange={(e) => setF({ ...f, center_lat: e.target.value })} />
-          <Input placeholder="Centre longitude" inputMode="decimal" value={f.center_lng} onChange={(e) => setF({ ...f, center_lng: e.target.value })} />
-          <Input placeholder="Office contact email" type="email" value={f.contact_email} onChange={(e) => setF({ ...f, contact_email: e.target.value })} />
-          <Button type="submit" disabled={busy || !f.name.trim()} className="sm:col-span-3">Add city</Button>
+          <Input required placeholder={tx("City name")} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />
+          <Input placeholder={tx("State")} value={f.state} onChange={(e) => setF({ ...f, state: e.target.value })} />
+          <Input placeholder={tx("Municipal body (e.g. Nagar Nigam)")} value={f.municipal_body} onChange={(e) => setF({ ...f, municipal_body: e.target.value })} />
+          <Input placeholder={tx("Centre latitude")} inputMode="decimal" value={f.center_lat} onChange={(e) => setF({ ...f, center_lat: e.target.value })} />
+          <Input placeholder={tx("Centre longitude")} inputMode="decimal" value={f.center_lng} onChange={(e) => setF({ ...f, center_lng: e.target.value })} />
+          <Input placeholder={tx("Office contact email")} type="email" value={f.contact_email} onChange={(e) => setF({ ...f, contact_email: e.target.value })} />
+          <Button type="submit" disabled={busy || !f.name.trim()} className="sm:col-span-3">{tx("Add city")}</Button>
         </form>
         <p className="text-xs text-muted-foreground">
-          Next steps: add its wards & zones (Admin → Wards & Zones), city departments (Departments page), then approve or grant a City Admin for it (Users & Roles).
-        </p>
+          {tx(" Next steps: add its wards & zones (Admin → Wards & Zones), city departments (Departments page), then approve or grant a City Admin for it (Users & Roles). ")}</p>
         <div className="space-y-1 text-sm">
           {profiles.map((c) => (
             <div key={c.id} className="flex items-center justify-between border-b border-border py-1 gap-2">
               <span><b>{c.name}</b>{c.state ? `, ${c.state}` : ""} <span className="text-muted-foreground">{c.municipal_body ?? ""}</span></span>
-              <Button size="sm" variant="ghost" onClick={() => toggle(c.id, !c.is_active)}>{c.is_active ? "Deactivate" : "Activate"}</Button>
+              <Button size="sm" variant="ghost" onClick={() => toggle(c.id, !c.is_active)}>{c.is_active ? tx("Deactivate") : tx("Activate")}</Button>
             </div>
           ))}
-          {profiles.length === 0 && <p className="text-muted-foreground">No onboarded cities yet — the 15 built-in cities remain available.</p>}
+          {profiles.length === 0 && <p className="text-muted-foreground">{tx("No onboarded cities yet — the 15 built-in cities remain available.")}</p>}
         </div>
       </CardContent>
     </Card>

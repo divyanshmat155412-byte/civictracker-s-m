@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useRef, useCallback } from "react";
 import { Camera, CheckCircle } from "lucide-react";
 
@@ -8,6 +9,7 @@ interface BeforeAfterSliderProps {
 }
 
 const BeforeAfterSlider = ({ beforeUrl, afterUrl, className = "" }: BeforeAfterSliderProps) => {
+  const tx = useUiText();
   const [sliderPos, setSliderPos] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -40,7 +42,7 @@ const BeforeAfterSlider = ({ beforeUrl, afterUrl, className = "" }: BeforeAfterS
       onTouchEnd={handleMouseUp}
     >
       {/* After image (full background) */}
-      <img src={afterUrl} alt="After" className="w-full h-full object-cover" draggable={false} />
+      <img src={afterUrl} alt={tx("After")} className="w-full h-full object-cover" draggable={false} />
 
       {/* Before image (clipped) */}
       <div
@@ -49,7 +51,7 @@ const BeforeAfterSlider = ({ beforeUrl, afterUrl, className = "" }: BeforeAfterS
       >
         <img
           src={beforeUrl}
-          alt="Before"
+          alt={tx("Before")}
           className="absolute inset-0 w-full h-full object-cover"
           style={{ width: `${containerRef.current ? containerRef.current.offsetWidth : 100}px`, maxWidth: "none" }}
           draggable={false}
@@ -73,11 +75,9 @@ const BeforeAfterSlider = ({ beforeUrl, afterUrl, className = "" }: BeforeAfterS
 
       {/* Labels */}
       <div className="absolute top-2 left-2 px-2 py-1 rounded-full bg-destructive/80 text-destructive-foreground text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 backdrop-blur-sm">
-        <Camera className="w-3 h-3" /> Before
-      </div>
+        <Camera className="w-3 h-3" /> {tx(" Before ")}</div>
       <div className="absolute top-2 right-2 px-2 py-1 rounded-full bg-green-600/80 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 backdrop-blur-sm">
-        <CheckCircle className="w-3 h-3" /> After
-      </div>
+        <CheckCircle className="w-3 h-3" /> {tx(" After ")}</div>
     </div>
   );
 };

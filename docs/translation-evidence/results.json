@@ -1,0 +1,2579 @@
+{
+  "pages": [
+    {
+      "device": "desktop",
+      "route": "/",
+      "final_url": "http://localhost:8080/",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "JPG, PNG 10MB तक",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "This is a duplicate test report regarding a pothole near the Station Road crossing in Ratlam.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "This is a demo/test complaint regarding a pothole on Station Road, Ratlam, created for system testing purposes.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "Overflowing garbage bin",
+        "Garbage issue at Demo: Overflowing garbage bin near the market",
+        "Demo"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/complaints",
+      "final_url": "http://localhost:8080/complaints",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "CSV",
+        "PDF",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "This is a duplicate test report regarding a pothole near the Station Road crossing in Ratlam.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "This is a demo/test complaint regarding a pothole on Station Road, Ratlam, created for system testing purposes.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "Overflowing garbage bin",
+        "Garbage issue at Demo: Overflowing garbage bin near the market",
+        "Demo"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/departments",
+      "final_url": "http://localhost:8080/departments",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "· Dept Head",
+        "Roads, bridges, and infrastructure maintenance",
+        "· Dept Head",
+        "Waste management and cleanliness",
+        "Water Supply",
+        "· Dept Head",
+        "Water supply and drainage",
+        "Electricity",
+        "· Dept Head",
+        "Streetlights and electrical infrastructure",
+        "Law & Order",
+        "· Dept Head",
+        "Security and law enforcement",
+        "Fire Services",
+        "· Dept Head",
+        "Fire prevention and response",
+        "Urban Planning",
+        "· Dept Head",
+        "Encroachment and building regulations",
+        "Environment",
+        "· Dept Head",
+        "Noise pollution and environmental issues"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/dashboard",
+      "final_url": "http://localhost:8080/dashboard",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Station Road",
+        "Demo"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/polls",
+      "final_url": "http://localhost:8080/polls",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/map",
+      "final_url": "http://localhost:8080/map",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Leaflet | © OpenStreetMap"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/heatmap",
+      "final_url": "http://localhost:8080/heatmap",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Station Road",
+        "Leaflet | © OpenStreetMap",
+        "Station Road",
+        "Demo"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/leaderboard",
+      "final_url": "http://localhost:8080/leaderboard",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "divy_anshmathur",
+        "DEMO TEST citizen",
+        "Mohit divyansh",
+        "DEMO TEST cityadmin",
+        "DEMO TEST worker"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/auth",
+      "final_url": "http://localhost:8080/auth",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Google से जारी रखें"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/privacy",
+      "final_url": "http://localhost:8080/privacy",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "फ़ोटो, स्थान (GPS) और विवरण — शिकायत सार्वजनिक रूप से ट्रैक करने के लिए।",
+        "फ़ोन नंबर — केवल अगर आप SMS चुनते हैं; यह कभी सार्वजनिक नहीं होता।"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/faq",
+      "final_url": "http://localhost:8080/faq",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/contact",
+      "final_url": "http://localhost:8080/contact",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/how-it-works",
+      "final_url": "http://localhost:8080/how-it-works",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/install",
+      "final_url": "http://localhost:8080/install",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Android / Chrome",
+        "Chrome में इस वेबसाइट को खोलें",
+        "iPhone / Safari",
+        "Safari में इस वेबसाइट को खोलें"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/request-admin",
+      "final_url": "http://localhost:8080/request-admin",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/worker",
+      "final_url": "http://localhost:8080/worker",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/admin",
+      "final_url": "http://localhost:8080/admin",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/wards",
+      "final_url": "http://localhost:8080/admin/wards",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/workers",
+      "final_url": "http://localhost:8080/admin/workers",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/polls",
+      "final_url": "http://localhost:8080/admin/polls",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/users",
+      "final_url": "http://localhost:8080/admin/users",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/whatsapp",
+      "final_url": "http://localhost:8080/admin/whatsapp",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/sms",
+      "final_url": "http://localhost:8080/auth",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Google से जारी रखें"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/root",
+      "final_url": "http://localhost:8080/admin/root",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/posters",
+      "final_url": "http://localhost:8080/admin/posters",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/reports",
+      "final_url": "http://localhost:8080/reports",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/rewards",
+      "final_url": "http://localhost:8080/rewards",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/ai-chat",
+      "final_url": "http://localhost:8080/ai-chat",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/ai-chatbot",
+      "final_url": "http://localhost:8080/ai-chat",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/predictions",
+      "final_url": "http://localhost:8080/predictions",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/profile",
+      "final_url": "http://localhost:8080/auth",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Google से जारी रखें"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/reset-password",
+      "final_url": "http://localhost:8080/reset-password",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "desktop",
+      "route": "/complaints/CT-14",
+      "final_url": "http://localhost:8080/complaints/CT-14",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "🗺️ Zone A - Central",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "This is a demo/test complaint regarding a pothole on Station Road, Ratlam, created for system testing purposes.",
+        "DEMO/TEST complaint created by Team SANT during end-to-end testing. Large pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "Nov 5, 2026, 11:36 AM",
+        "CivicTrack",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "DEMO/TEST complaint created by Team SANT during end-to-end testing. Large pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "November 5, 2026",
+        "http://localhost:8080/complaints/CT-14",
+        "civictrack.app",
+        "वार्ड: 1 · Station Road (प्रदर्शन डेटा)",
+        "ज़ोन: Zone A - Central",
+        "Nov 5, 2026, 11:40 AM",
+        "Field worker started work",
+        "Nov 5, 2026, 11:40 AM",
+        "Field worker completed the job with after-repair photo"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/complaints/CT-142",
+      "final_url": "http://localhost:8080/complaints/CT-142",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "🗺️ Zone A - Central",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "This is a duplicate test report regarding a pothole near the Station Road crossing in Ratlam.",
+        "DEMO/TEST duplicate check by Team SANT. Pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "Nov 5, 2026, 11:44 AM",
+        "CivicTrack",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "DEMO/TEST duplicate check by Team SANT. Pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "November 5, 2026",
+        "http://localhost:8080/complaints/CT-142",
+        "civictrack.app",
+        "वार्ड: 1 · Station Road (प्रदर्शन डेटा)",
+        "ज़ोन: Zone A - Central"
+      ]
+    },
+    {
+      "device": "desktop",
+      "route": "/complaints/CT-14/poster",
+      "final_url": "http://localhost:8080/complaints/CT-14/poster",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "CivicTrack",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "DEMO/TEST complaint created by Team SANT during end-to-end testing. Large pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "November 5, 2026",
+        "http://localhost:8080/complaints/CT-14",
+        "civictrack.app"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/",
+      "final_url": "http://localhost:8080/",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "JPG, PNG 10MB तक",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "This is a duplicate test report regarding a pothole near the Station Road crossing in Ratlam.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "This is a demo/test complaint regarding a pothole on Station Road, Ratlam, created for system testing purposes.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "Overflowing garbage bin",
+        "Garbage issue at Demo: Overflowing garbage bin near the market",
+        "Demo"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/complaints",
+      "final_url": "http://localhost:8080/complaints",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "CSV",
+        "PDF",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "This is a duplicate test report regarding a pothole near the Station Road crossing in Ratlam.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "This is a demo/test complaint regarding a pothole on Station Road, Ratlam, created for system testing purposes.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "Overflowing garbage bin",
+        "Garbage issue at Demo: Overflowing garbage bin near the market",
+        "Demo"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/departments",
+      "final_url": "http://localhost:8080/departments",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "· Dept Head",
+        "Roads, bridges, and infrastructure maintenance",
+        "· Dept Head",
+        "Waste management and cleanliness",
+        "Water Supply",
+        "· Dept Head",
+        "Water supply and drainage",
+        "Electricity",
+        "· Dept Head",
+        "Streetlights and electrical infrastructure",
+        "Law & Order",
+        "· Dept Head",
+        "Security and law enforcement",
+        "Fire Services",
+        "· Dept Head",
+        "Fire prevention and response",
+        "Urban Planning",
+        "· Dept Head",
+        "Encroachment and building regulations",
+        "Environment",
+        "· Dept Head",
+        "Noise pollution and environmental issues"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/dashboard",
+      "final_url": "http://localhost:8080/dashboard",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Station Road",
+        "Demo"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/polls",
+      "final_url": "http://localhost:8080/polls",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/map",
+      "final_url": "http://localhost:8080/map",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Leaflet | © OpenStreetMap"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/heatmap",
+      "final_url": "http://localhost:8080/heatmap",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Station Road",
+        "Leaflet | © OpenStreetMap",
+        "Station Road",
+        "Demo"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/leaderboard",
+      "final_url": "http://localhost:8080/leaderboard",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "divy_anshmathur",
+        "DEMO TEST citizen",
+        "Mohit divyansh",
+        "DEMO TEST cityadmin",
+        "DEMO TEST worker"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/auth",
+      "final_url": "http://localhost:8080/auth",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Google से जारी रखें"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/privacy",
+      "final_url": "http://localhost:8080/privacy",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "फ़ोटो, स्थान (GPS) और विवरण — शिकायत सार्वजनिक रूप से ट्रैक करने के लिए।",
+        "फ़ोन नंबर — केवल अगर आप SMS चुनते हैं; यह कभी सार्वजनिक नहीं होता।"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/faq",
+      "final_url": "http://localhost:8080/faq",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/contact",
+      "final_url": "http://localhost:8080/contact",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/how-it-works",
+      "final_url": "http://localhost:8080/how-it-works",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/install",
+      "final_url": "http://localhost:8080/install",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Android / Chrome",
+        "Chrome में इस वेबसाइट को खोलें",
+        "iPhone / Safari",
+        "Safari में इस वेबसाइट को खोलें"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/request-admin",
+      "final_url": "http://localhost:8080/request-admin",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/worker",
+      "final_url": "http://localhost:8080/worker",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/admin",
+      "final_url": "http://localhost:8080/admin",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/wards",
+      "final_url": "http://localhost:8080/admin/wards",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/workers",
+      "final_url": "http://localhost:8080/admin/workers",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/polls",
+      "final_url": "http://localhost:8080/admin/polls",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/users",
+      "final_url": "http://localhost:8080/admin/users",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/whatsapp",
+      "final_url": "http://localhost:8080/admin/whatsapp",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/sms",
+      "final_url": "http://localhost:8080/auth",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Google से जारी रखें"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/root",
+      "final_url": "http://localhost:8080/admin/root",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/posters",
+      "final_url": "http://localhost:8080/admin/posters",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/reports",
+      "final_url": "http://localhost:8080/reports",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/rewards",
+      "final_url": "http://localhost:8080/rewards",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/ai-chat",
+      "final_url": "http://localhost:8080/ai-chat",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/ai-chatbot",
+      "final_url": "http://localhost:8080/ai-chat",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/predictions",
+      "final_url": "http://localhost:8080/predictions",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/profile",
+      "final_url": "http://localhost:8080/auth",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Google से जारी रखें"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/reset-password",
+      "final_url": "http://localhost:8080/reset-password",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/complaints/CT-14",
+      "final_url": "http://localhost:8080/complaints/CT-14",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "tablet",
+      "route": "/complaints/CT-142",
+      "final_url": "http://localhost:8080/complaints/CT-142",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "🗺️ Zone A - Central",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "This is a duplicate test report regarding a pothole near the Station Road crossing in Ratlam.",
+        "DEMO/TEST duplicate check by Team SANT. Pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "Nov 5, 2026, 11:44 AM",
+        "CivicTrack",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "DEMO/TEST duplicate check by Team SANT. Pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "November 5, 2026",
+        "http://localhost:8080/complaints/CT-142",
+        "civictrack.app",
+        "वार्ड: 1 · Station Road (प्रदर्शन डेटा)",
+        "ज़ोन: Zone A - Central",
+        "Nov 5, 2026, 11:48 AM",
+        "Merged into #CT-14",
+        "Nov 5, 2026, 11:48 AM",
+        "Unmerged"
+      ]
+    },
+    {
+      "device": "tablet",
+      "route": "/complaints/CT-14/poster",
+      "final_url": "http://localhost:8080/complaints/CT-14/poster",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "CivicTrack",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "DEMO/TEST complaint created by Team SANT during end-to-end testing. Large pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "November 5, 2026",
+        "http://localhost:8080/complaints/CT-14",
+        "civictrack.app"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/",
+      "final_url": "http://localhost:8080/",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "JPG, PNG 10MB तक"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/complaints",
+      "final_url": "http://localhost:8080/complaints",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "CSV",
+        "PDF",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "This is a duplicate test report regarding a pothole near the Station Road crossing in Ratlam.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "This is a demo/test complaint regarding a pothole on Station Road, Ratlam, created for system testing purposes.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "Overflowing garbage bin",
+        "Garbage issue at Demo: Overflowing garbage bin near the market",
+        "Demo"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/departments",
+      "final_url": "http://localhost:8080/departments",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "· Dept Head",
+        "Roads, bridges, and infrastructure maintenance",
+        "· Dept Head",
+        "Waste management and cleanliness",
+        "Water Supply",
+        "· Dept Head",
+        "Water supply and drainage",
+        "Electricity",
+        "· Dept Head",
+        "Streetlights and electrical infrastructure",
+        "Law & Order",
+        "· Dept Head",
+        "Security and law enforcement",
+        "Fire Services",
+        "· Dept Head",
+        "Fire prevention and response",
+        "Urban Planning",
+        "· Dept Head",
+        "Encroachment and building regulations",
+        "Environment",
+        "· Dept Head",
+        "Noise pollution and environmental issues"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/dashboard",
+      "final_url": "http://localhost:8080/dashboard",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "StationRoad",
+        "Demo"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/polls",
+      "final_url": "http://localhost:8080/polls",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/map",
+      "final_url": "http://localhost:8080/map",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Leaflet | © OpenStreetMap"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/heatmap",
+      "final_url": "http://localhost:8080/heatmap",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Station Road",
+        "Leaflet | © OpenStreetMap",
+        "Station Road",
+        "Demo"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/leaderboard",
+      "final_url": "http://localhost:8080/leaderboard",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "divy_anshmathur",
+        "DEMO TEST citizen",
+        "Mohit divyansh",
+        "DEMO TEST cityadmin",
+        "DEMO TEST worker"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/auth",
+      "final_url": "http://localhost:8080/auth",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Google से जारी रखें"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/privacy",
+      "final_url": "http://localhost:8080/privacy",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "फ़ोटो, स्थान (GPS) और विवरण — शिकायत सार्वजनिक रूप से ट्रैक करने के लिए।",
+        "फ़ोन नंबर — केवल अगर आप SMS चुनते हैं; यह कभी सार्वजनिक नहीं होता।"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/faq",
+      "final_url": "http://localhost:8080/faq",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/contact",
+      "final_url": "http://localhost:8080/contact",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/how-it-works",
+      "final_url": "http://localhost:8080/how-it-works",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/install",
+      "final_url": "http://localhost:8080/install",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Android / Chrome",
+        "Chrome में इस वेबसाइट को खोलें",
+        "iPhone / Safari",
+        "Safari में इस वेबसाइट को खोलें"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/request-admin",
+      "final_url": "http://localhost:8080/request-admin",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/worker",
+      "final_url": "http://localhost:8080/worker",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/admin",
+      "final_url": "http://localhost:8080/admin",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/wards",
+      "final_url": "http://localhost:8080/admin/wards",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/workers",
+      "final_url": "http://localhost:8080/admin/workers",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/polls",
+      "final_url": "http://localhost:8080/admin/polls",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/users",
+      "final_url": "http://localhost:8080/admin/users",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/whatsapp",
+      "final_url": "http://localhost:8080/admin/whatsapp",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/sms",
+      "final_url": "http://localhost:8080/auth",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Google से जारी रखें"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/root",
+      "final_url": "http://localhost:8080/admin/root",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/posters",
+      "final_url": "http://localhost:8080/admin/posters",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/reports",
+      "final_url": "http://localhost:8080/reports",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/rewards",
+      "final_url": "http://localhost:8080/rewards",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/ai-chat",
+      "final_url": "http://localhost:8080/ai-chat",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/ai-chatbot",
+      "final_url": "http://localhost:8080/ai-chat",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/predictions",
+      "final_url": "http://localhost:8080/predictions",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/profile",
+      "final_url": "http://localhost:8080/auth",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "Google से जारी रखें"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/reset-password",
+      "final_url": "http://localhost:8080/reset-password",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": []
+    },
+    {
+      "device": "mobile",
+      "route": "/complaints/CT-14",
+      "final_url": "http://localhost:8080/complaints/CT-14",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "🗺️ Zone A - Central",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "This is a demo/test complaint regarding a pothole on Station Road, Ratlam, created for system testing purposes.",
+        "DEMO/TEST complaint created by Team SANT during end-to-end testing. Large pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "Nov 5, 2026, 11:36 AM",
+        "CivicTrack",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "DEMO/TEST complaint created by Team SANT during end-to-end testing. Large pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "November 5, 2026",
+        "http://localhost:8080/complaints/CT-14",
+        "civictrack.app",
+        "ज़ोन: Zone A - Central"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/complaints/CT-142",
+      "final_url": "http://localhost:8080/complaints/CT-142",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "🗺️ Zone A - Central",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "This is a duplicate test report regarding a pothole near the Station Road crossing in Ratlam.",
+        "DEMO/TEST duplicate check by Team SANT. Pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "Nov 5, 2026, 11:44 AM",
+        "CivicTrack",
+        "DEMO/TEST – Second pothole report, same spot (duplicate test)",
+        "DEMO/TEST duplicate check by Team SANT. Pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "November 5, 2026",
+        "http://localhost:8080/complaints/CT-142",
+        "civictrack.app",
+        "वार्ड: 1 · Station Road (प्रदर्शन डेटा)",
+        "ज़ोन: Zone A - Central",
+        "Nov 5, 2026, 11:48 AM",
+        "Merged into #CT-14",
+        "Nov 5, 2026, 11:48 AM",
+        "Unmerged"
+      ]
+    },
+    {
+      "device": "mobile",
+      "route": "/complaints/CT-14/poster",
+      "final_url": "http://localhost:8080/complaints/CT-14/poster",
+      "render": "PASS",
+      "hi_navigation": true,
+      "hi_refresh": true,
+      "overflow": false,
+      "english_in_hindi": [
+        "CivicTrack",
+        "DEMO/TEST – Pothole on Station Road (test record, please ignore)",
+        "DEMO/TEST complaint created by Team SANT during end-to-end testing. Large pothole near the station road crossing. Not a real report.",
+        "Station Road, Ratlam (DEMO TEST)",
+        "November 5, 2026",
+        "http://localhost:8080/complaints/CT-14",
+        "civictrack.app"
+      ]
+    }
+  ],
+  "performance": [
+    {
+      "device": "desktop",
+      "route": "/",
+      "direction": "hi",
+      "ms": 404.5
+    },
+    {
+      "device": "desktop",
+      "route": "/",
+      "direction": "en",
+      "ms": 281.4
+    },
+    {
+      "device": "desktop",
+      "route": "/complaints",
+      "direction": "hi",
+      "ms": 159.3
+    },
+    {
+      "device": "desktop",
+      "route": "/complaints",
+      "direction": "en",
+      "ms": 178
+    },
+    {
+      "device": "desktop",
+      "route": "/departments",
+      "direction": "hi",
+      "ms": 98.3
+    },
+    {
+      "device": "desktop",
+      "route": "/departments",
+      "direction": "en",
+      "ms": 112.1
+    },
+    {
+      "device": "desktop",
+      "route": "/dashboard",
+      "direction": "hi",
+      "ms": 283.3
+    },
+    {
+      "device": "desktop",
+      "route": "/dashboard",
+      "direction": "en",
+      "ms": 349.3
+    },
+    {
+      "device": "desktop",
+      "route": "/polls",
+      "direction": "hi",
+      "ms": 64
+    },
+    {
+      "device": "desktop",
+      "route": "/polls",
+      "direction": "en",
+      "ms": 35.8
+    },
+    {
+      "device": "desktop",
+      "route": "/map",
+      "direction": "hi",
+      "ms": 129.4
+    },
+    {
+      "device": "desktop",
+      "route": "/map",
+      "direction": "en",
+      "ms": 115.3
+    },
+    {
+      "device": "desktop",
+      "route": "/heatmap",
+      "direction": "hi",
+      "ms": 86.8
+    },
+    {
+      "device": "desktop",
+      "route": "/heatmap",
+      "direction": "en",
+      "ms": 156.4
+    },
+    {
+      "device": "desktop",
+      "route": "/leaderboard",
+      "direction": "hi",
+      "ms": 74.1
+    },
+    {
+      "device": "desktop",
+      "route": "/leaderboard",
+      "direction": "en",
+      "ms": 72.7
+    },
+    {
+      "device": "desktop",
+      "route": "/auth",
+      "direction": "hi",
+      "ms": 60.2
+    },
+    {
+      "device": "desktop",
+      "route": "/auth",
+      "direction": "en",
+      "ms": 71.6
+    },
+    {
+      "device": "desktop",
+      "route": "/privacy",
+      "direction": "hi",
+      "ms": 49.4
+    },
+    {
+      "device": "desktop",
+      "route": "/privacy",
+      "direction": "en",
+      "ms": 40.8
+    },
+    {
+      "device": "desktop",
+      "route": "/faq",
+      "direction": "hi",
+      "ms": 49
+    },
+    {
+      "device": "desktop",
+      "route": "/faq",
+      "direction": "en",
+      "ms": 43.2
+    },
+    {
+      "device": "desktop",
+      "route": "/contact",
+      "direction": "hi",
+      "ms": 32.4
+    },
+    {
+      "device": "desktop",
+      "route": "/contact",
+      "direction": "en",
+      "ms": 33
+    },
+    {
+      "device": "desktop",
+      "route": "/how-it-works",
+      "direction": "hi",
+      "ms": 128.6
+    },
+    {
+      "device": "desktop",
+      "route": "/how-it-works",
+      "direction": "en",
+      "ms": 139.7
+    },
+    {
+      "device": "desktop",
+      "route": "/install",
+      "direction": "hi",
+      "ms": 76.3
+    },
+    {
+      "device": "desktop",
+      "route": "/install",
+      "direction": "en",
+      "ms": 58.4
+    },
+    {
+      "device": "desktop",
+      "route": "/request-admin",
+      "direction": "hi",
+      "ms": 57.6
+    },
+    {
+      "device": "desktop",
+      "route": "/request-admin",
+      "direction": "en",
+      "ms": 49.6
+    },
+    {
+      "device": "desktop",
+      "route": "/worker",
+      "direction": "hi",
+      "ms": 47.4
+    },
+    {
+      "device": "desktop",
+      "route": "/worker",
+      "direction": "en",
+      "ms": 45.4
+    },
+    {
+      "device": "desktop",
+      "route": "/admin",
+      "direction": "hi",
+      "ms": 50.9
+    },
+    {
+      "device": "desktop",
+      "route": "/admin",
+      "direction": "en",
+      "ms": 36
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/wards",
+      "direction": "hi",
+      "ms": 47.7
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/wards",
+      "direction": "en",
+      "ms": 43.1
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/workers",
+      "direction": "hi",
+      "ms": 34.2
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/workers",
+      "direction": "en",
+      "ms": 44.3
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/polls",
+      "direction": "hi",
+      "ms": 34.8
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/polls",
+      "direction": "en",
+      "ms": 45.3
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/users",
+      "direction": "hi",
+      "ms": 46
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/users",
+      "direction": "en",
+      "ms": 49
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/whatsapp",
+      "direction": "hi",
+      "ms": 53.5
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/whatsapp",
+      "direction": "en",
+      "ms": 35.2
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/sms",
+      "direction": "hi",
+      "ms": 55.8
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/sms",
+      "direction": "en",
+      "ms": 55.8
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/root",
+      "direction": "hi",
+      "ms": 40.9
+    },
+    {
+      "device": "desktop",
+      "route": "/admin/root",
+      "direction": "en",
+      "ms": 47.3
+    },
+    {
+      "device": "desktop",
+      "route": "/reports",
+      "direction": "hi",
+      "ms": 48.9
+    },
+    {
+      "device": "desktop",
+      "route": "/reports",
+      "direction": "en",
+      "ms": 25.2
+    },
+    {
+      "device": "desktop",
+      "route": "/rewards",
+      "direction": "hi",
+      "ms": 42.3
+    },
+    {
+      "device": "desktop",
+      "route": "/rewards",
+      "direction": "en",
+      "ms": 46.8
+    },
+    {
+      "device": "desktop",
+      "route": "/ai-chat",
+      "direction": "hi",
+      "ms": 48.8
+    },
+    {
+      "device": "desktop",
+      "route": "/ai-chat",
+      "direction": "en",
+      "ms": 37.9
+    },
+    {
+      "device": "desktop",
+      "route": "/ai-chatbot",
+      "direction": "hi",
+      "ms": 40.8
+    },
+    {
+      "device": "desktop",
+      "route": "/ai-chatbot",
+      "direction": "en",
+      "ms": 37.5
+    },
+    {
+      "device": "desktop",
+      "route": "/predictions",
+      "direction": "hi",
+      "ms": 45.8
+    },
+    {
+      "device": "desktop",
+      "route": "/predictions",
+      "direction": "en",
+      "ms": 40.4
+    },
+    {
+      "device": "desktop",
+      "route": "/profile",
+      "direction": "hi",
+      "ms": 43.3
+    },
+    {
+      "device": "desktop",
+      "route": "/profile",
+      "direction": "en",
+      "ms": 54.5
+    },
+    {
+      "device": "desktop",
+      "route": "/reset-password",
+      "direction": "hi",
+      "ms": 37.8
+    },
+    {
+      "device": "desktop",
+      "route": "/reset-password",
+      "direction": "en",
+      "ms": 40.8
+    },
+    {
+      "device": "desktop",
+      "route": "/complaints/CT-14",
+      "direction": "hi",
+      "ms": 177.2
+    },
+    {
+      "device": "desktop",
+      "route": "/complaints/CT-14",
+      "direction": "en",
+      "ms": 146.8
+    },
+    {
+      "device": "desktop",
+      "route": "/complaints/CT-142",
+      "direction": "hi",
+      "ms": 67.8
+    },
+    {
+      "device": "desktop",
+      "route": "/complaints/CT-142",
+      "direction": "en",
+      "ms": 86
+    },
+    {
+      "device": "tablet",
+      "route": "/",
+      "direction": "hi",
+      "ms": 112.5
+    },
+    {
+      "device": "tablet",
+      "route": "/",
+      "direction": "en",
+      "ms": 140.1
+    },
+    {
+      "device": "tablet",
+      "route": "/complaints",
+      "direction": "hi",
+      "ms": 134.3
+    },
+    {
+      "device": "tablet",
+      "route": "/complaints",
+      "direction": "en",
+      "ms": 167.9
+    },
+    {
+      "device": "tablet",
+      "route": "/departments",
+      "direction": "hi",
+      "ms": 87.7
+    },
+    {
+      "device": "tablet",
+      "route": "/departments",
+      "direction": "en",
+      "ms": 53.7
+    },
+    {
+      "device": "tablet",
+      "route": "/dashboard",
+      "direction": "hi",
+      "ms": 246.4
+    },
+    {
+      "device": "tablet",
+      "route": "/dashboard",
+      "direction": "en",
+      "ms": 202.7
+    },
+    {
+      "device": "tablet",
+      "route": "/polls",
+      "direction": "hi",
+      "ms": 74.5
+    },
+    {
+      "device": "tablet",
+      "route": "/polls",
+      "direction": "en",
+      "ms": 57
+    },
+    {
+      "device": "tablet",
+      "route": "/map",
+      "direction": "hi",
+      "ms": 140.3
+    },
+    {
+      "device": "tablet",
+      "route": "/map",
+      "direction": "en",
+      "ms": 110.7
+    },
+    {
+      "device": "tablet",
+      "route": "/heatmap",
+      "direction": "hi",
+      "ms": 69.3
+    },
+    {
+      "device": "tablet",
+      "route": "/heatmap",
+      "direction": "en",
+      "ms": 55.1
+    },
+    {
+      "device": "tablet",
+      "route": "/leaderboard",
+      "direction": "hi",
+      "ms": 69.3
+    },
+    {
+      "device": "tablet",
+      "route": "/leaderboard",
+      "direction": "en",
+      "ms": 50.9
+    },
+    {
+      "device": "tablet",
+      "route": "/auth",
+      "direction": "hi",
+      "ms": 35.2
+    },
+    {
+      "device": "tablet",
+      "route": "/auth",
+      "direction": "en",
+      "ms": 57.7
+    },
+    {
+      "device": "tablet",
+      "route": "/privacy",
+      "direction": "hi",
+      "ms": 48.1
+    },
+    {
+      "device": "tablet",
+      "route": "/privacy",
+      "direction": "en",
+      "ms": 41.6
+    },
+    {
+      "device": "tablet",
+      "route": "/faq",
+      "direction": "hi",
+      "ms": 57.7
+    },
+    {
+      "device": "tablet",
+      "route": "/faq",
+      "direction": "en",
+      "ms": 55.6
+    },
+    {
+      "device": "tablet",
+      "route": "/contact",
+      "direction": "hi",
+      "ms": 45
+    },
+    {
+      "device": "tablet",
+      "route": "/contact",
+      "direction": "en",
+      "ms": 40.5
+    },
+    {
+      "device": "tablet",
+      "route": "/how-it-works",
+      "direction": "hi",
+      "ms": 94.5
+    },
+    {
+      "device": "tablet",
+      "route": "/how-it-works",
+      "direction": "en",
+      "ms": 82.9
+    },
+    {
+      "device": "tablet",
+      "route": "/install",
+      "direction": "hi",
+      "ms": 61.9
+    },
+    {
+      "device": "tablet",
+      "route": "/install",
+      "direction": "en",
+      "ms": 59.8
+    },
+    {
+      "device": "tablet",
+      "route": "/request-admin",
+      "direction": "hi",
+      "ms": 58.4
+    },
+    {
+      "device": "tablet",
+      "route": "/request-admin",
+      "direction": "en",
+      "ms": 42.4
+    },
+    {
+      "device": "tablet",
+      "route": "/worker",
+      "direction": "hi",
+      "ms": 53
+    },
+    {
+      "device": "tablet",
+      "route": "/worker",
+      "direction": "en",
+      "ms": 58.3
+    },
+    {
+      "device": "tablet",
+      "route": "/admin",
+      "direction": "hi",
+      "ms": 50.1
+    },
+    {
+      "device": "tablet",
+      "route": "/admin",
+      "direction": "en",
+      "ms": 38.6
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/wards",
+      "direction": "hi",
+      "ms": 52.9
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/wards",
+      "direction": "en",
+      "ms": 43.7
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/workers",
+      "direction": "hi",
+      "ms": 44.9
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/workers",
+      "direction": "en",
+      "ms": 47.5
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/polls",
+      "direction": "hi",
+      "ms": 33.3
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/polls",
+      "direction": "en",
+      "ms": 38
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/users",
+      "direction": "hi",
+      "ms": 42.1
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/users",
+      "direction": "en",
+      "ms": 45.8
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/whatsapp",
+      "direction": "hi",
+      "ms": 44.4
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/whatsapp",
+      "direction": "en",
+      "ms": 53
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/sms",
+      "direction": "hi",
+      "ms": 65
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/sms",
+      "direction": "en",
+      "ms": 40.7
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/root",
+      "direction": "hi",
+      "ms": 45.9
+    },
+    {
+      "device": "tablet",
+      "route": "/admin/root",
+      "direction": "en",
+      "ms": 31.7
+    },
+    {
+      "device": "tablet",
+      "route": "/reports",
+      "direction": "hi",
+      "ms": 41.8
+    },
+    {
+      "device": "tablet",
+      "route": "/reports",
+      "direction": "en",
+      "ms": 33.8
+    },
+    {
+      "device": "tablet",
+      "route": "/rewards",
+      "direction": "hi",
+      "ms": 53.3
+    },
+    {
+      "device": "tablet",
+      "route": "/rewards",
+      "direction": "en",
+      "ms": 41.8
+    },
+    {
+      "device": "tablet",
+      "route": "/ai-chat",
+      "direction": "hi",
+      "ms": 55.3
+    },
+    {
+      "device": "tablet",
+      "route": "/ai-chat",
+      "direction": "en",
+      "ms": 44.7
+    },
+    {
+      "device": "tablet",
+      "route": "/ai-chatbot",
+      "direction": "hi",
+      "ms": 64.9
+    },
+    {
+      "device": "tablet",
+      "route": "/ai-chatbot",
+      "direction": "en",
+      "ms": 33.1
+    },
+    {
+      "device": "tablet",
+      "route": "/predictions",
+      "direction": "hi",
+      "ms": 51.8
+    },
+    {
+      "device": "tablet",
+      "route": "/predictions",
+      "direction": "en",
+      "ms": 53.3
+    },
+    {
+      "device": "tablet",
+      "route": "/profile",
+      "direction": "hi",
+      "ms": 54.7
+    },
+    {
+      "device": "tablet",
+      "route": "/profile",
+      "direction": "en",
+      "ms": 46.2
+    },
+    {
+      "device": "tablet",
+      "route": "/reset-password",
+      "direction": "hi",
+      "ms": 42.5
+    },
+    {
+      "device": "tablet",
+      "route": "/reset-password",
+      "direction": "en",
+      "ms": 50.1
+    },
+    {
+      "device": "tablet",
+      "route": "/complaints/CT-14",
+      "direction": "hi",
+      "ms": 57.7
+    },
+    {
+      "device": "tablet",
+      "route": "/complaints/CT-14",
+      "direction": "en",
+      "ms": 115
+    },
+    {
+      "device": "tablet",
+      "route": "/complaints/CT-142",
+      "direction": "hi",
+      "ms": 82.3
+    },
+    {
+      "device": "tablet",
+      "route": "/complaints/CT-142",
+      "direction": "en",
+      "ms": 84.8
+    },
+    {
+      "device": "mobile",
+      "route": "/",
+      "direction": "hi",
+      "ms": 141.2
+    },
+    {
+      "device": "mobile",
+      "route": "/",
+      "direction": "en",
+      "ms": 91
+    },
+    {
+      "device": "mobile",
+      "route": "/complaints",
+      "direction": "hi",
+      "ms": 122.6
+    },
+    {
+      "device": "mobile",
+      "route": "/complaints",
+      "direction": "en",
+      "ms": 36
+    },
+    {
+      "device": "mobile",
+      "route": "/departments",
+      "direction": "hi",
+      "ms": 95.4
+    },
+    {
+      "device": "mobile",
+      "route": "/departments",
+      "direction": "en",
+      "ms": 88.1
+    },
+    {
+      "device": "mobile",
+      "route": "/dashboard",
+      "direction": "hi",
+      "ms": 222
+    },
+    {
+      "device": "mobile",
+      "route": "/dashboard",
+      "direction": "en",
+      "ms": 255.7
+    },
+    {
+      "device": "mobile",
+      "route": "/polls",
+      "direction": "hi",
+      "ms": 61.6
+    },
+    {
+      "device": "mobile",
+      "route": "/polls",
+      "direction": "en",
+      "ms": 49.2
+    },
+    {
+      "device": "mobile",
+      "route": "/map",
+      "direction": "hi",
+      "ms": 87.6
+    },
+    {
+      "device": "mobile",
+      "route": "/map",
+      "direction": "en",
+      "ms": 59.6
+    },
+    {
+      "device": "mobile",
+      "route": "/heatmap",
+      "direction": "hi",
+      "ms": 70.9
+    },
+    {
+      "device": "mobile",
+      "route": "/heatmap",
+      "direction": "en",
+      "ms": 90.9
+    },
+    {
+      "device": "mobile",
+      "route": "/leaderboard",
+      "direction": "hi",
+      "ms": 69.5
+    },
+    {
+      "device": "mobile",
+      "route": "/leaderboard",
+      "direction": "en",
+      "ms": 63.3
+    },
+    {
+      "device": "mobile",
+      "route": "/auth",
+      "direction": "hi",
+      "ms": 51.1
+    },
+    {
+      "device": "mobile",
+      "route": "/auth",
+      "direction": "en",
+      "ms": 47
+    },
+    {
+      "device": "mobile",
+      "route": "/privacy",
+      "direction": "hi",
+      "ms": 60.9
+    },
+    {
+      "device": "mobile",
+      "route": "/privacy",
+      "direction": "en",
+      "ms": 34.4
+    },
+    {
+      "device": "mobile",
+      "route": "/faq",
+      "direction": "hi",
+      "ms": 64
+    },
+    {
+      "device": "mobile",
+      "route": "/faq",
+      "direction": "en",
+      "ms": 62.3
+    },
+    {
+      "device": "mobile",
+      "route": "/contact",
+      "direction": "hi",
+      "ms": 62.8
+    },
+    {
+      "device": "mobile",
+      "route": "/contact",
+      "direction": "en",
+      "ms": 47.9
+    },
+    {
+      "device": "mobile",
+      "route": "/how-it-works",
+      "direction": "hi",
+      "ms": 96.2
+    },
+    {
+      "device": "mobile",
+      "route": "/how-it-works",
+      "direction": "en",
+      "ms": 59.9
+    },
+    {
+      "device": "mobile",
+      "route": "/install",
+      "direction": "hi",
+      "ms": 47.2
+    },
+    {
+      "device": "mobile",
+      "route": "/install",
+      "direction": "en",
+      "ms": 39.6
+    },
+    {
+      "device": "mobile",
+      "route": "/request-admin",
+      "direction": "hi",
+      "ms": 31
+    },
+    {
+      "device": "mobile",
+      "route": "/request-admin",
+      "direction": "en",
+      "ms": 36.6
+    },
+    {
+      "device": "mobile",
+      "route": "/worker",
+      "direction": "hi",
+      "ms": 49.2
+    },
+    {
+      "device": "mobile",
+      "route": "/worker",
+      "direction": "en",
+      "ms": 24.7
+    },
+    {
+      "device": "mobile",
+      "route": "/admin",
+      "direction": "hi",
+      "ms": 38.7
+    },
+    {
+      "device": "mobile",
+      "route": "/admin",
+      "direction": "en",
+      "ms": 32.4
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/wards",
+      "direction": "hi",
+      "ms": 35.9
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/wards",
+      "direction": "en",
+      "ms": 38.5
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/workers",
+      "direction": "hi",
+      "ms": 34.3
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/workers",
+      "direction": "en",
+      "ms": 38.4
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/polls",
+      "direction": "hi",
+      "ms": 43.1
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/polls",
+      "direction": "en",
+      "ms": 21.4
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/users",
+      "direction": "hi",
+      "ms": 43.8
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/users",
+      "direction": "en",
+      "ms": 45.9
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/whatsapp",
+      "direction": "hi",
+      "ms": 47.1
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/whatsapp",
+      "direction": "en",
+      "ms": 41.4
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/sms",
+      "direction": "hi",
+      "ms": 37.4
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/sms",
+      "direction": "en",
+      "ms": 41.2
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/root",
+      "direction": "hi",
+      "ms": 38.3
+    },
+    {
+      "device": "mobile",
+      "route": "/admin/root",
+      "direction": "en",
+      "ms": 47.6
+    },
+    {
+      "device": "mobile",
+      "route": "/reports",
+      "direction": "hi",
+      "ms": 36.9
+    },
+    {
+      "device": "mobile",
+      "route": "/reports",
+      "direction": "en",
+      "ms": 37.9
+    },
+    {
+      "device": "mobile",
+      "route": "/rewards",
+      "direction": "hi",
+      "ms": 36.7
+    },
+    {
+      "device": "mobile",
+      "route": "/rewards",
+      "direction": "en",
+      "ms": 35.2
+    },
+    {
+      "device": "mobile",
+      "route": "/ai-chat",
+      "direction": "hi",
+      "ms": 56.8
+    },
+    {
+      "device": "mobile",
+      "route": "/ai-chat",
+      "direction": "en",
+      "ms": 39.4
+    },
+    {
+      "device": "mobile",
+      "route": "/ai-chatbot",
+      "direction": "hi",
+      "ms": 56.7
+    },
+    {
+      "device": "mobile",
+      "route": "/ai-chatbot",
+      "direction": "en",
+      "ms": 73.2
+    },
+    {
+      "device": "mobile",
+      "route": "/predictions",
+      "direction": "hi",
+      "ms": 61.2
+    },
+    {
+      "device": "mobile",
+      "route": "/predictions",
+      "direction": "en",
+      "ms": 57.6
+    },
+    {
+      "device": "mobile",
+      "route": "/profile",
+      "direction": "hi",
+      "ms": 42.9
+    },
+    {
+      "device": "mobile",
+      "route": "/profile",
+      "direction": "en",
+      "ms": 36.7
+    },
+    {
+      "device": "mobile",
+      "route": "/reset-password",
+      "direction": "hi",
+      "ms": 32.5
+    },
+    {
+      "device": "mobile",
+      "route": "/reset-password",
+      "direction": "en",
+      "ms": 52.6
+    },
+    {
+      "device": "mobile",
+      "route": "/complaints/CT-14",
+      "direction": "hi",
+      "ms": 119.9
+    },
+    {
+      "device": "mobile",
+      "route": "/complaints/CT-14",
+      "direction": "en",
+      "ms": 86.6
+    },
+    {
+      "device": "mobile",
+      "route": "/complaints/CT-142",
+      "direction": "hi",
+      "ms": 102.2
+    },
+    {
+      "device": "mobile",
+      "route": "/complaints/CT-142",
+      "direction": "en",
+      "ms": 74.5
+    }
+  ],
+  "errors": []
+}

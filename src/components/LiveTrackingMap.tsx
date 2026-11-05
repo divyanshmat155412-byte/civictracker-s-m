@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 import L from "leaflet";
@@ -33,6 +34,7 @@ interface Props {
 }
 
 const LiveTrackingMap = ({ complaintId }: Props) => {
+  const tx = useUiText();
   const [workerLocation, setWorkerLocation] = useState<{ lat: number; lng: number } | null>(null);
 
   const { data: assignment } = useQuery({
@@ -80,8 +82,7 @@ const LiveTrackingMap = ({ complaintId }: Props) => {
   if (!target?.latitude || !target?.longitude) {
     return (
       <div className="mt-3 p-3 rounded-lg bg-muted border border-border text-xs text-muted-foreground">
-        Worker assigned but complaint has no GPS coordinates.
-      </div>
+        {tx(" Worker assigned but complaint has no GPS coordinates. ")}</div>
     );
   }
 
@@ -108,12 +109,12 @@ const LiveTrackingMap = ({ complaintId }: Props) => {
       <div className="px-3 py-2 bg-primary/5 border-b border-border flex items-center justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-2 text-sm">
           <Truck className="w-4 h-4 text-primary" />
-          <span className="font-semibold text-foreground">{assignment.workers?.name || "Worker"}</span>
+          <span className="font-semibold text-foreground">{assignment.workers?.name || tx("Worker")}</span>
           <span className="text-xs text-muted-foreground capitalize">{assignment.status.replace("_", " ")}</span>
         </div>
         {workerLocation && (
           <div className="flex items-center gap-3 text-xs">
-            <span className="flex items-center gap-1 text-foreground"><MapPin className="w-3 h-3" />{distanceText} away</span>
+            <span className="flex items-center gap-1 text-foreground"><MapPin className="w-3 h-3" />{distanceText} {tx(" away")}</span>
             <span className="flex items-center gap-1 text-primary font-semibold"><Clock className="w-3 h-3" />{etaText}</span>
           </div>
         )}
@@ -122,12 +123,12 @@ const LiveTrackingMap = ({ complaintId }: Props) => {
         <MapContainer center={center} zoom={14} className="w-full h-full" scrollWheelZoom={false}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="© OSM" />
           <Marker position={[target.latitude, target.longitude]} icon={targetIcon}>
-            <Popup>Complaint location<br/>{target.location}</Popup>
+            <Popup>{tx("Complaint location")}<br/>{target.location}</Popup>
           </Marker>
           {workerLocation && (
             <>
               <Marker position={[workerLocation.lat, workerLocation.lng]} icon={workerIcon}>
-                <Popup>{assignment.workers?.name || "Worker"} en route</Popup>
+                <Popup>{assignment.workers?.name || tx("Worker")} {tx(" en route")}</Popup>
               </Marker>
               <Polyline
                 positions={[[workerLocation.lat, workerLocation.lng], [target.latitude, target.longitude]]}

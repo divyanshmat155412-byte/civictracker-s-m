@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { motion } from "framer-motion";
 import {
   UserPlus,
@@ -88,6 +89,7 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+  const tx = useUiText();
   const { t } = useLanguage();
 
   return (
@@ -163,7 +165,7 @@ const HowItWorks = () => {
                     >
                       {/* Step number badge */}
                       <div className="absolute top-4 right-4 text-[11px] font-black tracking-widest text-muted-foreground/40 uppercase">
-                        Step {String(i + 1).padStart(2, "0")}
+                        {tx(" Step ")}{String(i + 1).padStart(2, "0")}
                       </div>
 
                       {/* Gradient accent top bar */}

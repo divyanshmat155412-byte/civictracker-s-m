@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { COMPLAINT_COLS, PROFILE_COLS, DEPARTMENT_COLS_PUBLIC } from "@/lib/db-columns";
 import { motion } from "framer-motion";
 import { User, Trophy, Medal, Star, Shield, FileText, Clock, TrendingUp, AlertCircle, Award, Lock, MapPin } from "lucide-react";
@@ -41,6 +42,7 @@ const getNextBadge = (current: string) => {
 };
 
 const Profile = () => {
+  const tx = useUiText();
   const { user, loading: authLoading } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
@@ -162,23 +164,23 @@ const Profile = () => {
                 </Avatar>
                 <div className="flex-1 min-w-0">
                   <h1 className="text-xl font-bold text-foreground truncate">
-                    {profile?.full_name || user.email?.split("@")[0] || "Citizen"}
+                    {profile?.full_name || user.email?.split("@")[0] || tx("Citizen")}
                   </h1>
                   {(profile as { home_city?: string | null } | null)?.home_city ? (
                     <p className="text-xs font-medium mt-0.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
                       <MapPin className="w-3 h-3" /> {(profile as { home_city?: string | null }).home_city}
                     </p>
                   ) : (
-                    <p className="text-xs text-muted-foreground mt-0.5 italic">No home city set</p>
+                    <p className="text-xs text-muted-foreground mt-0.5 italic">{tx("No home city set")}</p>
                   )}
                   <p className="text-xs text-muted-foreground mt-1">
-                    Member since {format(new Date(profile?.created_at || user.created_at), "MMM yyyy")}
+                    {tx(" Member since ")}{format(new Date(profile?.created_at || user.created_at), "MMM yyyy")}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card shadow-sm">
                   <BadgeIcon className="w-5 h-5" style={{ color: badgeConfig.color }} />
                   <span className="font-bold text-sm" style={{ color: badgeConfig.color }}>
-                    {badgeConfig.label}
+                    {tx(badgeConfig.label)}
                   </span>
                 </div>
               </div>
@@ -195,10 +197,10 @@ const Profile = () => {
             { label: "Resolved", value: resolvedCount, icon: Star, color: "text-green-500" },
             { label: "Pending", value: pendingCount, icon: Clock, color: "text-yellow-500" },
           ].map((stat) => (
-            <Card key={stat.label} className="text-center p-4">
+            <Card key={tx(stat.label)} className="text-center p-4">
               <stat.icon className={`w-5 h-5 mx-auto mb-1 ${stat.color}`} />
               <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-              <p className="text-xs text-muted-foreground">{stat.label}</p>
+              <p className="text-xs text-muted-foreground">{tx(stat.label)}</p>
             </Card>
           ))}
         </motion.div>
@@ -221,25 +223,24 @@ const Profile = () => {
           <Card className="mb-6">
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-primary" /> Badge Progress
-              </CardTitle>
+                <TrendingUp className="w-4 h-4 text-primary" /> {tx(" Badge Progress ")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-3 mb-2">
                 <BadgeIcon className="w-5 h-5" style={{ color: badgeConfig.color }} />
-                <span className="text-sm font-medium" style={{ color: badgeConfig.color }}>{badgeConfig.label}</span>
+                <span className="text-sm font-medium" style={{ color: badgeConfig.color }}>{tx(badgeConfig.label)}</span>
                 {nextConfig && (
                   <>
                     <span className="text-xs text-muted-foreground">→</span>
-                    <span className="text-sm font-medium" style={{ color: nextConfig.color }}>{nextConfig.label}</span>
+                    <span className="text-sm font-medium" style={{ color: nextConfig.color }}>{tx(nextConfig.label)}</span>
                   </>
                 )}
               </div>
               <Progress value={Math.min(progress, 100)} className="h-2.5 mb-1" />
               <p className="text-xs text-muted-foreground">
                 {nextConfig
-                  ? `${greenPoints} / ${nextConfig.minPoints} points to ${nextConfig.label}`
-                  : "Maximum badge achieved! 🎉"}
+                  ? `${greenPoints} / ${nextConfig.minPoints} ${tx("points")} → ${tx(nextConfig.label)}`
+                  : tx("Maximum badge achieved! 🎉")}
               </p>
             </CardContent>
           </Card>
@@ -250,12 +251,12 @@ const Profile = () => {
           <Card className="mb-6">
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
-                <Award className="w-4 h-4 text-primary" /> Achievements ({userAchievements.length}/{allAchievements.length})
+                <Award className="w-4 h-4 text-primary" /> {tx(" Achievements (")}{userAchievements.length}/{allAchievements.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
               {allAchievements.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-4">Loading achievements...</p>
+                <p className="text-sm text-muted-foreground text-center py-4">{tx("Loading achievements...")}</p>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {allAchievements.map((ach: any) => {
@@ -289,7 +290,7 @@ const Profile = () => {
           <Card className="mb-6">
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
-                <FileText className="w-4 h-4 text-primary" /> My Complaints ({complaints.length})
+                <FileText className="w-4 h-4 text-primary" /> {tx(" My Complaints (")}{complaints.length})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -300,7 +301,7 @@ const Profile = () => {
               ) : complaints.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
                   <AlertCircle className="w-10 h-10 mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">No complaints submitted yet</p>
+                  <p className="text-sm">{tx("No complaints submitted yet")}</p>
                 </div>
               ) : (
                 <div className="space-y-3 max-h-[400px] overflow-y-auto pr-1">
@@ -320,10 +321,10 @@ const Profile = () => {
                           <div className="flex flex-wrap items-center gap-2 mt-1">
                             <Badge variant="outline" className="text-[10px] px-1.5 py-0"
                               style={{ borderColor: statusConf?.color, color: statusConf?.color }}>
-                              {statusConf?.label || c.status}
+                              {tx(statusConf?.label || c.status)}
                             </Badge>
                             {catConf && (
-                              <span className="text-[10px] text-muted-foreground">{catConf.label}</span>
+                              <span className="text-[10px] text-muted-foreground">{tx(catConf.label)}</span>
                             )}
                             <span className="text-[10px] text-muted-foreground">
                               {format(new Date(c.created_at), "dd MMM yyyy")}
@@ -345,12 +346,11 @@ const Profile = () => {
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
-                <Clock className="w-4 h-4 text-primary" /> Activity History
-              </CardTitle>
+                <Clock className="w-4 h-4 text-primary" /> {tx(" Activity History ")}</CardTitle>
             </CardHeader>
             <CardContent>
               {timeline.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-6">No activity yet</p>
+                <p className="text-sm text-muted-foreground text-center py-6">{tx("No activity yet")}</p>
               ) : (
                 <div className="relative space-y-0">
                   <div className="absolute left-[15px] top-2 bottom-2 w-px bg-border" />
@@ -364,9 +364,9 @@ const Profile = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm text-foreground">
-                            Status changed to{" "}
+                            {tx(" Status changed to")}{" "}
                             <span className="font-semibold" style={{ color: statusConf?.color }}>
-                              {statusConf?.label || entry.status}
+                              {tx(statusConf?.label || entry.status)}
                             </span>
                           </p>
                           {entry.note && (

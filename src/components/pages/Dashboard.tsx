@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { BarChart3, Clock, CheckCircle, AlertTriangle, TrendingUp, MapPin, Timer, CalendarDays } from "lucide-react";
@@ -32,7 +33,8 @@ const PRIORITY_COLORS: Record<string, string> = {
 };
 
 const Dashboard = () => {
-  const { t } = useLanguage();
+  const tx = useUiText();
+  const { t, language } = useLanguage();
   
   const isMobile = useIsMobile();
 
@@ -73,7 +75,7 @@ const Dashboard = () => {
 
   const categoryMap: Record<string, number> = {};
   allComplaints.forEach((c: any) => { categoryMap[c.category] = (categoryMap[c.category] || 0) + 1; });
-  const categoryData = Object.entries(categoryMap).map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count);
+  const categoryData = Object.entries(categoryMap).map(([name, count]) => ({ name: tx(name), count })).sort((a, b) => b.count - a.count);
 
   const areaMap: Record<string, number> = {};
   allComplaints.forEach((c: any) => {
@@ -94,7 +96,7 @@ const Dashboard = () => {
     if (!resTimeByCat[r.category]) resTimeByCat[r.category] = { total: 0, count: 0 };
     resTimeByCat[r.category].total += r.days; resTimeByCat[r.category].count += 1;
   });
-  const resolutionData = Object.entries(resTimeByCat).map(([name, v]) => ({ name, avgDays: Math.round(v.total / v.count) })).sort((a, b) => b.avgDays - a.avgDays);
+  const resolutionData = Object.entries(resTimeByCat).map(([name, v]) => ({ name: tx(name), avgDays: Math.round(v.total / v.count) })).sort((a, b) => b.avgDays - a.avgDays);
   const avgResolutionDays = resolutionTimes.length > 0 ? Math.round(resolutionTimes.reduce((s, r) => s + r.days, 0) / resolutionTimes.length) : 0;
 
   const monthlyMap: Record<string, { total: number; resolved: number }> = {};
@@ -105,20 +107,20 @@ const Dashboard = () => {
     if (c.status === "resolved") monthlyMap[month].resolved += 1;
   });
   const trendData = Object.entries(monthlyMap).sort(([a], [b]) => a.localeCompare(b)).map(([month, v]) => ({
-    month: new Date(month + "-01").toLocaleDateString("en-IN", { month: "short", year: "2-digit" }),
+    month: new Date(month + "-01").toLocaleDateString(language === "hi" ? "hi-IN" : "en-IN", { month: "short", year: "2-digit" }),
     filed: v.total, resolved: v.resolved,
   }));
 
   const priorityMap: Record<string, number> = {};
   allComplaints.forEach((c: any) => { priorityMap[c.priority] = (priorityMap[c.priority] || 0) + 1; });
-  const priorityData = Object.entries(priorityMap).map(([name, count]) => ({ name, count }));
+  const priorityData = Object.entries(priorityMap).map(([name, count]) => ({ name: tx(name), count }));
 
   const stats = [
     { label: t("dashboard.totalComplaints"), value: total, icon: BarChart3, color: "text-primary" },
     { label: t("dashboard.resolved"), value: resolved, icon: CheckCircle, color: "text-green-500" },
     { label: t("dashboard.pending"), value: pending, icon: Clock, color: "text-amber-500" },
     { label: t("dashboard.escalated"), value: escalated, icon: AlertTriangle, color: "text-destructive" },
-    { label: t("dashboard.avgResolution"), value: `${avgResolutionDays}d`, icon: Timer, color: "text-blue-500" },
+    { label: t("dashboard.avgResolution"), value: `${avgResolutionDays} ${tx("days")}`, icon: Timer, color: "text-blue-500" },
     { label: t("dashboard.resolutionRate"), value: total > 0 ? `${Math.round((resolved / total) * 100)}%` : "0%", icon: TrendingUp, color: "text-green-600" },
   ];
 
@@ -138,7 +140,7 @@ const Dashboard = () => {
             <motion.div key={st.label} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="bg-card rounded-xl border border-border p-3 sm:p-4 shadow-card">
               <st.icon className={`w-4 h-4 sm:w-5 sm:h-5 mb-1.5 sm:mb-2 ${st.color}`} />
               <div className="font-display font-bold text-lg sm:text-2xl text-foreground">{st.value}</div>
-              <div className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5 sm:mt-1 leading-tight">{st.label}</div>
+              <div className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5 sm:mt-1 leading-tight">{tx(st.label)}</div>
             </motion.div>
           ))}
         </div>
@@ -162,7 +164,7 @@ const Dashboard = () => {
                   {pieData.map((d) => (
                     <div key={d.name} className="flex items-center gap-1 text-[10px] sm:text-xs text-muted-foreground">
                       <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: d.color }} />
-                      <span>{d.name} ({d.value})</span>
+                      <span>{tx(d.name)} ({d.value})</span>
                     </div>
                   ))}
                 </div>
@@ -233,7 +235,7 @@ const Dashboard = () => {
                   <BarChart data={resolutionData} layout="vertical" margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
                     <XAxis type="number" tick={{ fontSize: isMobile ? 9 : 11 }} stroke="hsl(var(--muted-foreground))" />
                     <YAxis dataKey="name" type="category" tick={{ fontSize: isMobile ? 9 : 11 }} stroke="hsl(var(--muted-foreground))" width={isMobile ? 70 : 100} />
-                    <Tooltip formatter={(v: number) => `${v} days`} />
+                    <Tooltip formatter={(v: number) => `${v} ${tx("days")}`} />
                     <Bar dataKey="avgDays" radius={[0, 6, 6, 0]}>
                       {resolutionData.map((_, i) => <Cell key={i} fill={CHART_PALETTE[(i + 2) % CHART_PALETTE.length]} />)}
                     </Bar>
@@ -272,7 +274,7 @@ const Dashboard = () => {
                     {priorityData.map((d) => (
                       <div key={d.name} className="flex items-center gap-1 text-[10px] text-muted-foreground">
                         <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: PRIORITY_COLORS[d.name] || CHART_PALETTE[0] }} />
-                        <span className="capitalize">{d.name} ({d.count})</span>
+                        <span className="capitalize">{tx(d.name)} ({d.count})</span>
                       </div>
                     ))}
                   </div>

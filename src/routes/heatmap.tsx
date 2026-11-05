@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Heatmap from "@/components/pages/Heatmap";
+import { lazy, Suspense } from "react";
+import { ClientOnly } from "@tanstack/react-router";
+const Heatmap = lazy(() => import("@/components/pages/Heatmap"));
 
 export const Route = createFileRoute("/heatmap")({
   ssr: false,
@@ -13,5 +15,5 @@ export const Route = createFileRoute("/heatmap")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Heatmap,
+  component: () => <ClientOnly><Suspense fallback={null}><Heatmap /></Suspense></ClientOnly>,
 });

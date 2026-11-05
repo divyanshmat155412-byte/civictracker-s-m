@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useRef, useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -13,6 +14,7 @@ interface LocationMapPickerProps {
 const INDIA_CENTER: [number, number] = [22.5, 78.9];
 
 const LocationMapPicker = ({ lat, lng, onSelect, onClose }: LocationMapPickerProps) => {
+  const tx = useUiText();
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
@@ -76,9 +78,9 @@ const LocationMapPicker = ({ lat, lng, onSelect, onClose }: LocationMapPickerPro
       <div className="flex items-center justify-between gap-2 px-2.5 sm:px-3 py-2 bg-muted/50 border-b border-border">
         <div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-foreground min-w-0">
           <MapPin className="w-4 h-4 text-primary shrink-0" />
-          <span className="truncate">Tap on the map to select location</span>
+          <span className="truncate">{tx("Tap on the map to select location")}</span>
         </div>
-        <button type="button" onClick={onClose} aria-label="Close map picker" className="p-1 rounded-md hover:bg-muted text-muted-foreground shrink-0">
+        <button type="button" onClick={onClose} aria-label={tx("Close map picker")} className="p-1 rounded-md hover:bg-muted text-muted-foreground shrink-0">
           <X className="w-4 h-4" />
         </button>
       </div>
@@ -93,8 +95,7 @@ const LocationMapPicker = ({ lat, lng, onSelect, onClose }: LocationMapPickerPro
             onClick={handleConfirm}
             className="w-full sm:w-auto px-3 sm:px-4 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition-opacity"
           >
-            Confirm
-          </button>
+            {tx(" Confirm ")}</button>
         </div>
       )}
     </div>

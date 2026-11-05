@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -5,6 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
 const SatisfactionRating = ({ complaintId }: { complaintId: string }) => {
+  const tx = useUiText();
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [avgRating, setAvgRating] = useState(0);
@@ -55,7 +57,7 @@ const SatisfactionRating = ({ complaintId }: { complaintId: string }) => {
       rating,
       feedback: feedback.trim() || null,
     });
-    if (error) { toast.error("Couldn't save your rating. Please try again."); return; }
+    if (error) { toast.error(tx("Couldn't save your rating. Please try again.")); return; }
     setSubmitted(true);
     setShowFeedback(false);
     setTotalRatings((p) => p + 1);
@@ -68,7 +70,7 @@ const SatisfactionRating = ({ complaintId }: { complaintId: string }) => {
   return (
     <div className="mt-2 p-2.5 rounded-lg bg-accent/30 border border-accent/50">
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-xs font-medium text-foreground">Rate resolution:</span>
+        <span className="text-xs font-medium text-foreground">{tx("Rate resolution:")}</span>
         <div className="flex gap-0.5">
           {[1, 2, 3, 4, 5].map((s) => (
             <button
@@ -77,7 +79,7 @@ const SatisfactionRating = ({ complaintId }: { complaintId: string }) => {
               onMouseEnter={() => !submitted && setHover(s)}
               onMouseLeave={() => setHover(0)}
               disabled={submitted || !user}
-              aria-label={`Rate ${s} star${s > 1 ? "s" : ""}`}
+              aria-label={`${tx("Rate resolution:")} ${s} ★`}
               className="disabled:cursor-default"
             >
               <Star
@@ -100,17 +102,16 @@ const SatisfactionRating = ({ complaintId }: { complaintId: string }) => {
           <input
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
-            placeholder="Optional feedback..."
+            placeholder={tx("Optional feedback...")}
             maxLength={200}
             className="flex-1 text-xs px-2 py-1 rounded border border-input bg-card text-foreground placeholder:text-muted-foreground"
           />
           <button onClick={handleSubmit} className="text-xs px-3 py-1 rounded bg-primary text-primary-foreground hover:bg-primary/90">
-            Submit
-          </button>
+            {tx(" Submit ")}</button>
         </div>
       )}
 
-      {submitted && <p className="text-[10px] text-muted-foreground mt-1">✓ Thanks for your rating!</p>}
+      {submitted && <p className="text-[10px] text-muted-foreground mt-1">{tx("✓ Thanks for your rating!")}</p>}
     </div>
   );
 };
