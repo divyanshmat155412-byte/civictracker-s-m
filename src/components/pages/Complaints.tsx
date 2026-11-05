@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { COMPLAINT_COLS, PROFILE_COLS, DEPARTMENT_COLS_PUBLIC } from "@/lib/db-columns";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -28,6 +29,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 };
 
 const Complaints = () => {
+  const tx = useUiText();
   const { cities: CITIES } = useCities();
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<ComplaintCategory | "all">("all");
@@ -113,13 +115,13 @@ const Complaints = () => {
       <div className="container py-8 md:py-12">
         <div className="flex items-center justify-between mb-2">
           <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground">{t("complaints.title")}</h1>
-          <ExportButtons data={exportData} filename="complaints-export" title="Civic Tracker - Complaints Report" />
+          <ExportButtons data={exportData} filename="complaints-export" title={tx("Civic Tracker - Complaints Report")} />
         </div>
         <div className="flex items-center gap-2 flex-wrap mb-6">
           <p className="text-muted-foreground">{t("complaints.subtitle")}</p>
           {user && myProfile?.home_city && (
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-semibold">
-              <MapPin className="w-3 h-3" /> Routed to {myProfile.home_city}
+              <MapPin className="w-3 h-3" /> {tx(" Routed to ")}{myProfile.home_city}
             </span>
           )}
         </div>
@@ -131,20 +133,20 @@ const Complaints = () => {
           </div>
           <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value as any)} className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
             <option value="all">{t("complaints.allCategories")}</option>
-            {Object.entries(CATEGORY_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+            {Object.entries(CATEGORY_CONFIG).map(([k, v]) => <option key={k} value={k}>{tx(v.label)}</option>)}
           </select>
           <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as any)} className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
             <option value="all">{t("complaints.allStatuses")}</option>
-            {Object.entries(STATUS_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+            {Object.entries(STATUS_CONFIG).map(([k, v]) => <option key={k} value={k}>{tx(v.label)}</option>)}
           </select>
           <select value={cityFilter} onChange={(e) => setCityFilter(e.target.value)} className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
-            <option value="all">All cities</option>
+            <option value="all">{tx("All cities")}</option>
             {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
           {cityFilter !== "all" && wardList.length > 0 && (
-            <select value={wardFilter} onChange={(e) => setWardFilter(e.target.value)} aria-label="Ward" className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
-              <option value="all">All wards</option>
-              {wardList.map((w) => <option key={w.id} value={w.id}>Ward {w.ward_number} · {w.name} ({w.zone})</option>)}
+            <select value={wardFilter} onChange={(e) => setWardFilter(e.target.value)} aria-label={tx("Ward")} className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
+              <option value="all">{tx("All wards")}</option>
+              {wardList.map((w) => <option key={w.id} value={w.id}>{tx("Ward ")}{w.ward_number} · {w.name} ({w.zone})</option>)}
             </select>
           )}
         </div>
@@ -166,8 +168,8 @@ const Complaints = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       <span className="text-xs font-mono text-muted-foreground">#{c.complaint_id}</span>
-                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: (statusConfig?.color || "") + "18", color: statusConfig?.color }}>{statusConfig?.label}</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium">{catConfig?.label}</span>
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: (statusConfig?.color || "") + "18", color: statusConfig?.color }}>{tx(statusConfig?.label)}</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium">{tx(catConfig?.label)}</span>
                       {(c.priority === "high" || c.priority === "emergency") && (
                         <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-destructive/10 text-destructive">
                           {c.priority === "emergency" ? `🚨 ${t("common.emergency")}` : `⚠️ ${t("common.high")}`}
@@ -179,7 +181,7 @@ const Complaints = () => {
                         <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">🏢 {deptName}</span>
                       )}
                       {c.source === "whatsapp" && (
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 text-accent font-medium">💬 WhatsApp</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 text-accent font-medium">{tx("💬 WhatsApp")}</span>
                       )}
                     </div>
                     <Link to={`/complaints/${c.complaint_id}`} className="group inline-flex items-center gap-1.5 hover:text-primary transition-colors">
@@ -188,7 +190,7 @@ const Complaints = () => {
                     </Link>
                     {c.ai_summary ? (
                       <p className="text-xs md:text-sm mt-1 px-2.5 py-1.5 rounded-lg bg-primary/5 border border-primary/10 text-foreground/80 italic flex items-start gap-1.5">
-                        <span className="text-primary font-semibold text-[10px] uppercase tracking-wider mt-0.5 shrink-0">AI</span>
+                        <span className="text-primary font-semibold text-[10px] uppercase tracking-wider mt-0.5 shrink-0">{tx("AI")}</span>
                         {c.ai_summary}
                       </p>
                     ) : (
@@ -206,18 +208,17 @@ const Complaints = () => {
                   {c.photo_url && (
                     <div className="relative group shrink-0 hidden sm:block">
                       <div className="w-20 h-20 rounded-xl overflow-hidden ring-2 ring-primary/20 shadow-lg group-hover:ring-primary/40 transition-all duration-300 group-hover:shadow-xl group-hover:scale-105">
-                        <img src={c.photo_url} alt="Complaint photo" className="w-full h-full object-cover" />
+                        <img src={c.photo_url} alt={tx("Complaint photo")} className="w-full h-full object-cover" />
                       </div>
                       <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider shadow-md whitespace-nowrap">
-                        <Camera className="w-2.5 h-2.5" /> Photo
-                      </span>
+                        <Camera className="w-2.5 h-2.5" /> {tx(" Photo ")}</span>
                     </div>
                   )}
                 </div>
                 {c.photo_url && (
                   <div className="sm:hidden mt-3 relative group">
                     <div className="w-full h-40 rounded-xl overflow-hidden ring-2 ring-primary/20 shadow-lg">
-                      <img src={c.photo_url} alt="Complaint photo" className="w-full h-full object-cover" />
+                      <img src={c.photo_url} alt={tx("Complaint photo")} className="w-full h-full object-cover" />
                     </div>
                   </div>
                 )}

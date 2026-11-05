@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { MapPin, Calendar, AlertTriangle } from "lucide-react";
 import { QRCodeCanvas } from "qrcode.react";
 import { CATEGORY_CONFIG, STATUS_CONFIG, ComplaintCategory } from "@/lib/types";
@@ -13,6 +14,7 @@ interface PosterSheetProps {
  * (black/white/gray) are intentional — posters print identically regardless of theme.
  */
 const PosterSheet = ({ complaint, pageBreakAfter = false }: PosterSheetProps) => {
+  const tx = useUiText();
   const catConfig = CATEGORY_CONFIG[complaint.category as ComplaintCategory];
   const statusConfig = STATUS_CONFIG[complaint.status as keyof typeof STATUS_CONFIG];
   const isUrgent = complaint.priority === "high" || complaint.priority === "emergency";
@@ -44,12 +46,11 @@ const PosterSheet = ({ complaint, pageBreakAfter = false }: PosterSheetProps) =>
       >
         <div>
           <div className="text-[11px] uppercase tracking-[0.25em] font-semibold opacity-80">
-            Civic Notice
-          </div>
+            {tx(" Civic Notice ")}</div>
           <div className="font-display text-3xl font-bold mt-1">CivicTrack</div>
         </div>
         <div className="text-right">
-          <div className="text-[10px] uppercase tracking-widest opacity-80">Reference</div>
+          <div className="text-[10px] uppercase tracking-widest opacity-80">{tx("Reference")}</div>
           <div className="font-mono text-xl font-bold">#{complaint.complaint_id}</div>
         </div>
       </div>
@@ -71,7 +72,7 @@ const PosterSheet = ({ complaint, pageBreakAfter = false }: PosterSheetProps) =>
             className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full text-white"
             style={{ backgroundColor: catConfig?.color || "#666" }}
           >
-            {catConfig?.label}
+            {tx(catConfig?.label)}
           </span>
           <span
             className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full"
@@ -81,7 +82,7 @@ const PosterSheet = ({ complaint, pageBreakAfter = false }: PosterSheetProps) =>
               border: `1px solid ${statusConfig?.color}55`,
             }}
           >
-            {statusConfig?.label}
+            {tx(statusConfig?.label)}
           </span>
         </div>
 
@@ -101,8 +102,7 @@ const PosterSheet = ({ complaint, pageBreakAfter = false }: PosterSheetProps) =>
             </div>
           ) : (
             <div className="rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 h-[80mm] flex items-center justify-center text-gray-400 text-sm">
-              No photo provided
-            </div>
+              {tx(" No photo provided ")}</div>
           )}
 
           <div className="flex flex-col gap-3 text-sm text-gray-700">
@@ -116,14 +116,14 @@ const PosterSheet = ({ complaint, pageBreakAfter = false }: PosterSheetProps) =>
           <div className="flex items-start gap-2">
             <MapPin className="w-4 h-4 mt-0.5 text-gray-500 shrink-0" />
             <div>
-              <div className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">Location</div>
+              <div className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">{tx("Location")}</div>
               <div className="text-gray-900 font-medium">{complaint.location}</div>
             </div>
           </div>
           <div className="flex items-start gap-2">
             <Calendar className="w-4 h-4 mt-0.5 text-gray-500 shrink-0" />
             <div>
-              <div className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">Reported on</div>
+              <div className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">{tx("Reported on")}</div>
               <div className="text-gray-900 font-medium">{formattedDate}</div>
             </div>
           </div>
@@ -136,16 +136,14 @@ const PosterSheet = ({ complaint, pageBreakAfter = false }: PosterSheetProps) =>
           <div className="flex flex-col gap-3">
             <div>
               <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">
-                Scan to view live status
-              </div>
+                {tx(" Scan to view live status ")}</div>
               <h3 className="font-display text-xl font-bold text-gray-900 mt-1">
-                Track this issue in real time
-              </h3>
+                {tx(" Track this issue in real time ")}</h3>
             </div>
             <ol className="text-xs text-gray-700 space-y-1.5 list-decimal list-inside">
-              <li>Open the camera app on your phone.</li>
-              <li>Point it at the QR code above.</li>
-              <li>Tap the link that appears to view updates, comments, and verifications.</li>
+              <li>{tx("Open the camera app on your phone.")}</li>
+              <li>{tx("Point it at the QR code above.")}</li>
+              <li>{tx("Tap the link that appears to view updates, comments, and verifications.")}</li>
             </ol>
             <div className="text-[10px] text-gray-500 break-all font-mono">{url}</div>
           </div>
@@ -156,17 +154,15 @@ const PosterSheet = ({ complaint, pageBreakAfter = false }: PosterSheetProps) =>
           style={{ background: "hsl(var(--primary) / 0.08)", border: "1px dashed hsl(var(--primary) / 0.4)" }}
         >
           <div className="text-[10px] uppercase tracking-[0.25em] font-bold" style={{ color: "hsl(var(--primary))" }}>
-            Help your community
-          </div>
+            {tx(" Help your community ")}</div>
           <div className="text-sm text-gray-800 mt-1">
-            Verify, upvote, or comment on this complaint to help authorities prioritise it.
-          </div>
+            {tx(" Verify, upvote, or comment on this complaint to help authorities prioritise it. ")}</div>
         </div>
       </div>
 
       <div className="px-10 py-4 bg-gray-900 text-gray-300 flex items-center justify-between text-[10px]">
         <div className="font-mono">civictrack.app</div>
-        <div className="uppercase tracking-widest">Posted by the community · Please do not remove</div>
+        <div className="uppercase tracking-widest">{tx("Posted by the community · Please do not remove")}</div>
       </div>
     </div>
   );

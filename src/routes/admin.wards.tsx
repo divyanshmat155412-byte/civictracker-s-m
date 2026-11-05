@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/admin/wards")({
 });
 
 function WardsPage() {
+  const tx = useUiText();
   const { cities: CITIES } = useCities();
   const { isModerator } = useUserRole();
   const qc = useQueryClient();
@@ -57,7 +59,7 @@ function WardsPage() {
       center_lat: Number(form.center_lat), center_lng: Number(form.center_lng),
     });
     if (error) return toast.error(error.message);
-    toast.success("Ward added");
+    toast.success(tx("Ward added"));
     setForm({ ward_number: "", name: "", zone: "", center_lat: "", center_lng: "" });
     qc.invalidateQueries({ queryKey: ["wards"] });
   };
@@ -71,26 +73,26 @@ function WardsPage() {
     <Layout>
       <div className="container mx-auto max-w-5xl px-4 py-8 space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-3xl font-bold text-foreground">Wards & Zones</h1>
-          <select value={city} onChange={(e) => setCity(e.target.value)} className="rounded-lg border border-input bg-background px-3 py-2 text-foreground" aria-label="City">
+          <h1 className="text-3xl font-bold text-foreground">{tx("Wards & Zones")}</h1>
+          <select value={city} onChange={(e) => setCity(e.target.value)} className="rounded-lg border border-input bg-background px-3 py-2 text-foreground" aria-label={tx("City")}>
             {CITIES.map((c) => <option key={c}>{c}</option>)}
           </select>
         </div>
-        <p className="text-sm text-muted-foreground">New complaints are placed in a ward automatically from GPS: inside a ward boundary when one is uploaded, otherwise the nearest ward centre within its radius. Anything outside is flagged for checking.</p>
+        <p className="text-sm text-muted-foreground">{tx("New complaints are placed in a ward automatically from GPS: inside a ward boundary when one is uploaded, otherwise the nearest ward centre within its radius. Anything outside is flagged for checking.")}</p>
         <div className="overflow-x-auto rounded-xl border border-border bg-card">
           <table className="w-full text-sm">
             <thead className="bg-muted text-left text-muted-foreground">
-              <tr><th className="p-3">#</th><th className="p-3">Ward</th><th className="p-3">Zone</th><th className="p-3">Complaints</th><th className="p-3">Open</th>{isModerator && <th />}</tr>
+              <tr><th className="p-3">#</th><th className="p-3">{tx("Ward")}</th><th className="p-3">{tx("Zone")}</th><th className="p-3">{tx("Complaints")}</th><th className="p-3">{tx("Open")}</th>{isModerator && <th />}</tr>
             </thead>
             <tbody>
               {wards.map((w) => (
                 <tr key={w.id} className="border-t border-border text-foreground">
-                  <td className="p-3">{w.ward_number}</td><td className="p-3">{w.name}{w.is_demo && <span className="ml-2 rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">demo</span>}{w.boundary ? <span className="ml-1 text-[10px] text-muted-foreground">boundary</span> : null}</td><td className="p-3">{w.zone}</td>
+                  <td className="p-3">{w.ward_number}</td><td className="p-3">{w.name}{w.is_demo && <span className="ml-2 rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">{tx("demo")}</span>}{w.boundary ? <span className="ml-1 text-[10px] text-muted-foreground">{tx("boundary")}</span> : null}</td><td className="p-3">{w.zone}</td>
                   <td className="p-3">{counts[w.id]?.total ?? 0}</td><td className="p-3">{counts[w.id]?.open ?? 0}</td>
-                  {isModerator && <td className="p-3 text-right"><button onClick={() => remove(w.id)} className="text-destructive">Remove</button></td>}
+                  {isModerator && <td className="p-3 text-right"><button onClick={() => remove(w.id)} className="text-destructive">{tx("Remove")}</button></td>}
                 </tr>
               ))}
-              {wards.length === 0 && <tr><td colSpan={6} className="p-4 text-muted-foreground">No wards configured for {city} yet.</td></tr>}
+              {wards.length === 0 && <tr><td colSpan={6} className="p-4 text-muted-foreground">{tx("No wards configured for ")}{city} {tx(" yet.")}</td></tr>}
             </tbody>
           </table>
         </div>
@@ -100,7 +102,7 @@ function WardsPage() {
               <input key={k} placeholder={k.replace("_", " ")} value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })}
                 className="rounded-lg border border-input bg-background px-3 py-2 text-foreground" />
             ))}
-            <button onClick={add} className="rounded-lg bg-primary px-3 py-2 font-medium text-primary-foreground">Add ward</button>
+            <button onClick={add} className="rounded-lg bg-primary px-3 py-2 font-medium text-primary-foreground">{tx("Add ward")}</button>
           </div>
         )}
         {isModerator && <NeedsChecking city={city} />}

@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useRef, useEffect, useMemo } from "react";
 import Layout from "@/components/Layout";
 import { useQuery } from "@tanstack/react-query";
@@ -50,6 +51,7 @@ const INDIA_ZOOM = 5;
 type ViewMode = "markers" | "heatmap" | "clusters";
 
 const MapView = () => {
+  const tx = useUiText();
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [viewMode, setViewMode] = useState<ViewMode>("clusters");
@@ -241,7 +243,7 @@ const MapView = () => {
           {/* Status filter */}
           <div className="flex flex-wrap items-center gap-2">
             <Filter className="w-4 h-4 text-muted-foreground" />
-            <span className="text-xs font-medium text-muted-foreground mr-1">Status:</span>
+            <span className="text-xs font-medium text-muted-foreground mr-1">{tx("Status:")}</span>
             {["all", "pending", "in-progress", "resolved", "escalated"].map((s) => (
               <button
                 key={s}
@@ -263,7 +265,7 @@ const MapView = () => {
           {/* Category filter */}
           <div className="flex flex-wrap items-center gap-2">
             <Filter className="w-4 h-4 text-muted-foreground" />
-            <span className="text-xs font-medium text-muted-foreground mr-1">Category:</span>
+            <span className="text-xs font-medium text-muted-foreground mr-1">{tx("Category:")}</span>
             <button
               onClick={() => setCategoryFilter("all")}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border ${
@@ -272,8 +274,7 @@ const MapView = () => {
                   : "bg-card text-muted-foreground border-border hover:bg-muted"
               }`}
             >
-              All
-            </button>
+              {tx(" All ")}</button>
             {Object.entries(CATEGORY_CONFIG).map(([key, config]) => (
               <button
                 key={key}
@@ -284,7 +285,7 @@ const MapView = () => {
                     : "bg-card text-muted-foreground border-border hover:bg-muted"
                 }`}
               >
-                {config.label}
+                {tx(config.label)}
               </button>
             ))}
           </div>
@@ -292,7 +293,7 @@ const MapView = () => {
           {/* View mode + area stats toggle */}
           <div className="flex flex-wrap items-center gap-2">
             <Layers className="w-4 h-4 text-muted-foreground" />
-            <span className="text-xs font-medium text-muted-foreground mr-1">View:</span>
+            <span className="text-xs font-medium text-muted-foreground mr-1">{tx("View:")}</span>
             {(
               [
                 { key: "clusters", label: "Clusters" },
@@ -309,7 +310,7 @@ const MapView = () => {
                     : "bg-card text-muted-foreground border-border hover:bg-muted"
                 }`}
               >
-                {v.label}
+                {tx(v.label)}
               </button>
             ))}
 
@@ -322,8 +323,7 @@ const MapView = () => {
               }`}
             >
               <BarChart3 className="w-3.5 h-3.5" />
-              Area Stats
-            </button>
+              {tx(" Area Stats ")}</button>
           </div>
         </div>
 
@@ -337,12 +337,11 @@ const MapView = () => {
           >
             <h3 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
               <BarChart3 className="w-4 h-4 text-primary" />
-              Area Statistics ({areaStats.total} complaints)
-            </h3>
+              {tx(" Area Statistics (")}{areaStats.total} {tx(" complaints) ")}</h3>
             <div className="grid grid-cols-2 gap-4">
               {/* By Category */}
               <div>
-                <p className="text-xs font-medium text-muted-foreground mb-2">By Category</p>
+                <p className="text-xs font-medium text-muted-foreground mb-2">{tx("By Category")}</p>
                 <div className="space-y-1.5">
                   {Object.entries(areaStats.catCount)
                     .sort(([, a], [, b]) => b - a)
@@ -364,7 +363,7 @@ const MapView = () => {
               </div>
               {/* By Status */}
               <div>
-                <p className="text-xs font-medium text-muted-foreground mb-2">By Status</p>
+                <p className="text-xs font-medium text-muted-foreground mb-2">{tx("By Status")}</p>
                 <div className="space-y-1.5">
                   {Object.entries(areaStats.statusCount)
                     .sort(([, a], [, b]) => b - a)
@@ -397,8 +396,7 @@ const MapView = () => {
                 onClick={() => { setStatusFilter("all"); setCategoryFilter("all"); }}
                 className="ml-2 text-primary hover:underline"
               >
-                Clear filters
-              </button>
+                {tx(" Clear filters ")}</button>
             )}
           </span>
           {viewMode === "heatmap" && (

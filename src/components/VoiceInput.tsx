@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { invokeFunction } from "@/lib/invoke-function";
 import { useState, useRef, useCallback } from "react";
 import { Mic, MicOff, Loader2, Sparkles } from "lucide-react";
@@ -23,6 +24,7 @@ const LANG_OPTIONS = [
 ];
 
 const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: VoiceInputProps) => {
+  const tx = useUiText();
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedLang, setSelectedLang] = useState(language);
@@ -42,7 +44,7 @@ const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: V
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       onStructured(data);
-      toast.success("Voice processed & translated to English ✨");
+      toast.success(tx("Voice processed & translated to English ✨"));
     } catch (e: any) {
       console.error("Voice AI error:", e);
       toast.error(e.message || "Could not process voice. Using raw text.");
@@ -55,7 +57,7 @@ const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: V
   const startListening = useCallback(() => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      toast.error("Speech recognition not supported in your browser.");
+      toast.error(tx("Speech recognition not supported in your browser."));
       return;
     }
     const langConfig = LANG_OPTIONS.find(l => l.code === selectedLang) || LANG_OPTIONS[0];
@@ -73,7 +75,7 @@ const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: V
     recognition.onerror = (e: any) => {
       console.error("Speech error:", e);
       setIsListening(false);
-      toast.error("Voice recognition failed. Try again.");
+      toast.error(tx("Voice recognition failed. Try again."));
     };
     recognition.onend = () => setIsListening(false);
 
@@ -101,7 +103,7 @@ const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: V
               ? "bg-primary text-primary-foreground"
               : "bg-muted text-muted-foreground hover:bg-muted/80"
         }`}
-        title={isListening ? "Stop recording" : `Voice in ${currentLang.label}`}
+        title={isListening ? tx("Stop recording") : `Voice in ${currentLang.label}`}
       >
         {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> :
           isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
@@ -112,7 +114,7 @@ const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: V
         onClick={() => setShowLangPicker(v => !v)}
         disabled={disabled}
         className="text-[10px] font-bold px-2 py-1 rounded-md bg-muted/50 hover:bg-muted text-muted-foreground border border-border"
-        title="Change language"
+        title={tx("Change language")}
       >
         {currentLang.label}
       </button>
@@ -133,8 +135,7 @@ const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: V
             </button>
           ))}
           <div className="text-[9px] text-muted-foreground px-2 py-1 border-t border-border mt-1">
-            Non-English uses AI translation ✨
-          </div>
+            {tx(" Non-English uses AI translation ✨ ")}</div>
         </div>
       )}
     </div>

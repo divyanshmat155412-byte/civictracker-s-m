@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Lock, Eye, EyeOff, ArrowRight, CheckCircle } from "lucide-react";
@@ -6,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
 
 const ResetPassword = () => {
+  const tx = useUiText();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -44,12 +46,12 @@ const ResetPassword = () => {
     setError("");
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError(tx("Passwords do not match."));
       return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
+      setError(tx("Password must be at least 6 characters."));
       return;
     }
 
@@ -71,7 +73,7 @@ const ResetPassword = () => {
       <Layout>
         <div className="container py-20 flex justify-center">
           <div className="text-center">
-            <p className="text-muted-foreground">Verifying recovery link...</p>
+            <p className="text-muted-foreground">{tx("Verifying recovery link...")}</p>
           </div>
         </div>
       </Layout>
@@ -88,19 +90,17 @@ const ResetPassword = () => {
         >
           <div className="text-center mb-8">
             <h1 className="font-display text-3xl font-bold text-foreground">
-              Set New Password
-            </h1>
+              {tx(" Set New Password ")}</h1>
             <p className="text-muted-foreground mt-2">
-              Enter your new password below
-            </p>
+              {tx(" Enter your new password below ")}</p>
           </div>
 
           <div className="bg-card rounded-xl border border-border p-6 shadow-card">
             {success ? (
               <div className="text-center py-4">
                 <CheckCircle className="w-12 h-12 text-success mx-auto mb-3" />
-                <p className="text-foreground font-semibold">Password updated!</p>
-                <p className="text-muted-foreground text-sm mt-1">Redirecting you to the homepage...</p>
+                <p className="text-foreground font-semibold">{tx("Password updated!")}</p>
+                <p className="text-muted-foreground text-sm mt-1">{tx("Redirecting you to the homepage...")}</p>
               </div>
             ) : (
               <>
@@ -111,7 +111,7 @@ const ResetPassword = () => {
                 )}
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">New Password</label>
+                    <label className="block text-sm font-medium text-foreground mb-1.5">{tx("New Password")}</label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <input
@@ -129,7 +129,7 @@ const ResetPassword = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">Confirm Password</label>
+                    <label className="block text-sm font-medium text-foreground mb-1.5">{tx("Confirm Password")}</label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <input
@@ -148,7 +148,7 @@ const ResetPassword = () => {
                     disabled={loading}
                     className="w-full py-3 rounded-lg gradient-accent text-accent-foreground font-semibold flex items-center justify-center gap-2 shadow-elevated disabled:opacity-50 transition-transform hover:scale-[1.02]"
                   >
-                    {loading ? "Updating..." : "Update Password"}
+                    {loading ? tx("Updating...") : tx("Update Password")}
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </form>

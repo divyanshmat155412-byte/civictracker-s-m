@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { photoUrlFor } from "@/lib/photo-url";
 import { COMPLAINT_COLS, PROFILE_COLS, DEPARTMENT_COLS_PUBLIC } from "@/lib/db-columns";
 import { useState } from "react";
@@ -18,6 +19,7 @@ import { useCities } from "@/hooks/useCities";
 import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
 
 const Admin = () => {
+  const tx = useUiText();
   const { cities: CITIES } = useCities();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -167,7 +169,7 @@ const Admin = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-complaints"] });
       setConfirmDeleteId(null);
-      toast.success("Complaint deleted successfully");
+      toast.success(tx("Complaint deleted successfully"));
     },
     onError: (error: any) => {
       toast.error("Delete failed: " + (error?.message || "Unknown error"));
@@ -226,43 +228,35 @@ const Admin = () => {
           {isMainAdmin && (
             <>
               <button onClick={() => navigate("/admin/root")} className="px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold flex items-center gap-2">
-                👑 Super Admin Dashboard
-              </button>
+                {tx(" 👑 Super Admin Dashboard ")}</button>
               <button onClick={() => navigate("/admin/users")} className="px-3 py-2 rounded-lg bg-card border border-border hover:border-primary text-sm font-medium text-foreground flex items-center gap-2">
-                👥 Users & Roles
-              </button>
+                {tx(" 👥 Users & Roles ")}</button>
             </>
           )}
           <button onClick={() => navigate("/admin/wards")} className="px-3 py-2 rounded-lg bg-card border border-border hover:border-primary text-sm font-medium text-foreground flex items-center gap-2">
-            🗺️ Wards & Zones
-          </button>
+            {tx(" 🗺️ Wards & Zones ")}</button>
           <button onClick={() => navigate("/admin/polls")} className="px-3 py-2 rounded-lg bg-card border border-border hover:border-primary text-sm font-medium text-foreground flex items-center gap-2">
-            🗳️ Manage Polls
-          </button>
+            {tx(" 🗳️ Manage Polls ")}</button>
           <button onClick={() => navigate("/admin/workers")} className="px-3 py-2 rounded-lg bg-card border border-border hover:border-primary text-sm font-medium text-foreground flex items-center gap-2">
-            🚚 Workers & Tracking
-          </button>
+            {tx(" 🚚 Workers & Tracking ")}</button>
           <button onClick={() => navigate("/admin/whatsapp")} className="px-3 py-2 rounded-lg bg-card border border-border hover:border-primary text-sm font-medium text-foreground flex items-center gap-2">
-            💬 WhatsApp Setup
-          </button>
+            {tx(" 💬 WhatsApp Setup ")}</button>
           <button onClick={() => navigate("/admin/sms")} className="px-3 py-2 rounded-lg bg-card border border-border hover:border-primary text-sm font-medium text-foreground flex items-center gap-2">
-            📲 SMS Notifications
-          </button>
+            {tx(" 📲 SMS Notifications ")}</button>
           <button onClick={() => navigate("/heatmap")} className="px-3 py-2 rounded-lg bg-card border border-border hover:border-primary text-sm font-medium text-foreground flex items-center gap-2">
-            🔥 Heatmap
-          </button>
+            {tx(" 🔥 Heatmap ")}</button>
         </div>
 
         {assignedCities && assignedCities.length > 0 && (
           <div className="mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20 text-sm flex items-center gap-2">
-            <span className="text-primary font-semibold">🌆 City scope:</span>
-            <span className="text-foreground">You manage {assignedCities.join(", ")}</span>
+            <span className="text-primary font-semibold">{tx("🌆 City scope:")}</span>
+            <span className="text-foreground">{tx("You manage ")}{assignedCities.join(", ")}</span>
           </div>
         )}
         {!assignedCities && (
           <div className="mb-4 p-3 rounded-lg bg-accent/10 border border-accent/30 text-sm flex items-center gap-2">
-            <span className="text-accent font-semibold">👑 Super-admin:</span>
-            <span className="text-foreground">You can see complaints from all cities</span>
+            <span className="text-accent font-semibold">{tx("👑 Super-admin:")}</span>
+            <span className="text-foreground">{tx("You can see complaints from all cities")}</span>
           </div>
         )}
 
@@ -272,7 +266,7 @@ const Admin = () => {
             onChange={(e) => setCityFilter(e.target.value)}
             className="rounded-lg border border-input bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
           >
-            <option value="all">All cities {assignedCities ? "" : "(you manage)"}</option>
+            <option value="all">{tx("All cities ")}{assignedCities ? "" : "(you manage)"}</option>
             {cityOptions.map(({ city, source }) => (
               <option key={city} value={city}>{city} — {sourceLabel(source)}</option>
             ))}
@@ -300,11 +294,10 @@ const Admin = () => {
               }}
               className="text-xs font-medium text-foreground hover:text-primary"
             >
-              {selectedIds.size === complaints.length && complaints.length > 0 ? "Clear all" : "Select all visible"}
+              {selectedIds.size === complaints.length && complaints.length > 0 ? tx("Clear all") : tx("Select all visible")}
             </button>
             <span className="text-xs text-muted-foreground">
-              {selectedIds.size} selected
-            </span>
+              {selectedIds.size} {tx(" selected ")}</span>
           </div>
           <div className="flex items-center gap-2">
             {selectedIds.size > 0 && (
@@ -313,18 +306,17 @@ const Admin = () => {
                 onClick={clearSelection}
                 className="text-xs px-2 py-1 rounded-md text-muted-foreground hover:text-foreground"
               >
-                Clear
-              </button>
+                {tx(" Clear ")}</button>
             )}
             <button
               type="button"
               onClick={printSelectedPosters}
               disabled={selectedIds.size === 0}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
-              title="Open multi-page printable PDF for selected complaints"
+              title={tx("Open multi-page printable PDF for selected complaints")}
             >
               <Printer className="w-3.5 h-3.5" />
-              Print posters ({selectedIds.size})
+              {tx(" Print posters (")}{selectedIds.size})
             </button>
           </div>
         </div>
@@ -354,15 +346,15 @@ const Admin = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       <span className="text-xs font-mono text-muted-foreground">#{c.complaint_id}</span>
-                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: (sConfig?.color || "") + "18", color: sConfig?.color }}>{sConfig?.label}</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">{catConfig?.label}</span>
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: (sConfig?.color || "") + "18", color: sConfig?.color }}>{tx(sConfig?.label)}</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">{tx(catConfig?.label)}</span>
                       {c.priority === "emergency" && <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-destructive/10 text-destructive">🚨 {t("common.emergency")}</span>}
                     </div>
                     <h3 className="font-semibold text-foreground">{c.title}</h3>
                     <p className="text-muted-foreground text-sm mt-1 line-clamp-1">{c.description}</p>
                     <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
                       <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {c.location}</span>
-                      <span>By: {c.submitted_by}</span>
+                      <span>{tx("By: ")}{c.submitted_by}</span>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-2 shrink-0">
@@ -374,20 +366,19 @@ const Admin = () => {
                           disabled={deleteMutation.isPending}
                           className="px-2 py-1 rounded text-xs font-semibold bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors"
                         >
-                          {deleteMutation.isPending ? "Deleting..." : "Confirm"}
+                          {deleteMutation.isPending ? tx("Deleting...") : tx("Confirm")}
                         </button>
                         <button
                           onClick={() => setConfirmDeleteId(null)}
                           className="px-2 py-1 rounded text-xs font-semibold bg-muted text-muted-foreground hover:bg-muted/80 transition-colors"
                         >
-                          Cancel
-                        </button>
+                          {tx(" Cancel ")}</button>
                       </div>
                     ) : (
                       <button
                         onClick={(e) => { e.stopPropagation(); setConfirmDeleteId(c.id); }}
                         className="p-1.5 rounded-lg bg-destructive/10 text-destructive hover:bg-destructive/20 transition-colors"
-                        title="Delete complaint"
+                        title={tx("Delete complaint")}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -429,7 +420,7 @@ const Admin = () => {
                     return (
                       <button key={s} type="button" onClick={() => setNewStatus(s)}
                         className={`p-3 rounded-lg border text-sm font-medium transition-all ${newStatus === s ? "border-secondary bg-secondary/10 text-foreground shadow-card" : "border-border bg-card text-muted-foreground hover:border-secondary/50"}`}>
-                        {sc.label}
+                        {tx(sc.label)}
                       </button>
                     );
                   })}
@@ -447,7 +438,7 @@ const Admin = () => {
                   <input type="file" accept="image/*" onChange={(e) => { const file = e.target.files?.[0]; if (file) { setAfterPhoto(file); setAfterPhotoPreview(URL.createObjectURL(file)); } }} className="hidden" id="after-photo-input" />
                   {afterPhotoPreview ? (
                     <div className="relative rounded-lg overflow-hidden border border-border">
-                      <img src={afterPhotoPreview} alt="After" className="w-full h-32 object-cover" />
+                      <img src={afterPhotoPreview} alt={tx("After")} className="w-full h-32 object-cover" />
                       <button type="button" onClick={() => { setAfterPhoto(null); setAfterPhotoPreview(null); }} className="absolute top-2 right-2 p-1 rounded-full bg-destructive text-destructive-foreground"><X className="w-3 h-3" /></button>
                     </div>
                   ) : (

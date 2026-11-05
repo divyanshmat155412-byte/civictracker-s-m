@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera, MapPin, ShieldCheck, X, RefreshCw } from "lucide-react";
 
@@ -34,6 +35,7 @@ const CONFIG = {
 };
 
 const PermissionPrompt = ({ type, visible, onAllow, onDismiss }: PermissionPromptProps) => {
+  const tx = useUiText();
   const config = CONFIG[type];
   const Icon = config.icon;
 
@@ -66,8 +68,8 @@ const PermissionPrompt = ({ type, visible, onAllow, onDismiss }: PermissionPromp
               <div className="w-16 h-16 rounded-full bg-secondary/15 flex items-center justify-center mb-4">
                 <Icon className="w-8 h-8 text-secondary" />
               </div>
-              <h3 className="font-display font-bold text-lg text-foreground">{config.title}</h3>
-              <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{config.description}</p>
+              <h3 className="font-display font-bold text-lg text-foreground">{tx(config.title)}</h3>
+              <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{tx(config.description)}</p>
             </div>
 
             <div className="bg-muted/50 rounded-xl p-4 mb-5 space-y-3">
@@ -76,7 +78,7 @@ const PermissionPrompt = ({ type, visible, onAllow, onDismiss }: PermissionPromp
                   <span className="w-5 h-5 rounded-full bg-secondary/20 text-secondary flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                     {i + 1}
                   </span>
-                  <p className="text-sm text-foreground leading-snug">{step}</p>
+                  <p className="text-sm text-foreground leading-snug">{tx(step)}</p>
                 </div>
               ))}
             </div>
@@ -87,20 +89,18 @@ const PermissionPrompt = ({ type, visible, onAllow, onDismiss }: PermissionPromp
                 className="w-full py-3 rounded-xl gradient-accent text-accent-foreground font-semibold text-sm flex items-center justify-center gap-2 shadow-elevated transition-transform hover:scale-[1.02] active:scale-[0.98]"
               >
                 <ShieldCheck className="w-4 h-4" />
-                {config.allowLabel}
+                {tx(config.allowLabel)}
               </button>
               <button
                 onClick={onDismiss}
                 className="w-full py-2.5 rounded-xl bg-muted text-muted-foreground font-medium text-sm hover:bg-muted/80 transition-colors"
               >
-                Not now
-              </button>
+                {tx(" Not now ")}</button>
             </div>
 
             <p className="text-[11px] text-muted-foreground text-center mt-3 flex items-center justify-center gap-1">
               <ShieldCheck className="w-3 h-3" />
-              Your privacy is protected. Data is only used for your complaint.
-            </p>
+              {tx(" Your privacy is protected. Data is only used for your complaint. ")}</p>
           </motion.div>
         </motion.div>
       )}

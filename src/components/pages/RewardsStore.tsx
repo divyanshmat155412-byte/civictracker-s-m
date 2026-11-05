@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { PROFILE_COLS } from "@/lib/db-columns";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,6 +22,7 @@ import { matchesAnyField } from "@/lib/search";
 import { cappedStagger } from "@/lib/perf";
 
 const RewardsStore = () => {
+  const tx = useUiText();
   const { t } = useLanguage();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -162,7 +164,7 @@ const RewardsStore = () => {
                 </div>
                 <div className="flex items-center gap-1.5 mt-2 text-xs opacity-90">
                   <Trophy className="w-3.5 h-3.5" />
-                  <span>{t("rewards.badge")}: <strong className="capitalize">{profile?.badge_level ?? "bronze"}</strong></span>
+                  <span>{t("rewards.badge")}: <strong className="capitalize">{profile?.badge_level ?? tx("bronze")}</strong></span>
                 </div>
               </div>
             </div>
@@ -289,7 +291,7 @@ const RewardsStore = () => {
                         <p className="text-sm font-medium truncate">{r.rewards?.title}</p>
                         <p className="text-[10px] text-muted-foreground">{new Date(r.created_at).toLocaleDateString()}</p>
                       </div>
-                      <span className="text-xs font-medium text-muted-foreground shrink-0">-{r.points_spent} pts</span>
+                      <span className="text-xs font-medium text-muted-foreground shrink-0">-{r.points_spent} {tx(" pts")}</span>
                       <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium shrink-0 ${r.status === "pending" ? "bg-yellow-500/10 text-yellow-600" : "bg-green-500/10 text-green-600"}`}>
                         {r.status}
                       </span>
@@ -313,10 +315,10 @@ const RewardsStore = () => {
               <div className="space-y-3 pt-1">
                 <p>{confirmReward?.description}</p>
                 <div className="rounded-lg border border-border bg-muted/40 p-3 text-sm">
-                  <div className="flex items-center justify-between"><span className="text-muted-foreground">{t("rewards.currentBalance")}</span><strong>{points} pts</strong></div>
-                  <div className="flex items-center justify-between"><span className="text-muted-foreground">{t("rewards.cost")}</span><strong className="text-destructive">-{confirmReward?.points_cost ?? 0} pts</strong></div>
+                  <div className="flex items-center justify-between"><span className="text-muted-foreground">{t("rewards.currentBalance")}</span><strong>{points} {tx(" pts")}</strong></div>
+                  <div className="flex items-center justify-between"><span className="text-muted-foreground">{t("rewards.cost")}</span><strong className="text-destructive">-{confirmReward?.points_cost ?? 0} {tx(" pts")}</strong></div>
                   <div className="border-t border-border my-2" />
-                  <div className="flex items-center justify-between"><span className="text-muted-foreground">{t("rewards.afterRedeem")}</span><strong>{Math.max(0, points - (confirmReward?.points_cost ?? 0))} pts</strong></div>
+                  <div className="flex items-center justify-between"><span className="text-muted-foreground">{t("rewards.afterRedeem")}</span><strong>{Math.max(0, points - (confirmReward?.points_cost ?? 0))} {tx(" pts")}</strong></div>
                 </div>
                 <p className="text-xs text-muted-foreground">{t("rewards.deductNote")}</p>
               </div>

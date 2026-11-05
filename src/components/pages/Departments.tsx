@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
 import { useAdminCities } from "@/hooks/useAdminCities";
 import { useCities } from "@/hooks/useCities";
@@ -55,6 +56,7 @@ const deptSchema = z.object({
 });
 
 const Departments = () => {
+  const tx = useUiText();
   const queryClient = useQueryClient();
   const { isAdmin } = useUserRole();
   const { t } = useLanguage();
@@ -388,11 +390,11 @@ const Departments = () => {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-foreground mb-1">City</label>
+                <label className="block text-xs font-medium text-foreground mb-1">{tx("City")}</label>
                 <select value={deptCity} onChange={(e) => setDeptCity(e.target.value)}
                   className="w-full rounded-lg border border-input bg-card px-3 py-2 text-sm">
-                  {isMainAdmin && <option value="">All cities (shared)</option>}
-                  {!isMainAdmin && <option value="">Choose city…</option>}
+                  {isMainAdmin && <option value="">{tx("All cities (shared)")}</option>}
+                  {!isMainAdmin && <option value="">{tx("Choose city…")}</option>}
                   {cityChoices.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
@@ -415,7 +417,7 @@ const Departments = () => {
                     maxLength={255}
                     value={form.contact_email}
                     onChange={(e) => setForm({ ...form, contact_email: e.target.value })}
-                    placeholder="Enter contact email"
+                    placeholder={tx("Enter contact email")}
                     className="w-full rounded-lg border border-input bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                   />
                 </div>

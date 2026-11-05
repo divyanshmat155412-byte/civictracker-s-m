@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import WardPreview from "@/components/WardPreview";
 import { photoUrlFor } from "@/lib/photo-url";
 import { invokeFunction } from "@/lib/invoke-function";
@@ -38,6 +39,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 };
 
 const Index = () => {
+  const tx = useUiText();
   const { user } = useAuth();
   const { t, language } = useLanguage();
   const navigate = useNavigate();
@@ -93,7 +95,7 @@ const Index = () => {
       setIsOnline(true);
       if (pendingSubmitRef.current) {
         pendingSubmitRef.current = false;
-        toast.info("Back online — sending your saved complaint…");
+        toast.info(tx("Back online — sending your saved complaint…"));
         formRef.current?.requestSubmit();
       }
     };
@@ -378,10 +380,10 @@ const Index = () => {
       if (networkish) {
         pendingSubmitRef.current = true;
         setSyncState("queued");
-        toast.warning("You're offline. Your complaint is saved on this phone and will be sent automatically when you're back online.");
+        toast.warning(tx("You're offline. Your complaint is saved on this phone and will be sent automatically when you're back online."));
       } else {
         setSyncState("failed");
-        toast.error("Could not submit complaint. Your draft is saved — please try again.");
+        toast.error(tx("Could not submit complaint. Your draft is saved — please try again."));
       }
     } finally {
       setSubmitting(false);
@@ -395,10 +397,10 @@ const Index = () => {
     try {
       await navigator.clipboard.writeText(`${parseFloat(lat).toFixed(6)}, ${parseFloat(lng).toFixed(6)}`);
       setCoordsCopied(true);
-      toast.success("Coordinates copied");
+      toast.success(tx("Coordinates copied"));
       setTimeout(() => setCoordsCopied(false), 2000);
     } catch {
-      toast.error("Could not copy coordinates");
+      toast.error(tx("Could not copy coordinates"));
     }
   };
 
@@ -408,7 +410,7 @@ const Index = () => {
     setManualLng(r.lng.toFixed(6));
     setDetectedLat(r.lat);
     setDetectedLng(r.lng);
-    toast.success("Recent location applied");
+    toast.success(tx("Recent location applied"));
   };
 
   const discardDraft = () => {
@@ -416,7 +418,7 @@ const Index = () => {
     setTitle(""); setDescription(""); setLocation(""); setSelectedCategory("");
     setManualLat(""); setManualLng(""); setPriority("medium"); setAnonymous(false);
     setDraftRestored(false);
-    toast.success("Draft discarded");
+    toast.success(tx("Draft discarded"));
   };
 
 
@@ -443,7 +445,7 @@ const Index = () => {
 
   const checkAndRequestLocation = async () => {
     if (gettingLocation) return;
-    if (!navigator.geolocation) { toast.error("Geolocation is not supported by your browser"); return; }
+    if (!navigator.geolocation) { toast.error(tx("Geolocation is not supported by your browser")); return; }
     try {
       if (navigator.permissions) {
         const status = await navigator.permissions.query({ name: "geolocation" });
@@ -468,7 +470,7 @@ const Index = () => {
         setManualLat(lat.toFixed(6));
         setManualLng(lng.toFixed(6));
         setGettingLocation(false);
-        toast.success("📍 Location detected!");
+        toast.success(tx("📍 Location detected!"));
       },
       () => { setGettingLocation(false); setShowLocationPrompt(true); },
       { timeout: 15000, maximumAge: 300000, enableHighAccuracy: true }
@@ -523,7 +525,7 @@ const Index = () => {
           setPhotoPreview(URL.createObjectURL(file));
         }
         handleCloseCamera();
-        toast.success("📸 Photo captured!");
+        toast.success(tx("📸 Photo captured!"));
       }
     }, "image/jpeg", 0.9);
   };
@@ -595,23 +597,21 @@ const Index = () => {
 
           {(!isOnline || syncState === "queued" || syncState === "failed") && !submitted && (
             <div role="status" className="mb-4 rounded-lg border border-warning/40 bg-warning/10 px-4 py-3 text-sm text-foreground">
-              {!isOnline ? "Offline — your draft is saved on this device. " : ""}
-              {syncState === "queued" ? "Waiting to send: your complaint will upload automatically when the connection returns." : syncState === "failed" ? "Last attempt failed. Your draft is safe — tap Submit to retry." : "You can keep filling the form."}
+              {!isOnline ? tx("Offline — your draft is saved on this device. ") : ""}
+              {syncState === "queued" ? tx("Waiting to send: your complaint will upload automatically when the connection returns.") : syncState === "failed" ? tx("Last attempt failed. Your draft is safe — tap Submit to retry.") : tx("You can keep filling the form.")}
             </div>
           )}
           {draftRestored && !submitted && (
             <div className="mb-4 p-3 rounded-lg bg-info/10 border border-info/30 text-foreground text-sm flex items-center justify-between gap-3">
               <span className="flex items-center gap-2">
                 <History className="w-4 h-4 text-info" />
-                Draft restored from your last session
-              </span>
+                {tx(" Draft restored from your last session ")}</span>
               <button
                 type="button"
                 onClick={discardDraft}
                 className="text-xs text-muted-foreground hover:text-destructive underline-offset-2 hover:underline"
               >
-                Discard
-              </button>
+                {tx(" Discard ")}</button>
             </div>
           )}
 
@@ -665,17 +665,16 @@ const Index = () => {
                 </div>
                 <div className="flex items-center justify-between text-xs gap-2">
                   <p className="text-muted-foreground">
-                    <span className="font-semibold text-foreground">{completed}</span> of {steps.length} completed
-                  </p>
+                    <span className="font-semibold text-foreground">{completed}</span> {tx(" of ")}{steps.length} {tx(" completed ")}</p>
                   {completed === steps.length ? (
-                    <span className="text-success font-medium">✓ Ready to submit</span>
+                    <span className="text-success font-medium">{tx("✓ Ready to submit")}</span>
                   ) : (
                     <button
                       type="button"
                       onClick={() => jumpTo(steps[currentIdx].targetId)}
                       className="text-primary hover:underline font-medium"
                     >
-                      Next: {steps[currentIdx]?.label} →
+                      {tx(" Next: ")}{steps[currentIdx]?.label} →
                     </button>
                   )}
                 </div>
@@ -714,7 +713,7 @@ const Index = () => {
                 />
               </div>
               <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder={t("form.descPlaceholder")} className="w-full rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none" required />
-              <p className="text-xs text-muted-foreground mt-1">Tap the mic to dictate your complaint.</p>
+              <p className="text-xs text-muted-foreground mt-1">{tx("Tap the mic to dictate your complaint.")}</p>
             </div>
 
             <div>
@@ -730,7 +729,7 @@ const Index = () => {
             </div>
 
             {cityAutoDetecting && (
-              <p className="text-xs text-muted-foreground">Detecting city from coordinates…</p>
+              <p className="text-xs text-muted-foreground">{tx("Detecting city from coordinates…")}</p>
             )}
 
             <div id="step-photo" className="scroll-mt-44">
@@ -753,15 +752,14 @@ const Index = () => {
 
               {photoPreview ? (
                 <div className="relative rounded-lg overflow-hidden border border-border">
-                  <img src={photoPreview} alt="Preview" className="w-full h-48 object-cover" />
+                  <img src={photoPreview} alt={tx("Preview")} className="w-full h-48 object-cover" />
                   <button type="button" onClick={() => { setPhoto(null); setPhotoPreview(null); setPhotoDataUrl(null); setPhotoName(null); setPhotoType(null); }} className="absolute top-2 right-2 p-1.5 rounded-full bg-destructive text-destructive-foreground">
                     <Trash2 className="w-4 h-4" />
                   </button>
                   {classifyingPhoto && (
                     <div className="absolute top-2 left-2 px-2.5 py-1 rounded-full bg-primary/90 text-primary-foreground text-xs font-semibold shadow-md flex items-center gap-1.5 backdrop-blur-sm">
                       <Sparkles className="w-3.5 h-3.5 animate-pulse" />
-                      AI suggesting category…
-                    </div>
+                      {tx(" AI suggesting category… ")}</div>
                   )}
                 </div>
               ) : !showCamera && (
@@ -784,18 +782,17 @@ const Index = () => {
                     <>
                       <p className="text-foreground">
                         <Sparkles className="inline w-3.5 h-3.5 text-primary mr-1" />
-                        AI suggests <b>{CATEGORY_CONFIG[aiSuggestion.category].label}</b> ({Math.round(aiSuggestion.confidence * 100)}% sure)
-                        {aiSuggestion.department && <> → {aiSuggestion.department}</>}
+                        {tx(" AI suggests ")}<b>{CATEGORY_CONFIG[aiSuggestion.category].label}</b> ({Math.round(aiSuggestion.confidence * 100)}{tx("% sure) ")}{aiSuggestion.department && <> → {aiSuggestion.department}</>}
                       </p>
                       <div className="flex gap-2 mt-2">
                         <button type="button" onClick={() => { setSelectedCategory(aiSuggestion.category!); setAiSuggestion(null); }}
-                          className="px-3 py-1.5 rounded-lg text-xs bg-primary text-primary-foreground">Accept</button>
+                          className="px-3 py-1.5 rounded-lg text-xs bg-primary text-primary-foreground">{tx("Accept")}</button>
                         <button type="button" onClick={() => setAiSuggestion(null)}
-                          className="px-3 py-1.5 rounded-lg text-xs bg-muted text-muted-foreground">I'll choose myself</button>
+                          className="px-3 py-1.5 rounded-lg text-xs bg-muted text-muted-foreground">{tx("I'll choose myself")}</button>
                       </div>
                     </>
                   ) : (
-                    <p className="text-muted-foreground">Couldn't identify the issue from the photo — please choose a category below.</p>
+                    <p className="text-muted-foreground">{tx("Couldn't identify the issue from the photo — please choose a category below.")}</p>
                   )}
                 </div>
               )}
@@ -819,7 +816,7 @@ const Index = () => {
                     setManualLng(s.lng.toFixed(6));
                     setDetectedLat(s.lat);
                     setDetectedLng(s.lng);
-                    toast.success("Address picked");
+                    toast.success(tx("Address picked"));
                   }}
                   required
                 />
@@ -832,33 +829,31 @@ const Index = () => {
                   onClick={checkAndRequestLocation}
                   disabled={gettingLocation}
                   className="h-10 px-3 rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity disabled:opacity-50 text-sm font-medium flex items-center gap-1.5"
-                  title="Use my current location"
+                  title={tx("Use my current location")}
                 >
                   {gettingLocation ? (
                     <span className="w-4 h-4 block border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                   ) : (
                     <Locate className="w-4 h-4" />
                   )}
-                  Use my location
-                </button>
+                  {tx(" Use my location ")}</button>
                 <button
                   type="button"
                   onClick={() => setShowMapPicker(!showMapPicker)}
                   className={`h-10 px-3 rounded-lg border text-sm font-medium transition-colors flex items-center gap-1.5 ${showMapPicker ? "border-primary bg-primary/10 text-primary" : "border-input bg-card text-muted-foreground hover:border-primary/50"}`}
-                  title="Pick on map"
+                  title={tx("Pick on map")}
                 >
                   <MapPin className="w-4 h-4" />
-                  Pick on map
-                </button>
+                  {tx(" Pick on map ")}</button>
                 {(manualLat || detectedLat !== null) && (
                   <button
                     type="button"
                     onClick={copyCoords}
                     className="h-10 px-3 rounded-lg border border-input bg-card text-muted-foreground hover:border-primary/50 hover:text-primary text-sm font-medium transition-colors flex items-center gap-1.5"
-                    title="Copy coordinates"
+                    title={tx("Copy coordinates")}
                   >
                     {coordsCopied ? <Check className="w-4 h-4 text-success" /> : <Copy className="w-4 h-4" />}
-                    {coordsCopied ? "Copied" : "Copy coords"}
+                    {coordsCopied ? tx("Copied") : tx("Copy coords")}
                   </button>
                 )}
               </div>
@@ -867,8 +862,7 @@ const Index = () => {
               {recentLocs.length > 0 && (
                 <div className="mt-3">
                   <p className="text-xs text-muted-foreground mb-1.5 flex items-center gap-1">
-                    <Clock className="w-3 h-3" /> Recent locations
-                  </p>
+                    <Clock className="w-3 h-3" /> {tx(" Recent locations ")}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {recentLocs.map((r, i) => (
                       <button
@@ -886,10 +880,10 @@ const Index = () => {
               )}
 
               {detectedLat !== null && detectedLng !== null && !showMapPicker && (
-                <p className="text-xs text-success mt-2">📍 Auto-detected: {detectedLat.toFixed(4)}, {detectedLng.toFixed(4)}</p>
+                <p className="text-xs text-success mt-2">{tx("📍 Auto-detected: ")}{detectedLat.toFixed(4)}, {detectedLng.toFixed(4)}</p>
               )}
               {manualLat && manualLng && !showMapPicker && detectedLat === null && (
-                <p className="text-xs text-muted-foreground mt-2">📍 Coordinates: {parseFloat(manualLat).toFixed(4)}, {parseFloat(manualLng).toFixed(4)}</p>
+                <p className="text-xs text-muted-foreground mt-2">{tx("📍 Coordinates: ")}{parseFloat(manualLat).toFixed(4)}, {parseFloat(manualLng).toFixed(4)}</p>
               )}
               <WardPreview
                 lat={manualLat ? parseFloat(manualLat) : detectedLat}
@@ -901,8 +895,7 @@ const Index = () => {
                   onClick={() => setLocation(detectedAddress)}
                   className="text-xs text-primary hover:underline mt-2 inline-flex items-center gap-1"
                 >
-                  ↩ Reset to detected address
-                </button>
+                  {tx(" ↩ Reset to detected address ")}</button>
               )}
 
               {/* Map thumbnail preview */}
@@ -927,12 +920,9 @@ const Index = () => {
               <div className="p-3 rounded-lg bg-warning/10 border border-warning/30 text-foreground text-sm flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 text-warning shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-medium text-warning">Possible duplicate</p>
+                  <p className="font-medium text-warning">{tx("Possible duplicate")}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    {duplicateWarning.count} similar {selectedCategory && CATEGORY_CONFIG[selectedCategory as ComplaintCategory]?.label.toLowerCase()} complaint{duplicateWarning.count > 1 ? "s" : ""} reported nearby in the last 7 days
-                    {duplicateWarning.ids.length > 0 && <> ({duplicateWarning.ids.slice(0, 2).map((id) => `#${id}`).join(", ")})</>}.
-                    Please check before submitting.
-                  </p>
+                    {duplicateWarning.count} {tx(" similar ")}{selectedCategory && CATEGORY_CONFIG[selectedCategory as ComplaintCategory]?.label.toLowerCase()} {tx(" complaint")}{duplicateWarning.count > 1 ? "s" : ""} {tx(" reported nearby in the last 7 days ")}{duplicateWarning.ids.length > 0 && <> ({duplicateWarning.ids.slice(0, 2).map((id) => `#${id}`).join(", ")})</>}{tx(". Please check before submitting. ")}</p>
                 </div>
               </div>
             )}
@@ -954,12 +944,12 @@ const Index = () => {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Coordinates <span className="text-muted-foreground font-normal">(optional)</span></label>
+              <label className="block text-sm font-medium text-foreground mb-2">{tx("Coordinates ")}<span className="text-muted-foreground font-normal">{tx("(optional)")}</span></label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <input value={manualLat} onChange={(e) => setManualLat(e.target.value)} placeholder="Latitude (e.g. 24.6018)" type="number" step="any" className="rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
-                <input value={manualLng} onChange={(e) => setManualLng(e.target.value)} placeholder="Longitude (e.g. 77.2931)" type="number" step="any" className="rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+                <input value={manualLat} onChange={(e) => setManualLat(e.target.value)} placeholder={tx("Latitude (e.g. 24.6018)")} type="number" step="any" className="rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
+                <input value={manualLng} onChange={(e) => setManualLng(e.target.value)} placeholder={tx("Longitude (e.g. 77.2931)")} type="number" step="any" className="rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
               </div>
-              <p className="text-xs text-muted-foreground mt-1">Enter manually (city updates automatically).</p>
+              <p className="text-xs text-muted-foreground mt-1">{tx("Enter manually (city updates automatically).")}</p>
             </div>
 
             <label className="flex items-center gap-2 cursor-pointer">
@@ -1020,13 +1010,13 @@ const Index = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <span className="text-xs font-mono text-muted-foreground">#{c.complaint_id}</span>
-                          <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: (statusConfig?.color || "") + "18", color: statusConfig?.color }}>{statusConfig?.label}</span>
+                          <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: (statusConfig?.color || "") + "18", color: statusConfig?.color }}>{tx(statusConfig?.label)}</span>
                           {c.priority === "emergency" && <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-destructive/10 text-destructive">🚨 {t("common.emergency")}</span>}
                         </div>
                         <h3 className="font-semibold text-foreground text-sm md:text-base">{c.title}</h3>
                         {c.ai_summary ? (
                           <p className="text-xs md:text-sm mt-1 px-2.5 py-1.5 rounded-lg bg-primary/5 border border-primary/10 text-foreground/80 italic flex items-start gap-1.5">
-                            <span className="text-primary font-semibold text-[10px] uppercase tracking-wider mt-0.5 shrink-0">AI</span>
+                            <span className="text-primary font-semibold text-[10px] uppercase tracking-wider mt-0.5 shrink-0">{tx("AI")}</span>
                             {c.ai_summary}
                           </p>
                         ) : (
@@ -1043,22 +1033,20 @@ const Index = () => {
                       {c.photo_url && (
                         <div className="relative group shrink-0 hidden sm:block">
                           <div className="w-20 h-20 rounded-xl overflow-hidden ring-2 ring-primary/20 shadow-lg group-hover:ring-primary/40 transition-all duration-300 group-hover:shadow-xl group-hover:scale-105">
-                            <img src={c.photo_url} alt="Complaint photo" className="w-full h-full object-cover" />
+                            <img src={c.photo_url} alt={tx("Complaint photo")} className="w-full h-full object-cover" />
                           </div>
                           <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider shadow-md whitespace-nowrap">
-                            <Camera className="w-2.5 h-2.5" /> Photo
-                          </span>
+                            <Camera className="w-2.5 h-2.5" /> {tx(" Photo ")}</span>
                         </div>
                       )}
                     </div>
                     {c.photo_url && (
                       <div className="sm:hidden mt-3 relative group">
                         <div className="w-full h-40 rounded-xl overflow-hidden ring-2 ring-primary/20 shadow-lg">
-                          <img src={c.photo_url} alt="Complaint photo" className="w-full h-full object-cover" />
+                          <img src={c.photo_url} alt={tx("Complaint photo")} className="w-full h-full object-cover" />
                         </div>
                         <span className="absolute top-2 left-2 flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/90 text-primary-foreground text-[10px] font-bold uppercase tracking-wider shadow-md backdrop-blur-sm">
-                          <Camera className="w-3 h-3" /> Photo
-                        </span>
+                          <Camera className="w-3 h-3" /> {tx(" Photo ")}</span>
                       </div>
                     )}
                   </motion.div>

@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 interface Props {
   lat: number;
   lng: number;
@@ -11,6 +12,7 @@ interface Props {
  * No API key needed. Falls back to a simple coordinate display if image fails.
  */
 const MapThumbnail = ({ lat, lng, zoom = 15, height = 140, onClick }: Props) => {
+  const tx = useUiText();
   // staticmap.openstreetmap.de provides free static map images
   const width = 600;
   const url = `https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lng}&zoom=${zoom}&size=${width}x${height}&maptype=mapnik&markers=${lat},${lng},red-pushpin`;
@@ -21,7 +23,7 @@ const MapThumbnail = ({ lat, lng, zoom = 15, height = 140, onClick }: Props) => 
       onClick={onClick}
       className="block w-full overflow-hidden rounded-lg border border-border hover:border-primary/50 transition-colors group"
       style={{ height }}
-      title="Click to open full map picker"
+      title={tx("Click to open full map picker")}
     >
       <img
         src={url}

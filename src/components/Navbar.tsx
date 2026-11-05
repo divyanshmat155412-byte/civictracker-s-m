@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState } from "react";
 import { Link, useLocation } from "@/lib/router-compat";
 import { Menu, X, MapPin, LogIn, LogOut, User, Shield, Globe, Bot } from "lucide-react";
@@ -28,6 +29,7 @@ const NAV_LINKS: { to: string; labelKey: TranslationKey }[] = [
 ];
 
 const Navbar = () => {
+  const tx = useUiText();
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
@@ -45,7 +47,7 @@ const Navbar = () => {
           </div>
           <div className="flex flex-col leading-tight whitespace-nowrap">
             <span className="font-display font-bold text-foreground text-base tracking-tight">
-              CT — <span className="text-secondary">City</span>
+              CT — <span className="text-secondary">{tx("City")}</span>
             </span>
             <span className="text-[10px] text-muted-foreground font-medium tracking-wide uppercase">
               {t("nav.civicTracker")}
@@ -99,8 +101,7 @@ const Navbar = () => {
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
-                📊 Reports
-              </Link>
+                {tx(" 📊 Reports ")}</Link>
             </>
           )}
 
@@ -111,7 +112,7 @@ const Navbar = () => {
           <button
             onClick={toggleLanguage}
             className="group relative shrink-0 ml-1 px-3 py-1.5 rounded-full text-xs font-bold border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 hover:border-primary/60 transition-all duration-300 flex items-center gap-1.5 shadow-sm hover:shadow-md overflow-hidden"
-            title="Switch language" aria-label="Switch language"
+            title={tx("Switch language")} aria-label={tx("Switch language")}
           >
             <Globe className="w-3.5 h-3.5 text-primary group-hover:rotate-180 transition-transform duration-500" />
             <span className="relative z-10 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-extrabold tracking-wide">
@@ -130,7 +131,7 @@ const Navbar = () => {
           </button>
           {user ? (
             <div className="flex shrink-0 items-center gap-2 ml-1">
-              <Link to="/profile" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted" title="My Profile" aria-label="My Profile">
+              <Link to="/profile" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted" title={tx("My Profile")} aria-label={tx("My Profile")}>
                 <User className="w-4 h-4" />
               </Link>
               <button onClick={signOut} className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted" title={t("nav.signOut")} aria-label={t("nav.signOut")}>
@@ -163,7 +164,7 @@ const Navbar = () => {
           <button
             className="min-h-11 min-w-11 grid place-items-center rounded-md text-foreground hover:bg-muted"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
+            aria-label={tx("Toggle menu")}
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -229,8 +230,7 @@ const Navbar = () => {
                         : "text-muted-foreground hover:text-foreground hover:bg-muted"
                     }`}
                   >
-                    📊 Reports
-                  </Link>
+                    {tx(" 📊 Reports ")}</Link>
                 </>
               )}
               {user ? (
@@ -244,8 +244,7 @@ const Navbar = () => {
                         : "text-muted-foreground hover:text-foreground hover:bg-muted"
                     }`}
                   >
-                    <User className="w-4 h-4" /> My Profile
-                  </Link>
+                    <User className="w-4 h-4" /> {tx(" My Profile ")}</Link>
                   <button
                     onClick={() => { signOut(); setMobileOpen(false); }}
                     className="px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted text-left flex items-center gap-2"

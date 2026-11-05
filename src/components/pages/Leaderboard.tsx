@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { COMPLAINT_COLS, PROFILE_COLS, DEPARTMENT_COLS_PUBLIC } from "@/lib/db-columns";
 import { motion } from "framer-motion";
 import { Trophy, Medal, Star, Shield, TrendingUp, Users } from "lucide-react";
@@ -29,6 +30,7 @@ const getNextBadge = (current: string) => {
 };
 
 const Leaderboard = () => {
+  const tx = useUiText();
   const { t } = useLanguage();
 
   const { data: profiles = [], isLoading } = useQuery({
@@ -72,8 +74,8 @@ const Leaderboard = () => {
               return (
                 <div key={key} className="flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Icon className="w-4 h-4" style={{ color: config.color }} />
-                  <span className="font-medium" style={{ color: config.color }}>{config.label}</span>
-                  <span>({config.minPoints}+ pts)</span>
+                  <span className="font-medium" style={{ color: config.color }}>{tx(config.label)}</span>
+                  <span>({config.minPoints}{tx("+ pts)")}</span>
                 </div>
               );
             })}
@@ -123,14 +125,14 @@ const Leaderboard = () => {
                           </span>
                         )}
                       </div>
-                      <p className="font-semibold text-foreground text-sm truncate">{profile.full_name || "Citizen"}</p>
+                      <p className="font-semibold text-foreground text-sm truncate">{profile.full_name || tx("Citizen")}</p>
                       <div className="flex items-center justify-center gap-1 mt-1">
                         <Icon className="w-3.5 h-3.5" style={{ color: badgeConfig.color }} />
-                        <span className="text-xs font-medium" style={{ color: badgeConfig.color }}>{badgeConfig.label}</span>
+                        <span className="text-xs font-medium" style={{ color: badgeConfig.color }}>{tx(badgeConfig.label)}</span>
                       </div>
                       <p className="text-lg font-bold text-primary mt-1">{profile.green_points}</p>
-                      <p className="text-[10px] text-muted-foreground">Green Points</p>
-                      <p className="text-xs text-muted-foreground mt-1">{profile.complaints_count} complaints</p>
+                      <p className="text-[10px] text-muted-foreground">{tx("Green Points")}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{profile.complaints_count} {tx(" complaints")}</p>
                     </motion.div>
                   );
                 })}
@@ -166,10 +168,10 @@ const Leaderboard = () => {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-foreground text-sm truncate">{profile.full_name || "Citizen"}</p>
+                      <p className="font-medium text-foreground text-sm truncate">{profile.full_name || tx("Citizen")}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <Icon className="w-3 h-3" style={{ color: badgeConfig.color }} />
-                        <span className="text-[10px] font-medium" style={{ color: badgeConfig.color }}>{badgeConfig.label}</span>
+                        <span className="text-[10px] font-medium" style={{ color: badgeConfig.color }}>{tx(badgeConfig.label)}</span>
                         {nextConfig && (
                           <div className="flex-1 max-w-[80px] h-1.5 bg-muted rounded-full overflow-hidden">
                             <div className="h-full rounded-full transition-all" style={{ width: `${Math.min(progress, 100)}%`, backgroundColor: nextConfig.color }} />
@@ -179,7 +181,7 @@ const Leaderboard = () => {
                     </div>
                     <div className="text-right shrink-0">
                       <p className="font-bold text-primary text-sm">{profile.green_points}</p>
-                      <p className="text-[10px] text-muted-foreground">{profile.complaints_count} complaints</p>
+                      <p className="text-[10px] text-muted-foreground">{profile.complaints_count} {tx(" complaints")}</p>
                     </div>
                   </motion.div>
                 );

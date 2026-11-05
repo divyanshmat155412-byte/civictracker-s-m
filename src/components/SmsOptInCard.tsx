@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MessageSquare, Save } from "lucide-react";
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const SmsOptInCard = ({ profile, userId }: Props) => {
+  const tx = useUiText();
   const [phone, setPhone] = useState("");
   const [optIn, setOptIn] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -39,7 +41,7 @@ const SmsOptInCard = ({ profile, userId }: Props) => {
         _opt_in: optIn,
       });
       if (error) throw error;
-      toast.success("SMS preferences saved");
+      toast.success(tx("SMS preferences saved"));
       queryClient.invalidateQueries({ queryKey: ["my-profile", userId] });
     } catch (e: any) {
       toast.error(e?.message || "Failed to save");
@@ -53,30 +55,28 @@ const SmsOptInCard = ({ profile, userId }: Props) => {
       <Card className="mb-6">
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
-            <MessageSquare className="w-4 h-4 text-accent" /> SMS notifications
-          </CardTitle>
+            <MessageSquare className="w-4 h-4 text-accent" /> {tx(" SMS notifications ")}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <p className="text-xs text-muted-foreground">Get complaint updates via SMS — useful when you have low or no internet.</p>
+          <p className="text-xs text-muted-foreground">{tx("Get complaint updates via SMS — useful when you have low or no internet.")}</p>
           <div>
-            <label className="block text-xs font-medium text-muted-foreground mb-1">Phone (E.164)</label>
+            <label className="block text-xs font-medium text-muted-foreground mb-1">{tx("Phone (E.164)")}</label>
             <input
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="Enter your phone"
+              placeholder={tx("Enter your phone")}
               className="w-full rounded-lg border border-input bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
           <label className="flex items-center gap-2 text-sm text-foreground cursor-pointer">
             <input type="checkbox" checked={optIn} onChange={(e) => setOptIn(e.target.checked)} className="rounded border-input" />
-            Send me SMS updates about my complaints
-          </label>
+            {tx(" Send me SMS updates about my complaints ")}</label>
           <button
             onClick={save}
             disabled={saving}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 disabled:opacity-50"
           >
-            <Save className="w-4 h-4" /> {saving ? "Saving..." : "Save"}
+            <Save className="w-4 h-4" /> {saving ? tx("Saving...") : tx("Save")}
           </button>
         </CardContent>
       </Card>

@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Crown, Shield } from "lucide-react";
@@ -20,6 +21,7 @@ const Stat = ({ label, value }: { label: string; value: any }) => (
 );
 
 const SuperAdminDashboard = () => {
+  const tx = useUiText();
   const { user } = useAuth();
   const { isMainAdmin, isLoading } = useIsRootAdmin();
   const [actionFilter, setActionFilter] = useState("");
@@ -46,13 +48,13 @@ const SuperAdminDashboard = () => {
     },
   });
 
-  if (!user || isLoading) return <Layout><div className="container mx-auto p-12 text-center text-muted-foreground">Loading…</div></Layout>;
+  if (!user || isLoading) return <Layout><div className="container mx-auto p-12 text-center text-muted-foreground">{tx("Loading…")}</div></Layout>;
   if (!isMainAdmin) {
     return (
       <Layout><div className="container mx-auto px-4 py-12 text-center">
         <Shield className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-        <h1 className="mb-2 text-2xl font-bold">Restricted</h1>
-        <p className="text-muted-foreground">Only the {SUPER_ADMIN_LABEL} can open this page.</p>
+        <h1 className="mb-2 text-2xl font-bold">{tx("Restricted")}</h1>
+        <p className="text-muted-foreground">{tx("Only the ")}{SUPER_ADMIN_LABEL} {tx(" can open this page.")}</p>
       </div></Layout>
     );
   }
@@ -66,12 +68,12 @@ const SuperAdminDashboard = () => {
           <Crown className="h-7 w-7 text-primary" />
           <div>
             <h1 className="text-2xl font-bold sm:text-3xl">{SUPER_ADMIN_LABEL}</h1>
-            <p className="text-sm text-muted-foreground">Platform-wide overview, applications and activity across every city.</p>
+            <p className="text-sm text-muted-foreground">{tx("Platform-wide overview, applications and activity across every city.")}</p>
           </div>
         </div>
 
         <section>
-          <h2 className="font-semibold mb-3">Platform overview</h2>
+          <h2 className="font-semibold mb-3">{tx("Platform overview")}</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <Stat label="Cities" value={ov?.cities} />
             <Stat label="Wards" value={ov?.wards} />
@@ -89,34 +91,34 @@ const SuperAdminDashboard = () => {
         </section>
 
         <section className="grid md:grid-cols-2 gap-4">
-          <Card><CardHeader><CardTitle className="text-base">City-wise performance</CardTitle></CardHeader>
+          <Card><CardHeader><CardTitle className="text-base">{tx("City-wise performance")}</CardTitle></CardHeader>
             <CardContent className="text-sm space-y-1">
               {(ov?.by_city ?? []).map((c: any) => (
                 <div key={c.city} className="flex justify-between border-b border-border py-1">
                   <span className="font-medium">{c.city}</span>
-                  <span className="text-muted-foreground">{c.resolved}/{c.total} resolved · {c.overdue} overdue · {c.avg_hours ?? "—"}h avg</span>
+                  <span className="text-muted-foreground">{c.resolved}/{c.total} {tx(" resolved · ")}{c.overdue} {tx(" overdue · ")}{c.avg_hours ?? "—"}{tx("h avg")}</span>
                 </div>
               ))}
-              {(ov?.by_city ?? []).length === 0 && <p className="text-muted-foreground">No complaints yet.</p>}
+              {(ov?.by_city ?? []).length === 0 && <p className="text-muted-foreground">{tx("No complaints yet.")}</p>}
             </CardContent></Card>
-          <Card><CardHeader><CardTitle className="text-base">Department performance</CardTitle></CardHeader>
+          <Card><CardHeader><CardTitle className="text-base">{tx("Department performance")}</CardTitle></CardHeader>
             <CardContent className="text-sm space-y-1">
               {(ov?.by_department ?? []).map((d: any) => (
                 <div key={d.department} className="flex justify-between border-b border-border py-1">
                   <span className="font-medium">{d.department}</span>
-                  <span className="text-muted-foreground">{d.resolved}/{d.total} resolved · {d.overdue} overdue</span>
+                  <span className="text-muted-foreground">{d.resolved}/{d.total} {tx(" resolved · ")}{d.overdue} {tx(" overdue")}</span>
                 </div>
               ))}
             </CardContent></Card>
-          <Card className="md:col-span-2"><CardHeader><CardTitle className="text-base">Admin activity (actions recorded)</CardTitle></CardHeader>
+          <Card className="md:col-span-2"><CardHeader><CardTitle className="text-base">{tx("Admin activity (actions recorded)")}</CardTitle></CardHeader>
             <CardContent className="text-sm space-y-1">
               {(ov?.by_admin ?? []).map((a: any) => (
                 <div key={a.user_id} className="flex justify-between border-b border-border py-1">
                   <span>{short(a.user_id)}</span>
-                  <span className="text-muted-foreground">{a.actions} actions · last {new Date(a.last_action).toLocaleString()}</span>
+                  <span className="text-muted-foreground">{a.actions} {tx(" actions · last ")}{new Date(a.last_action).toLocaleString()}</span>
                 </div>
               ))}
-              {(ov?.by_admin ?? []).length === 0 && <p className="text-muted-foreground">No City Admin activity yet.</p>}
+              {(ov?.by_admin ?? []).length === 0 && <p className="text-muted-foreground">{tx("No City Admin activity yet.")}</p>}
             </CardContent></Card>
         </section>
 
@@ -126,14 +128,14 @@ const SuperAdminDashboard = () => {
 
         <section>
           <div className="flex items-center justify-between mb-3 gap-2">
-            <h2 className="font-semibold">Audit log (protected, read-only)</h2>
-            <input value={actionFilter} onChange={(e) => setActionFilter(e.target.value)} placeholder="Filter action…"
+            <h2 className="font-semibold">{tx("Audit log (protected, read-only)")}</h2>
+            <input value={actionFilter} onChange={(e) => setActionFilter(e.target.value)} placeholder={tx("Filter action…")}
               className="rounded-lg border border-input bg-card px-3 py-2 text-sm" />
           </div>
           <div className="overflow-x-auto rounded-xl border border-border">
             <table className="w-full text-sm">
               <thead className="bg-muted/50 text-left"><tr>
-                <th className="p-2">When</th><th className="p-2">Actor</th><th className="p-2">Action</th><th className="p-2">Target</th><th className="p-2">City</th><th className="p-2">Details</th>
+                <th className="p-2">{tx("When")}</th><th className="p-2">{tx("Actor")}</th><th className="p-2">{tx("Action")}</th><th className="p-2">{tx("Target")}</th><th className="p-2">{tx("City")}</th><th className="p-2">{tx("Details")}</th>
               </tr></thead>
               <tbody>
                 {logs.map((l: any) => (
@@ -146,7 +148,7 @@ const SuperAdminDashboard = () => {
                     <td className="p-2 text-xs text-muted-foreground max-w-xs break-all">{l.details ? JSON.stringify(l.details) : ""}</td>
                   </tr>
                 ))}
-                {logs.length === 0 && <tr><td className="p-4 text-center text-muted-foreground" colSpan={6}>No activity yet.</td></tr>}
+                {logs.length === 0 && <tr><td className="p-4 text-center text-muted-foreground" colSpan={6}>{tx("No activity yet.")}</td></tr>}
               </tbody>
             </table>
           </div>

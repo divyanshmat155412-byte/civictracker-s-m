@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/privacy")({
 });
 
 function PrivacyPage() {
+  const tx = useUiText();
   const { user } = useAuth();
   const { language } = useLanguage();
   const hi = language === "hi";
@@ -64,7 +66,7 @@ function PrivacyPage() {
           <h2 className="text-xl font-semibold text-foreground">{hi ? "खाता हटाएं" : "Delete my account"}</h2>
           {!user ? (
             <p className="text-muted-foreground">
-              <Link to="/auth" className="text-primary underline">{hi ? "साइन इन करें" : "Sign in"}</Link>{" "}
+              <Link to="/auth" className="text-primary underline">{hi ? "साइन इन करें" : tx("Sign in")}</Link>{" "}
               {hi ? "खाता हटाने के लिए।" : "to delete your account."}
             </p>
           ) : (
@@ -77,7 +79,7 @@ function PrivacyPage() {
                 onChange={(e) => setConfirm(e.target.value)}
                 className="w-full rounded-lg border border-input bg-background px-3 py-2 text-foreground"
                 placeholder="DELETE"
-                aria-label="Type DELETE to confirm"
+                aria-label={tx("Type DELETE to confirm")}
               />
               <button
                 onClick={onDelete}

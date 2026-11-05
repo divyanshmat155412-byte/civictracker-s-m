@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Send, Bot, User, Sparkles, Loader2, Trash2 } from "lucide-react";
@@ -25,6 +26,7 @@ const QUICK_PROMPTS_HI = [
 ];
 
 const AIChatbot = () => {
+  const tx = useUiText();
   const { t, language } = useLanguage();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -159,7 +161,7 @@ const AIChatbot = () => {
             </div>
             <div className="min-w-0">
               <h1 className="font-display text-lg md:text-2xl font-bold text-foreground flex items-center gap-2 truncate">
-                Civic AI <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-secondary shrink-0" />
+                {tx(" Civic AI ")}<Sparkles className="w-4 h-4 md:w-5 md:h-5 text-secondary shrink-0" />
               </h1>
               <p className="text-[11px] md:text-xs text-muted-foreground truncate">
                 {language === "hi" ? "शिकायतों के बारे में पूछें • 🎤 वॉयस सपोर्ट" : "Ask about complaints • 🎤 Voice supported"}
@@ -243,7 +245,7 @@ const AIChatbot = () => {
               type="submit"
               disabled={isLoading || !input.trim()}
               className="shrink-0 rounded-xl bg-primary px-3 sm:px-4 py-2.5 sm:py-3 text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              aria-label="Send"
+              aria-label={tx("Send")}
             >
               <Send className="w-4 h-4" />
             </button>

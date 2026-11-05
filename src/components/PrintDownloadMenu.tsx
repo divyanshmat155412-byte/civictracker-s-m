@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useRef } from "react";
 import { Printer, Download, FileText, X, Check, Loader2, ChevronRight } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -12,6 +13,7 @@ interface PrintDownloadMenuProps {
 }
 
 const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
+  const tx = useUiText();
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<"menu" | "print" | "download">("menu");
@@ -44,10 +46,10 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
       const imgHeight = (canvas.height * pageWidth) / canvas.width;
       pdf.addImage(imgData, "JPEG", 0, 0, pageWidth, Math.min(imgHeight, pageHeight));
       pdf.save(`complaint-${complaint.complaint_id}.pdf`);
-      toast.success("PDF downloaded");
+      toast.success(tx("PDF downloaded"));
     } catch (err) {
       console.error(err);
-      toast.error("Could not generate PDF");
+      toast.error(tx("Could not generate PDF"));
     } finally {
       setDownloading(false);
     }
@@ -57,10 +59,10 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
     <button
       type="button"
       className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
-      title="Print or download"
+      title={tx("Print or download")}
     >
       <Printer className="w-3.5 h-3.5" />
-      <span>Print / PDF</span>
+      <span>{tx("Print / PDF")}</span>
     </button>
   );
 
@@ -74,8 +76,8 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
           <Printer className="w-5 h-5" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-sm font-semibold text-foreground">Print poster</div>
-          <div className="text-[11px] text-muted-foreground">Show steps to print</div>
+          <div className="text-sm font-semibold text-foreground">{tx("Print poster")}</div>
+          <div className="text-[11px] text-muted-foreground">{tx("Show steps to print")}</div>
         </div>
         <ChevronRight className="w-4 h-4 text-muted-foreground group-hover/row:translate-x-0.5 transition-transform" />
       </button>
@@ -87,8 +89,8 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
           <Download className="w-5 h-5" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-sm font-semibold text-foreground">Download as PDF</div>
-          <div className="text-[11px] text-muted-foreground">Show steps to download</div>
+          <div className="text-sm font-semibold text-foreground">{tx("Download as PDF")}</div>
+          <div className="text-[11px] text-muted-foreground">{tx("Show steps to download")}</div>
         </div>
         <ChevronRight className="w-4 h-4 text-muted-foreground group-hover/row:translate-x-0.5 transition-transform" />
       </button>
@@ -101,11 +103,10 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
         onClick={reset}
         className="text-[11px] text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
       >
-        ← Back
-      </button>
+        {tx(" ← Back ")}</button>
       <div className="flex items-center gap-2">
         <Printer className="w-4 h-4 text-primary" />
-        <h4 className="text-sm font-semibold text-foreground">How to print this poster</h4>
+        <h4 className="text-sm font-semibold text-foreground">{tx("How to print this poster")}</h4>
       </div>
       <ol className="space-y-2.5">
         {[
@@ -119,7 +120,7 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
             <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary/15 text-primary text-[10px] font-bold shrink-0 mt-0.5">
               {i + 1}
             </span>
-            <span className="text-xs text-foreground/80 leading-relaxed">{step}</span>
+            <span className="text-xs text-foreground/80 leading-relaxed">{tx(step)}</span>
           </li>
         ))}
       </ol>
@@ -128,12 +129,10 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
         onClick={() => setOpen(false)}
         className="mt-2 w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-primary to-primary/80 text-primary-foreground text-sm font-semibold shadow-md hover:opacity-90 transition-opacity"
       >
-        <Printer className="w-4 h-4" /> Open print view
-      </Link>
+        <Printer className="w-4 h-4" /> {tx(" Open print view ")}</Link>
       <p className="text-[10px] text-muted-foreground flex items-start gap-1.5">
         <Check className="w-3 h-3 text-success mt-0.5 shrink-0" />
-        Tip: You can also press Ctrl/Cmd + P from the print view.
-      </p>
+        {tx(" Tip: You can also press Ctrl/Cmd + P from the print view. ")}</p>
     </div>
   );
 
@@ -143,11 +142,10 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
         onClick={reset}
         className="text-[11px] text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
       >
-        ← Back
-      </button>
+        {tx(" ← Back ")}</button>
       <div className="flex items-center gap-2">
         <FileText className="w-4 h-4 text-success" />
-        <h4 className="text-sm font-semibold text-foreground">How to download as PDF</h4>
+        <h4 className="text-sm font-semibold text-foreground">{tx("How to download as PDF")}</h4>
       </div>
       <ol className="space-y-2.5">
         {[
@@ -160,7 +158,7 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
             <span className="flex items-center justify-center w-5 h-5 rounded-full bg-success/15 text-success text-[10px] font-bold shrink-0 mt-0.5">
               {i + 1}
             </span>
-            <span className="text-xs text-foreground/80 leading-relaxed">{step}</span>
+            <span className="text-xs text-foreground/80 leading-relaxed">{tx(step)}</span>
           </li>
         ))}
       </ol>
@@ -171,18 +169,15 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
       >
         {downloading ? (
           <>
-            <Loader2 className="w-4 h-4 animate-spin" /> Generating PDF…
-          </>
+            <Loader2 className="w-4 h-4 animate-spin" /> {tx(" Generating PDF… ")}</>
         ) : (
           <>
-            <Download className="w-4 h-4" /> Download PDF now
-          </>
+            <Download className="w-4 h-4" /> {tx(" Download PDF now ")}</>
         )}
       </button>
       <p className="text-[10px] text-muted-foreground flex items-start gap-1.5">
         <Check className="w-3 h-3 text-success mt-0.5 shrink-0" />
-        On mobile, the PDF will open or download depending on your browser.
-      </p>
+        {tx(" On mobile, the PDF will open or download depending on your browser. ")}</p>
     </div>
   );
 
@@ -221,7 +216,7 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
           >
             <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-muted-foreground/30" />
             <SheetHeader className="text-left mb-4">
-              <SheetTitle className="text-base">Print or download</SheetTitle>
+              <SheetTitle className="text-base">{tx("Print or download")}</SheetTitle>
             </SheetHeader>
             {Body}
           </SheetContent>
@@ -247,11 +242,11 @@ const PrintDownloadMenu = ({ complaint }: PrintDownloadMenuProps) => {
           className="w-80 p-4 rounded-2xl border border-border/50 bg-popover/95 backdrop-blur-xl shadow-2xl"
         >
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-foreground">Print or download</h3>
+            <h3 className="text-sm font-semibold text-foreground">{tx("Print or download")}</h3>
             <button
               onClick={() => setOpen(false)}
               className="p-1 rounded-md text-muted-foreground hover:bg-muted"
-              aria-label="Close"
+              aria-label={tx("Close")}
             >
               <X className="w-3.5 h-3.5" />
             </button>

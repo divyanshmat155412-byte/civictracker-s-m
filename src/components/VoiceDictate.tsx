@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { invokeFunction } from "@/lib/invoke-function";
 import { useRef, useState } from "react";
 import { Mic, Loader2, Square } from "lucide-react";
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const VoiceDictate = ({ onTranscribed }: Props) => {
+  const tx = useUiText();
   const [recording, setRecording] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [pending, setPending] = useState<string | null>(null);
@@ -53,7 +55,7 @@ const VoiceDictate = ({ onTranscribed }: Props) => {
           if (text) {
             setPending(text.trim()); // citizen must confirm before it enters the form
           } else {
-            toast.error("Could not transcribe audio");
+            toast.error(tx("Could not transcribe audio"));
           }
         } catch (err: unknown) {
           const msg = err instanceof Error ? err.message : "Transcription failed";
@@ -65,7 +67,7 @@ const VoiceDictate = ({ onTranscribed }: Props) => {
       mr.start();
       setRecording(true);
     } catch {
-      toast.error("Microphone access denied");
+      toast.error(tx("Microphone access denied"));
     }
   };
 
@@ -79,14 +81,14 @@ const VoiceDictate = ({ onTranscribed }: Props) => {
   return (
     <div className="relative">
     {pending !== null && (
-      <div role="dialog" aria-label="Confirm what we heard" className="absolute right-0 top-12 z-50 w-72 max-w-[85vw] rounded-xl border border-border bg-popover p-3 shadow-lg">
-        <p className="text-xs font-semibold text-foreground mb-1">Did we hear you correctly? / क्या हमने सही सुना?</p>
+      <div role="dialog" aria-label={tx("Confirm what we heard")} className="absolute right-0 top-12 z-50 w-72 max-w-[85vw] rounded-xl border border-border bg-popover p-3 shadow-lg">
+        <p className="text-xs font-semibold text-foreground mb-1">{tx("Did we hear you correctly? / क्या हमने सही सुना?")}</p>
         <textarea value={pending} onChange={(e) => setPending(e.target.value)} rows={4}
           className="w-full rounded-lg border border-input bg-background px-2 py-1.5 text-sm text-foreground" />
         <div className="flex justify-end gap-2 mt-2">
-          <button type="button" onClick={() => setPending(null)} className="px-3 py-1.5 rounded-lg text-xs bg-muted text-muted-foreground">Discard / हटाएँ</button>
-          <button type="button" disabled={!pending.trim()} onClick={() => { onTranscribed(pending.trim()); setPending(null); toast.success("Added to description"); }}
-            className="px-3 py-1.5 rounded-lg text-xs bg-primary text-primary-foreground disabled:opacity-50">Use text / उपयोग करें</button>
+          <button type="button" onClick={() => setPending(null)} className="px-3 py-1.5 rounded-lg text-xs bg-muted text-muted-foreground">{tx("Discard / हटाएँ")}</button>
+          <button type="button" disabled={!pending.trim()} onClick={() => { onTranscribed(pending.trim()); setPending(null); toast.success(tx("Added to description")); }}
+            className="px-3 py-1.5 rounded-lg text-xs bg-primary text-primary-foreground disabled:opacity-50">{tx("Use text / उपयोग करें")}</button>
         </div>
       </div>
     )}
@@ -94,7 +96,7 @@ const VoiceDictate = ({ onTranscribed }: Props) => {
       type="button"
       onClick={recording ? stop : start}
       disabled={processing}
-      title={recording ? "Stop recording" : "Dictate description"}
+      title={recording ? tx("Stop recording") : tx("Dictate description")}
       className={`shrink-0 h-10 w-10 rounded-lg flex items-center justify-center border transition-all ${
         recording
           ? "border-destructive bg-destructive text-destructive-foreground animate-pulse"

@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight, MapPin } from "lucide-react";
@@ -9,6 +10,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Auth = () => {
+  const tx = useUiText();
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
@@ -85,7 +87,7 @@ const Auth = () => {
       const errorMessage = err instanceof Error ? err.message : "An error occurred";
 
       if (NETWORK_ERROR_REGEX.test(errorMessage)) {
-        setError("Network issue detected. Please check your connection and try again in a few seconds.");
+        setError(tx("Network issue detected. Please check your connection and try again in a few seconds."));
       } else {
         setError(errorMessage);
       }
@@ -96,7 +98,7 @@ const Auth = () => {
 
   const handleResendConfirmation = async () => {
     if (!email.trim()) {
-      setError("Please enter your email first.");
+      setError(tx("Please enter your email first."));
       return;
     }
 
@@ -114,7 +116,7 @@ const Auth = () => {
       );
 
       if (error) throw error;
-      setMessage("Confirmation email sent. Please check your inbox.");
+      setMessage(tx("Confirmation email sent. Please check your inbox."));
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Unable to resend confirmation email";
       setError(errorMessage);
@@ -153,7 +155,7 @@ const Auth = () => {
                 disabled={resendLoading}
                 className="mb-4 w-full py-2.5 rounded-lg border border-primary/30 bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors disabled:opacity-60"
               >
-                {resendLoading ? "Sending..." : "Resend confirmation email"}
+                {resendLoading ? tx("Sending...") : tx("Resend confirmation email")}
               </button>
             )}
             {message && (
@@ -183,7 +185,7 @@ const Auth = () => {
               )}
               {!isLogin && (
                 <div>
-                  <label htmlFor="auth-city" className="block text-sm font-medium text-foreground mb-1.5">City</label>
+                  <label htmlFor="auth-city" className="block text-sm font-medium text-foreground mb-1.5">{tx("City")}</label>
                   <div className="relative">
                     <MapPin aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
                     <input
@@ -193,14 +195,14 @@ const Auth = () => {
                       autoComplete="address-level2"
                       value={homeCity}
                       onChange={(e) => setHomeCity(e.target.value)}
-                      placeholder="e.g. Mumbai"
+                      placeholder={tx("e.g. Mumbai")}
                       maxLength={100}
                       aria-describedby="auth-city-help"
                       className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-input bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                       required
                     />
                   </div>
-                  <p id="auth-city-help" className="text-xs text-muted-foreground mt-1">We'll tag your complaints with this city.</p>
+                  <p id="auth-city-help" className="text-xs text-muted-foreground mt-1">{tx("We'll tag your complaints with this city.")}</p>
                 </div>
               )}
               <div>
@@ -214,7 +216,7 @@ const Auth = () => {
                     autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
+                    placeholder={tx("Enter your email")}
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-input bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                     required
                   />
@@ -239,7 +241,7 @@ const Auth = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={showPassword ? tx("Hide password") : tx("Show password")}
                     aria-pressed={showPassword}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
                   >
@@ -254,7 +256,7 @@ const Auth = () => {
                     type="button"
                     onClick={async () => {
                       if (!email.trim()) {
-                        setError("Please enter your email first.");
+                        setError(tx("Please enter your email first."));
                         return;
                       }
                       setError("");
@@ -265,7 +267,7 @@ const Auth = () => {
                           redirectTo: `${window.location.origin}/reset-password`,
                         });
                         if (error) throw error;
-                        setMessage("Password reset link sent! Check your inbox.");
+                        setMessage(tx("Password reset link sent! Check your inbox."));
                       } catch (err: unknown) {
                         setError(err instanceof Error ? err.message : "Failed to send reset email.");
                       } finally {
@@ -274,8 +276,7 @@ const Auth = () => {
                     }}
                     className="text-xs text-primary hover:underline"
                   >
-                    Forgot password?
-                  </button>
+                    {tx(" Forgot password? ")}</button>
                 </div>
               )}
 
@@ -294,7 +295,7 @@ const Auth = () => {
                 <div className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">or</span>
+                <span className="bg-card px-2 text-muted-foreground">{tx("or")}</span>
               </div>
             </div>
 
@@ -316,8 +317,7 @@ const Auth = () => {
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
               </svg>
-              Continue with Google
-            </button>
+              {tx(" Continue with Google ")}</button>
 
             <div className="mt-5 text-center">
               <button

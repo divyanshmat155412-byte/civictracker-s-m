@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { useEffect, useMemo } from "react";
 import { useSearchParams, Link } from "@/lib/router-compat";
 import { ArrowLeft, Printer, FileWarning } from "lucide-react";
@@ -7,6 +8,7 @@ import { COMPLAINT_COLS } from "@/lib/db-columns";
 import PosterSheet from "@/components/PosterSheet";
 
 const AdminPosters = () => {
+  const tx = useUiText();
   const [params] = useSearchParams();
   const ids = useMemo(() => {
     const raw = params.get("ids") || "";
@@ -56,31 +58,27 @@ const AdminPosters = () => {
       <div className="no-print sticky top-0 z-10 bg-card/95 backdrop-blur border-b border-border">
         <div className="max-w-[230mm] mx-auto px-4 py-3 flex items-center justify-between gap-3">
           <Link to="/admin" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
-            <ArrowLeft className="w-4 h-4" /> Back to admin
-          </Link>
+            <ArrowLeft className="w-4 h-4" /> {tx(" Back to admin ")}</Link>
           <div className="text-xs text-muted-foreground">
-            {complaints.length} poster{complaints.length === 1 ? "" : "s"} ready
-          </div>
+            {complaints.length} {tx(" poster")}{complaints.length === 1 ? "" : "s"} {tx(" ready ")}</div>
           <button
             onClick={() => window.print()}
             disabled={complaints.length === 0}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
           >
-            <Printer className="w-4 h-4" /> Print all
-          </button>
+            <Printer className="w-4 h-4" /> {tx(" Print all ")}</button>
         </div>
       </div>
 
       {ids.length === 0 ? (
         <div className="max-w-md mx-auto py-20 px-6 text-center">
           <FileWarning className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-          <h1 className="font-display text-xl font-bold text-foreground">No complaints selected</h1>
+          <h1 className="font-display text-xl font-bold text-foreground">{tx("No complaints selected")}</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Go back to the admin panel, tick complaints to print, then click "Print posters".
-          </p>
+            {tx(" Go back to the admin panel, tick complaints to print, then click \"Print posters\". ")}</p>
         </div>
       ) : isLoading ? (
-        <div className="text-center py-20 text-muted-foreground">Preparing posters…</div>
+        <div className="text-center py-20 text-muted-foreground">{tx("Preparing posters…")}</div>
       ) : (
         <div className="flex flex-col items-center gap-6 py-6 px-4 print:gap-0 print:p-0">
           {complaints.map((c, idx) => (
