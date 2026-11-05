@@ -1,5 +1,7 @@
 # Civic Tracker roadmap
 
+- [ ] A-to-Z functional audit (new brief): module inventory, connector audit, function-by-function tests, bug register, feature recommendations, Complete_Functional_Test_Report.md with embedded screenshots + Mermaid diagrams, CivicTracker_Screenshots.zip (underscore-only filenames), 3 readiness verdicts — awaiting consolidated permissions; do not publish
+
 - [x] Local fixed-copy translation, persistence, public browser verification and audit report
 - [x] Final safe frontend translation fixes, real AI/notification interactions, screenshots and limitations audit; not published
 - [ ] Authenticated bilingual staff/City Admin/worker checks — blocked: named temporary auth accounts no longer exist; no roles/auth changes authorised
