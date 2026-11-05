@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "@/lib/router-compat";
 import Layout from "@/components/Layout";
-import { CATEGORY_CONFIG, ComplaintCategory, STATUS_CONFIG } from "@/lib/types";
+import { CATEGORY_CONFIG, CATEGORY_LABEL_HI, ComplaintCategory, STATUS_CONFIG } from "@/lib/types";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -39,7 +39,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 
 const Index = () => {
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
   
 
@@ -697,7 +697,7 @@ const Index = () => {
                   return (
                     <button key={key} type="button" onClick={() => setSelectedCategory(key as ComplaintCategory)}
                       className={`flex items-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all ${selectedCategory === key ? "border-secondary bg-secondary/10 text-foreground shadow-card" : "border-border bg-card text-muted-foreground hover:border-secondary/50"}`}>
-                      <Icon className="w-4 h-4 shrink-0" /> {config.label}
+                      <Icon className="w-4 h-4 shrink-0" /> {language === "hi" ? CATEGORY_LABEL_HI[key as ComplaintCategory] : config.label}
                     </button>
                   );
                 })}
