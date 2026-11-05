@@ -1,0 +1,1 @@
+UPDATE complaints SET latitude = 24.6035, longitude = 77.2957 WHERE id = '3fd9d28a-95ec-4019-b492-70db3aff43d5' AND latitude IS NULL
