@@ -128,6 +128,29 @@ export type Database = {
         }
         Relationships: []
       }
+      category_routing: {
+        Row: {
+          category: string
+          department_id: string | null
+        }
+        Insert: {
+          category: string
+          department_id?: string | null
+        }
+        Update: {
+          category?: string
+          department_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "category_routing_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       complaint_comments: {
         Row: {
           complaint_id: string
@@ -306,6 +329,7 @@ export type Database = {
           created_at: string
           department_id: string | null
           description: string
+          due_at: string | null
           id: string
           latitude: number | null
           location: string
@@ -323,7 +347,9 @@ export type Database = {
           upvotes: number
           user_id: string | null
           verification_count: number
+          ward_id: string | null
           whatsapp_number: string | null
+          zone: string | null
         }
         Insert: {
           after_photo_url?: string | null
@@ -336,6 +362,7 @@ export type Database = {
           created_at?: string
           department_id?: string | null
           description: string
+          due_at?: string | null
           id?: string
           latitude?: number | null
           location: string
@@ -353,7 +380,9 @@ export type Database = {
           upvotes?: number
           user_id?: string | null
           verification_count?: number
+          ward_id?: string | null
           whatsapp_number?: string | null
+          zone?: string | null
         }
         Update: {
           after_photo_url?: string | null
@@ -366,6 +395,7 @@ export type Database = {
           created_at?: string
           department_id?: string | null
           description?: string
+          due_at?: string | null
           id?: string
           latitude?: number | null
           location?: string
@@ -383,7 +413,9 @@ export type Database = {
           upvotes?: number
           user_id?: string | null
           verification_count?: number
+          ward_id?: string | null
           whatsapp_number?: string | null
+          zone?: string | null
         }
         Relationships: [
           {
@@ -391,6 +423,13 @@ export type Database = {
             columns: ["department_id"]
             isOneToOne: false
             referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "complaints_ward_id_fkey"
+            columns: ["ward_id"]
+            isOneToOne: false
+            referencedRelation: "wards"
             referencedColumns: ["id"]
           },
         ]
@@ -807,6 +846,42 @@ export type Database = {
         }
         Relationships: []
       }
+      wards: {
+        Row: {
+          center_lat: number
+          center_lng: number
+          city: string
+          created_at: string
+          id: string
+          name: string
+          radius_m: number
+          ward_number: number
+          zone: string
+        }
+        Insert: {
+          center_lat: number
+          center_lng: number
+          city: string
+          created_at?: string
+          id?: string
+          name: string
+          radius_m?: number
+          ward_number: number
+          zone: string
+        }
+        Update: {
+          center_lat?: number
+          center_lng?: number
+          city?: string
+          created_at?: string
+          id?: string
+          name?: string
+          radius_m?: number
+          ward_number?: number
+          zone?: string
+        }
+        Relationships: []
+      }
       worker_assignments: {
         Row: {
           assigned_at: string
@@ -886,28 +961,34 @@ export type Database = {
       }
       workers: {
         Row: {
+          city: string | null
           created_at: string
           department_id: string | null
           id: string
           is_active: boolean
           name: string
           phone: string | null
+          user_id: string | null
         }
         Insert: {
+          city?: string | null
           created_at?: string
           department_id?: string | null
           id?: string
           is_active?: boolean
           name: string
           phone?: string | null
+          user_id?: string | null
         }
         Update: {
+          city?: string | null
           created_at?: string
           department_id?: string | null
           id?: string
           is_active?: boolean
           name?: string
           phone?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -957,6 +1038,23 @@ export type Database = {
         Args: { _email: string; _role: Database["public"]["Enums"]["app_role"] }
         Returns: Json
       }
+      find_nearby_duplicates: {
+        Args: {
+          _category: string
+          _days?: number
+          _lat: number
+          _lng: number
+          _radius_m?: number
+        }
+        Returns: {
+          complaint_id: string
+          created_at: string
+          distance_m: number
+          id: string
+          status: string
+          title: string
+        }[]
+      }
       get_complaint_whatsapp: {
         Args: { _complaint_id: string }
         Returns: string
@@ -995,15 +1093,45 @@ export type Database = {
         }[]
       }
       main_admin_email: { Args: never; Returns: string }
+      my_worker_jobs: {
+        Args: never
+        Returns: {
+          after_photo_url: string
+          assigned_at: string
+          assignment_id: string
+          assignment_status: string
+          category: string
+          complaint: string
+          complaint_code: string
+          description: string
+          due_at: string
+          latitude: number
+          location: string
+          longitude: number
+          photo_url: string
+          priority: string
+          status: string
+          title: string
+        }[]
+      }
       redeem_reward: { Args: { _reward_id: string }; Returns: Json }
       set_my_home_city: { Args: { _city: string }; Returns: string }
       update_my_profile_contact: {
         Args: { _opt_in: boolean; _phone: string }
         Returns: undefined
       }
+      worker_update_job: {
+        Args: {
+          _after_photo_url?: string
+          _assignment_id: string
+          _note?: string
+          _status: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user" | "field_worker"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1131,7 +1259,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "moderator", "user", "field_worker"],
     },
   },
 } as const
