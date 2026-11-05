@@ -24,7 +24,6 @@ export const uiHindi: Readonly<Record<string, string>> = {
   "After photo": "मरम्मत के बाद की फोटो",
   "Unable to generate predictions": "भविष्यवाणियाँ तैयार नहीं हो सकीं",
   "Not enough data for predictions": "भविष्यवाणियों के लिए पर्याप्त डेटा नहीं",
-
   "Public Accountability Score": "सार्वजनिक जवाबदेही स्कोर",
   "City": "शहर",
   "All cities": "सभी शहर",
@@ -494,7 +493,6 @@ export const uiHindi: Readonly<Record<string, string>> = {
   "medium": "मध्यम",
   "high": "उच्च",
   "emergency": "आपातकाल",
-  "in-progress": "कार्य जारी",
   "in_progress": "कार्य जारी",
   "resolved": "समाधान हुआ",
   "escalated": "उच्च अधिकारी को भेजी गई",
@@ -525,7 +523,6 @@ export const uiHindi: Readonly<Record<string, string>> = {
   "rejected": "अस्वीकृत",
   "Completed": "पूरा हुआ",
   "Overdue": "समयसीमा पार",
-  "en_route": "रास्ते में",
   "assigned": "नियुक्त",
   "Clusters": "समूह",
   "Markers": "चिन्ह",
