@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 const SatisfactionRating = ({ complaintId }: { complaintId: string }) => {
   const [rating, setRating] = useState(0);
@@ -48,12 +49,13 @@ const SatisfactionRating = ({ complaintId }: { complaintId: string }) => {
 
   const handleSubmit = async () => {
     if (!user) return;
-    await supabase.from("complaint_ratings").insert({
+    const { error } = await supabase.from("complaint_ratings").insert({
       complaint_id: complaintId,
       user_id: user.id,
       rating,
       feedback: feedback.trim() || null,
     });
+    if (error) { toast.error("Couldn't save your rating. Please try again."); return; }
     setSubmitted(true);
     setShowFeedback(false);
     setTotalRatings((p) => p + 1);
@@ -75,6 +77,7 @@ const SatisfactionRating = ({ complaintId }: { complaintId: string }) => {
               onMouseEnter={() => !submitted && setHover(s)}
               onMouseLeave={() => setHover(0)}
               disabled={submitted || !user}
+              aria-label={`Rate ${s} star${s > 1 ? "s" : ""}`}
               className="disabled:cursor-default"
             >
               <Star
