@@ -39,10 +39,12 @@ try {
 
   // 2. application with forged identity is rewritten to the real account
   const victim = await user("victim"), rej = await user("rejected"), cit = await user("citizen"), root = await user("tmproot");
-  const forged = await verified.from("admin_requests").insert({ user_id: victim.id, email: victim.email, full_name: "X", requested_city: A } as never).select("user_id,email").single();
-  ok("2a cannot apply in another user's name (user_id)", !!forged.error, forged.data);
-  const app = await verified.from("admin_requests").insert({ user_id: su.data.user!.id, email: "boss@city.gov.in", full_name: "Applicant", requested_city: A, status: "approved" } as never).select("id,email,status").single();
-  ok("2b application saved with verified account email, forced pending", !app.error && app.data?.email === signEmail && app.data?.status === "pending", [app.error, app.data]);
+  // forged: someone else's user_id + email + pre-approved status
+  const app = await verified.from("admin_requests").insert({ user_id: victim.id, email: victim.email, full_name: "Applicant", requested_city: A, status: "approved" } as never).select("id,user_id,email,status").single();
+  ok("2a forged identity is replaced by the signed-in account", !app.error && app.data?.user_id === su.data.user!.id && app.data?.email === signEmail, [app.error, app.data]);
+  ok("2b forged 'approved' status forced back to pending", app.data?.status === "pending", app.data);
+  const vic = await admin.from("admin_requests").select("id").eq("user_id", victim.id);
+  ok("2c no application exists for the victim", (vic.data ?? []).length === 0, vic.data);
   const app2 = await rej.c.from("admin_requests").insert({ user_id: rej.id, email: rej.email, full_name: "R", requested_city: B }).select("id").single();
 
   // 3. visibility
