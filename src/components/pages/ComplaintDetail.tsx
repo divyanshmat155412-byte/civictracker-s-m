@@ -148,7 +148,7 @@ const ComplaintDetail = () => {
             </span>
             {(complaint.priority === "high" || complaint.priority === "emergency") && (
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-destructive/10 text-destructive">
-                {complaint.priority === "emergency" ? "🚨 Emergency" : "⚠️ High"}
+                {complaint.priority === "emergency" ? `🚨 ${tx("Emergency")}` : `⚠️ ${tx("High")}`}
               </span>
             )}
             <SentimentBadge label={complaint.sentiment_label} />
@@ -262,7 +262,7 @@ const ComplaintDetail = () => {
                         className="text-xs font-semibold px-2 py-0.5 rounded-full"
                         style={{ backgroundColor: (sc?.color || "") + "22", color: sc?.color }}
                       >
-                        {sc?.label || t.status}
+                        {tx(sc?.label || t.status)}
                       </span>
                       <span className="text-xs text-muted-foreground">{formatDate(t.created_at)}</span>
                     </div>

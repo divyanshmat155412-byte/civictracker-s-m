@@ -79,7 +79,7 @@ const SatisfactionRating = ({ complaintId }: { complaintId: string }) => {
               onMouseEnter={() => !submitted && setHover(s)}
               onMouseLeave={() => setHover(0)}
               disabled={submitted || !user}
-              aria-label={`Rate ${s} star${s > 1 ? "s" : ""}`}
+              aria-label={`${tx("Rate resolution:")} ${s} ★`}
               className="disabled:cursor-default"
             >
               <Star

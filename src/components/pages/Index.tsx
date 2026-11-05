@@ -645,8 +645,8 @@ const Index = () => {
                         <button
                           type="button"
                           onClick={() => jumpTo(s.targetId)}
-                          aria-label={`Go to step ${i + 1}: ${s.label}${s.done ? " (completed)" : ""}`}
-                          title={`Jump to ${s.label}`}
+                          aria-label={`${tx("Step")} ${i + 1}: ${tx(s.label)}${s.done ? tx(" (completed)") : ""}`}
+                          title={`${tx("Step")}: ${tx(s.label)}`}
                           className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold border-2 transition-all hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background cursor-pointer ${
                             s.done
                               ? "bg-success border-success text-success-foreground hover:bg-success/90"
@@ -783,7 +783,7 @@ const Index = () => {
                     <>
                       <p className="text-foreground">
                         <Sparkles className="inline w-3.5 h-3.5 text-primary mr-1" />
-                        {tx(" AI suggests ")}<b>{tx(CATEGORY_CONFIG[aiSuggestion.category].label)}</b> ({Math.round(aiSuggestion.confidence * 100)}{tx("% sure) ")}{aiSuggestion.department && <> → {aiSuggestion.department}</>}
+                        {tx(" AI suggests ")}<b>{tx(CATEGORY_CONFIG[aiSuggestion.category].label)}</b> ({Math.round(aiSuggestion.confidence * 100)}{tx("% sure) ")}{aiSuggestion.department && <> → {tx(aiSuggestion.department)}</>}
                       </p>
                       <div className="flex gap-2 mt-2">
                         <button type="button" onClick={() => { setSelectedCategory(aiSuggestion.category!); setAiSuggestion(null); }}

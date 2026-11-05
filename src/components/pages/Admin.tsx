@@ -277,7 +277,7 @@ const Admin = () => {
           {(["all", "pending", "in-progress", "resolved", "escalated"] as const).map((s) => (
             <button key={s} onClick={() => setStatusFilter(s)}
               className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${statusFilter === s ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"}`}>
-              {s === "all" ? t("map.all") : STATUS_CONFIG[s as ComplaintStatus]?.label || s} ({statusCounts[s] ?? 0})
+              {s === "all" ? t("map.all") : tx(STATUS_CONFIG[s as ComplaintStatus]?.label || s)} ({statusCounts[s] ?? 0})
             </button>
           ))}
         </div>

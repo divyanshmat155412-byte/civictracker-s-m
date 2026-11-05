@@ -239,7 +239,7 @@ const Profile = () => {
               <Progress value={Math.min(progress, 100)} className="h-2.5 mb-1" />
               <p className="text-xs text-muted-foreground">
                 {nextConfig
-                  ? `${greenPoints} / ${nextConfig.minPoints} points to ${tx(nextConfig.label)}`
+                  ? `${greenPoints} / ${nextConfig.minPoints} ${tx("points")} → ${tx(nextConfig.label)}`
                   : tx("Maximum badge achieved! 🎉")}
               </p>
             </CardContent>
@@ -321,7 +321,7 @@ const Profile = () => {
                           <div className="flex flex-wrap items-center gap-2 mt-1">
                             <Badge variant="outline" className="text-[10px] px-1.5 py-0"
                               style={{ borderColor: statusConf?.color, color: statusConf?.color }}>
-                              {statusConf?.label || c.status}
+                              {tx(statusConf?.label || c.status)}
                             </Badge>
                             {catConf && (
                               <span className="text-[10px] text-muted-foreground">{tx(catConf.label)}</span>
@@ -366,7 +366,7 @@ const Profile = () => {
                           <p className="text-sm text-foreground">
                             {tx(" Status changed to")}{" "}
                             <span className="font-semibold" style={{ color: statusConf?.color }}>
-                              {statusConf?.label || entry.status}
+                              {tx(statusConf?.label || entry.status)}
                             </span>
                           </p>
                           {entry.note && (
