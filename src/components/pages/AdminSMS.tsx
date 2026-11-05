@@ -193,7 +193,7 @@ const AdminSMS = () => {
                         "bg-destructive/15 text-destructive"
                       }`}>
                         {log.status === "sent" && <CheckCircle2 className="w-2.5 h-2.5 inline mr-0.5" />}
-                        {log.status} · {log.provider}
+                        {tx(log.status)} · {log.provider}
                       </span>
                     </div>
                     <span className="text-[10px] text-muted-foreground shrink-0">{format(new Date(log.created_at), "MMM d, HH:mm")}</span>

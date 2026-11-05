@@ -235,7 +235,7 @@ const AdminUsers = () => {
                   <SelectContent>
                     {CITIES.map((c) => (
                       <SelectItem key={c} value={c}>
-                        {c}
+                        {tx(c)}
                       </SelectItem>
                     ))}
                   </SelectContent>

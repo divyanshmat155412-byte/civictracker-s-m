@@ -297,7 +297,7 @@ const Departments = () => {
                 <div className="text-2xl md:text-3xl font-bold w-12 text-center shrink-0">{medal(i)}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="font-semibold text-foreground">{d.name}</h2>
+                    <h2 className="font-semibold text-foreground">{tx(d.name)}</h2>
                     {d.head_name && (
                       <span className="text-xs text-muted-foreground">· {d.head_name}</span>
                     )}
@@ -395,7 +395,7 @@ const Departments = () => {
                   className="w-full rounded-lg border border-input bg-card px-3 py-2 text-sm">
                   {isMainAdmin && <option value="">{tx("All cities (shared)")}</option>}
                   {!isMainAdmin && <option value="">{tx("Choose city…")}</option>}
-                  {cityChoices.map((c) => <option key={c} value={c}>{c}</option>)}
+                  {cityChoices.map((c) => <option key={c} value={c}>{tx(c)}</option>)}
                 </select>
               </div>
               <div className="grid grid-cols-2 gap-2">

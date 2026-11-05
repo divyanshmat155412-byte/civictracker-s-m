@@ -572,12 +572,12 @@ const Index = () => {
             {[
               { label: t("hero.totalComplaints"), value: String(stats?.total ?? "—"), icon: TrendingUp },
               { label: t("hero.resolved"), value: String(stats?.resolved ?? "—"), icon: ThumbsUp },
-              { label: t("hero.avgResolution"), value: "36 hrs", icon: Clock },
+              { label: t("hero.avgResolution"), value: language === "hi" ? "36 घंटे" : "36 hrs", icon: Clock },
             ].map((s) => (
               <div key={s.label} className="bg-primary-foreground/10 backdrop-blur-sm rounded-lg p-3 text-center border border-primary-foreground/10">
                 <s.icon className="w-5 h-5 text-secondary mx-auto mb-1" />
                 <div className="font-display font-bold text-xl text-primary-foreground">{s.value}</div>
-                <div className="text-[11px] text-primary-foreground/60">{s.label}</div>
+                <div className="text-[11px] text-primary-foreground/60">{tx(s.label)}</div>
               </div>
             ))}
           </motion.div>
@@ -675,7 +675,7 @@ const Index = () => {
                       onClick={() => jumpTo(steps[currentIdx].targetId)}
                       className="text-primary hover:underline font-medium"
                     >
-                      {tx(" Next: ")}{steps[currentIdx]?.label} →
+                      {tx(" Next: ")}{tx(steps[currentIdx]?.label)} →
                     </button>
                   )}
                 </div>
@@ -723,7 +723,7 @@ const Index = () => {
                 {(["low", "medium", "high", "emergency"] as const).map((p) => (
                   <button key={p} type="button" onClick={() => setPriority(p)}
                     className={`px-3 py-2 rounded-lg border text-xs font-semibold capitalize transition-all ${priority === p ? p === "emergency" ? "border-destructive bg-destructive/10 text-destructive" : p === "high" ? "border-warning bg-warning/10 text-warning" : "border-secondary bg-secondary/10 text-foreground" : "border-border bg-card text-muted-foreground"}`}>
-                    {p}
+                    {tx(p)}
                   </button>
                 ))}
               </div>
@@ -783,7 +783,7 @@ const Index = () => {
                     <>
                       <p className="text-foreground">
                         <Sparkles className="inline w-3.5 h-3.5 text-primary mr-1" />
-                        {tx(" AI suggests ")}<b>{CATEGORY_CONFIG[aiSuggestion.category].label}</b> ({Math.round(aiSuggestion.confidence * 100)}{tx("% sure) ")}{aiSuggestion.department && <> → {aiSuggestion.department}</>}
+                        {tx(" AI suggests ")}<b>{tx(CATEGORY_CONFIG[aiSuggestion.category].label)}</b> ({Math.round(aiSuggestion.confidence * 100)}{tx("% sure) ")}{aiSuggestion.department && <> → {aiSuggestion.department}</>}
                       </p>
                       <div className="flex gap-2 mt-2">
                         <button type="button" onClick={() => { setSelectedCategory(aiSuggestion.category!); setAiSuggestion(null); }}
@@ -923,7 +923,7 @@ const Index = () => {
                 <div>
                   <p className="font-medium text-warning">{tx("Possible duplicate")}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    {duplicateWarning.count} {tx(" similar ")}{selectedCategory && CATEGORY_CONFIG[selectedCategory as ComplaintCategory]?.label.toLowerCase()} {tx(" complaint")}{duplicateWarning.count > 1 ? "s" : ""} {tx(" reported nearby in the last 7 days ")}{duplicateWarning.ids.length > 0 && <> ({duplicateWarning.ids.slice(0, 2).map((id) => `#${id}`).join(", ")})</>}{tx(". Please check before submitting. ")}</p>
+                    {duplicateWarning.count} {tx(" similar ")}{selectedCategory && CATEGORY_CONFIG[selectedCategory as ComplaintCategory]?.label && tx(CATEGORY_CONFIG[selectedCategory as ComplaintCategory].label)} {tx(" complaint")}{language === "en" && duplicateWarning.count > 1 ? "s" : ""} {tx(" reported nearby in the last 7 days ")}{duplicateWarning.ids.length > 0 && <> ({duplicateWarning.ids.slice(0, 2).map((id) => `#${id}`).join(", ")})</>}{tx(". Please check before submitting. ")}</p>
                 </div>
               </div>
             )}

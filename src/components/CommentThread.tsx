@@ -61,17 +61,17 @@ const CommentThread = ({ complaintId }: { complaintId: string }) => {
 
   const timeAgo = (d: string) => {
     const mins = Math.floor((Date.now() - new Date(d).getTime()) / 60000);
-    if (mins < 1) return "just now";
-    if (mins < 60) return `${mins}m ago`;
-    if (mins < 1440) return `${Math.floor(mins / 60)}h ago`;
-    return `${Math.floor(mins / 1440)}d ago`;
+    if (mins < 1) return tx("Just now");
+    if (mins < 60) return `${mins} ${tx("minutes ago")}`;
+    if (mins < 1440) return `${Math.floor(mins / 60)} ${tx("hours ago")}`;
+    return `${Math.floor(mins / 1440)} ${tx("days ago")}`;
   };
 
   return (
     <div className="mt-3">
       <button onClick={() => setOpen(!open)} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors">
         <MessageCircle className="w-3.5 h-3.5" />
-        <span>{comments.length > 0 ? `${comments.length} comments` : tx("Comment")}</span>
+        <span>{comments.length > 0 ? `${comments.length} ${tx("comments")}` : tx("Comment")}</span>
       </button>
 
       {open && (

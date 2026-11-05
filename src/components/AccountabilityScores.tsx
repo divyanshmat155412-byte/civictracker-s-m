@@ -39,7 +39,7 @@ export default function AccountabilityScores() {
           <select value={city} onChange={(e) => setCity(e.target.value)}
             className="text-xs rounded-lg border border-input bg-background px-2 py-1.5" aria-label={tx("City")}>
             <option value="">{tx("All cities")}</option>
-            {cities.map((c) => <option key={c} value={c}>{c}</option>)}
+            {cities.map((c) => <option key={c} value={c}>{tx(c)}</option>)}
           </select>
           <button type="button" onClick={() => setShowHow((v) => !v)}
             className="text-xs inline-flex items-center gap-1 text-muted-foreground hover:text-primary">
@@ -60,7 +60,7 @@ export default function AccountabilityScores() {
                   : <span className={`font-display text-2xl font-bold ${tone(Number(r.score))}`}>{Number(r.score)}</span>}
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-foreground truncate">{r.department_name}</p>
+                <p className="text-sm font-semibold text-foreground truncate">{tx(r.department_name)}</p>
                 <p className="text-[11px] text-muted-foreground">
                   {r.total} {tx(" total · ")}{r.resolved_with_proof} {tx(" fixed with proof · ")}{r.open_overdue} {tx(" overdue ")}{r.avg_resolution_hours !== null && <> {tx(" · avg ")}{Number(r.avg_resolution_hours)}h</>}
                 </p>

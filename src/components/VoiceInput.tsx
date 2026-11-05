@@ -1,6 +1,6 @@
 import { useUiText } from "@/hooks/useUiText";
 import { invokeFunction } from "@/lib/invoke-function";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Mic, MicOff, Loader2, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -29,6 +29,7 @@ const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: V
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedLang, setSelectedLang] = useState(language);
   const [showLangPicker, setShowLangPicker] = useState(false);
+  useEffect(() => { setSelectedLang(language); }, [language]);
   const recognitionRef = useRef<any>(null);
 
   const processWithAI = async (rawText: string) => {
@@ -103,7 +104,7 @@ const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: V
               ? "bg-primary text-primary-foreground"
               : "bg-muted text-muted-foreground hover:bg-muted/80"
         }`}
-        title={isListening ? tx("Stop recording") : `Voice in ${currentLang.label}`}
+        title={isListening ? tx("Stop recording") : `${tx("Voice")}: ${currentLang.label}`}
       >
         {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> :
           isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
@@ -116,7 +117,7 @@ const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: V
         className="text-[10px] font-bold px-2 py-1 rounded-md bg-muted/50 hover:bg-muted text-muted-foreground border border-border"
         title={tx("Change language")}
       >
-        {currentLang.label}
+        {tx(currentLang.label)}
       </button>
 
       {showLangPicker && (
@@ -131,7 +132,7 @@ const VoiceInput = ({ onTranscript, onStructured, language = "en", disabled }: V
               }`}
             >
               {selectedLang !== "en" && lang.code !== "en" && <Sparkles className="w-3 h-3" />}
-              {lang.label}
+              {tx(lang.label)}
             </button>
           ))}
           <div className="text-[9px] text-muted-foreground px-2 py-1 border-t border-border mt-1">

@@ -72,12 +72,12 @@ export default function ComplaintAssignmentPanel({ complaint }: { complaint: C }
   return (
     <div className={`mt-4 rounded-xl border p-4 text-sm ${flagged ? "border-destructive/40 bg-destructive/5" : "border-border bg-card"}`}>
       <div className="grid gap-1 sm:grid-cols-2">
-        <p><span className="text-muted-foreground">{tx("City:")}</span> {complaint.city}</p>
+        <p><span className="text-muted-foreground">{tx("City:")}</span> {tx(complaint.city)}</p>
         <p><span className="text-muted-foreground">{tx("Ward:")}</span> {ward ? `${ward.ward_number} · ${ward.name}` : tx("Not assigned")}{ward?.is_demo ? tx(" (demo data)") : ""}</p>
         <p><span className="text-muted-foreground">{tx("Zone:")}</span> {complaint.zone || "—"}</p>
       </div>
-      <p className="mt-2 text-xs text-muted-foreground">{LOC_LABEL[complaint.location_status ?? ""] ?? ""}</p>
-      <p className="text-xs text-muted-foreground">{ROUTE_LABEL[complaint.routing_status ?? ""] ?? ""}</p>
+      <p className="mt-2 text-xs text-muted-foreground">{tx(LOC_LABEL[complaint.location_status ?? ""] ?? "")}</p>
+      <p className="text-xs text-muted-foreground">{tx(ROUTE_LABEL[complaint.routing_status ?? ""] ?? "")}</p>
       {canFix && (
         <div className="mt-3">
           {!open ? (
@@ -86,11 +86,11 @@ export default function ComplaintAssignmentPanel({ complaint }: { complaint: C }
             <div className="space-y-2">
               <select value={wardId} onChange={(e) => setWardId(e.target.value)} className="w-full rounded-lg border border-input bg-background px-3 py-2">
                 <option value="">{tx("Keep ward")}</option>
-                {options?.wards.map((w) => <option key={w.id} value={w.id}>{w.ward_number} · {w.name} ({w.zone})</option>)}
+                {options?.wards.map((w) => <option key={w.id} value={w.id}>{w.ward_number} · {tx(w.name)} ({tx(w.zone)})</option>)}
               </select>
               <select value={deptId} onChange={(e) => setDeptId(e.target.value)} className="w-full rounded-lg border border-input bg-background px-3 py-2">
                 <option value="">{tx("Keep department")}</option>
-                {options?.depts.map((d) => <option key={d.id} value={d.id}>{d.name}{d.city ? "" : tx(" (shared)")}</option>)}
+                {options?.depts.map((d) => <option key={d.id} value={d.id}>{tx(d.name)}{d.city ? "" : tx(" (shared)")}</option>)}
               </select>
               <input value={note} onChange={(e) => setNote(e.target.value)} placeholder={tx("Reason (saved in activity log)")} className="w-full rounded-lg border border-input bg-background px-3 py-2" />
               <div className="flex gap-2">

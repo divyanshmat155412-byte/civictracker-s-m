@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { invokeFunction } from "@/lib/invoke-function";
 import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown, Minus, Loader2, Brain } from "lucide-react";
@@ -14,6 +15,7 @@ const TrendIcon = ({ trend }: { trend: string }) => {
 };
 
 const Predictions = () => {
+  const tx = useUiText();
   const { t, language } = useLanguage();
 
   const trendLabel = (trend: string) => {
@@ -72,7 +74,7 @@ const Predictions = () => {
                       <TrendIcon trend={p.trend} />
                       <div className="flex-1">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <span className="text-sm font-bold text-foreground capitalize">{p.category}</span>
+                          <span className="text-sm font-bold text-foreground capitalize">{tx(p.category)}</span>
                           {p.area && <span className="text-xs text-muted-foreground">• {p.area}</span>}
                           <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
                             p.trend === "rising" ? "bg-destructive/10 text-destructive" :

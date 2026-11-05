@@ -54,7 +54,7 @@ const SuperAdminDashboard = () => {
       <Layout><div className="container mx-auto px-4 py-12 text-center">
         <Shield className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
         <h1 className="mb-2 text-2xl font-bold">{tx("Restricted")}</h1>
-        <p className="text-muted-foreground">{tx("Only the ")}{SUPER_ADMIN_LABEL} {tx(" can open this page.")}</p>
+        <p className="text-muted-foreground">{tx("Only the ")}{tx(SUPER_ADMIN_LABEL)} {tx(" can open this page.")}</p>
       </div></Layout>
     );
   }
@@ -67,7 +67,7 @@ const SuperAdminDashboard = () => {
         <div className="flex items-center gap-3">
           <Crown className="h-7 w-7 text-primary" />
           <div>
-            <h1 className="text-2xl font-bold sm:text-3xl">{SUPER_ADMIN_LABEL}</h1>
+            <h1 className="text-2xl font-bold sm:text-3xl">{tx(SUPER_ADMIN_LABEL)}</h1>
             <p className="text-sm text-muted-foreground">{tx("Platform-wide overview, applications and activity across every city.")}</p>
           </div>
         </div>

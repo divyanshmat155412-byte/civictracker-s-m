@@ -101,7 +101,7 @@ function JobCard({ job, onDone, userId }: { job: Job; onDone: () => void; userId
           <Link to="/complaints/$id" params={{ id: job.complaint }} className="font-semibold text-foreground hover:text-primary">
             #{job.complaint_code} · {job.title}
           </Link>
-          <p className="text-sm text-muted-foreground capitalize">{job.category.replace("-", " ")} · {job.priority}</p>
+          <p className="text-sm text-muted-foreground capitalize">{tx(job.category.replace("-", " "))} · {tx(job.priority)}</p>
         </div>
         <span className={`rounded-full px-3 py-1 text-xs font-medium ${done ? "bg-success/15 text-success" : overdue ? "bg-destructive/15 text-destructive" : "bg-warning/15 text-warning"}`}>
           {done ? tx("Completed") : overdue ? tx("Overdue") : job.assignment_status}

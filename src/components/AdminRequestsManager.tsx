@@ -72,7 +72,7 @@ const AdminRequestsManager = () => {
                 <select value={city} onChange={(e) => setCityFor((s) => ({ ...s, [r.id]: e.target.value }))}
                   className="rounded-lg border border-input bg-card px-3 py-2 text-sm">
                   <option value="">{tx("Assign city…")}</option>
-                  {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                  {CITIES.map((c) => <option key={c} value={c}>{tx(c)}</option>)}
                 </select>
                 <button disabled={decide.isPending || !city} onClick={() => decide.mutate({ id: r.id, approve: true, city })}
                   className="px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold flex items-center gap-1 disabled:opacity-50">
@@ -93,7 +93,7 @@ const AdminRequestsManager = () => {
             <div key={r.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50 text-sm gap-2">
               <span className="font-medium text-foreground">{r.full_name || tx("Citizen")} · {r.requested_city || "—"}</span>
               <span className="text-xs text-muted-foreground">
-                <b className={r.status === "approved" ? "text-primary" : "text-destructive"}>{r.status}</b>
+                <b className={r.status === "approved" ? "text-primary" : "text-destructive"}>{tx(r.status)}</b>
                 {r.reviewed_at && ` · ${new Date(r.reviewed_at).toLocaleDateString()}`}
               </span>
             </div>

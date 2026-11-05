@@ -150,7 +150,7 @@ const Navbar = () => {
 
         <div className="xl:hidden flex items-center gap-1">
           {/* Mobile language toggle */}
-          <button
+          <button aria-label={language === "en" ? "Switch to Hindi" : "अंग्रेज़ी में बदलें"}
             onClick={toggleLanguage}
             className="group relative px-3 py-1.5 rounded-full text-xs font-bold border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 hover:border-primary/60 transition-all duration-300 flex items-center gap-1.5 shadow-sm hover:shadow-md overflow-hidden"
           >

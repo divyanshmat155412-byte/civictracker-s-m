@@ -169,7 +169,7 @@ const Heatmap = () => {
                 className="w-full rounded-lg border border-input bg-card px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 <option value="all">{tx("All cities")}</option>
-                {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                {CITIES.map((c) => <option key={c} value={c}>{tx(c)}</option>)}
               </select>
             </div>
             <div>

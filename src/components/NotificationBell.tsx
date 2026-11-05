@@ -35,9 +35,9 @@ const NotificationBell = () => {
 
   const timeAgo = (dateStr: string) => {
     const hours = Math.floor((Date.now() - new Date(dateStr).getTime()) / 3600000);
-    if (hours < 1) return "Just now";
-    if (hours < 24) return `${hours}h ago`;
-    return `${Math.floor(hours / 24)}d ago`;
+    if (hours < 1) return tx("Just now");
+    if (hours < 24) return `${hours} ${tx("hours ago")}`;
+    return `${Math.floor(hours / 24)} ${tx("days ago")}`;
   };
 
   return (

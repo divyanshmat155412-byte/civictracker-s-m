@@ -194,13 +194,13 @@ const MapView = () => {
           `<div style="min-width:220px;font-family:system-ui,sans-serif">
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
               <span style="font-size:10px;font-family:monospace;color:#888">#${c.complaint_id}</span>
-              <span style="font-size:10px;padding:1px 6px;border-radius:10px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${c.status}</span>
+              <span style="font-size:10px;padding:1px 6px;border-radius:10px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${tx(c.status)}</span>
             </div>
             <h3 style="font-weight:700;font-size:14px;margin:0 0 4px;color:#111">${c.title}</h3>
             <p style="font-size:12px;color:#666;margin:0 0 8px;line-height:1.4">${(c.description || "").slice(0, 120)}${(c.description || "").length > 120 ? "..." : ""}</p>
             <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">
-              <span style="font-size:10px;padding:2px 8px;border:1px solid ${CATEGORY_COLORS[c.category] || "#ddd"};border-radius:10px;color:${CATEGORY_COLORS[c.category] || "#666"}">${c.category}</span>
-              <span style="font-size:10px;padding:2px 8px;background:#f3f4f6;border-radius:10px">${c.priority} priority</span>
+              <span style="font-size:10px;padding:2px 8px;border:1px solid ${CATEGORY_COLORS[c.category] || "#ddd"};border-radius:10px;color:${CATEGORY_COLORS[c.category] || "#666"}">${tx(c.category)}</span>
+              <span style="font-size:10px;padding:2px 8px;background:#f3f4f6;border-radius:10px">${tx(c.priority)} ${tx("Priority")}</span>
               ${c.upvotes > 0 ? `<span style="font-size:10px;padding:2px 8px;background:#f3f4f6;border-radius:10px">👍 ${c.upvotes}</span>` : ""}
             </div>
             <p style="font-size:10px;color:#999;margin:0">📍 ${c.location}</p>
@@ -215,12 +215,12 @@ const MapView = () => {
       mappable.forEach((c: any) => {
         const marker = L.marker([Number(c.latitude), Number(c.longitude)], { icon: createIcon(c.status) });
         marker.bindPopup(
-          `<div style="min-width:200px"><h3 style="font-weight:bold;font-size:14px;margin-bottom:4px">${c.title}</h3><p style="font-size:12px;color:#666;margin-bottom:8px">${(c.description || "").slice(0, 100)}</p><div style="display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 6px;border:1px solid #ddd;border-radius:4px">${c.category}</span><span style="font-size:10px;padding:2px 6px;border-radius:4px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${c.status}</span></div><p style="font-size:10px;color:#999;margin-top:6px">📍 ${c.location}</p></div>`
+          `<div style="min-width:200px"><h3 style="font-weight:bold;font-size:14px;margin-bottom:4px">${c.title}</h3><p style="font-size:12px;color:#666;margin-bottom:8px">${(c.description || "").slice(0, 100)}</p><div style="display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 6px;border:1px solid #ddd;border-radius:4px">${tx(c.category)}</span><span style="font-size:10px;padding:2px 6px;border-radius:4px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${tx(c.status)}</span></div><p style="font-size:10px;color:#999;margin-top:6px">📍 ${c.location}</p></div>`
         );
         markersRef.current!.addLayer(marker);
       });
     }
-  }, [mappable, viewMode, heatReady]);
+  }, [mappable, viewMode, heatReady, tx]);
 
   // Fit bounds
   useEffect(() => {
@@ -262,7 +262,7 @@ const MapView = () => {
                     : "bg-card text-muted-foreground border-border hover:bg-muted"
                 }`}
               >
-                {s === "all" ? t("map.all") : s.charAt(0).toUpperCase() + s.slice(1)}
+                {s === "all" ? t("map.all") : tx(s)}
                 {s !== "all" && (
                   <span className="inline-block w-2 h-2 rounded-full ml-1.5" style={{ backgroundColor: STATUS_COLORS[s] }} />
                 )}
@@ -385,7 +385,7 @@ const MapView = () => {
                           }}
                         />
                         <span className="text-xs text-muted-foreground whitespace-nowrap">
-                          {status.charAt(0).toUpperCase() + status.slice(1)} ({count})
+                          {tx(status)} ({count})
                         </span>
                       </div>
                     ))}
@@ -439,7 +439,7 @@ const MapView = () => {
             {Object.entries(STATUS_COLORS).map(([status, color]) => (
               <div key={status} className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <div className="w-3 h-3 rounded-full border-2 border-white shadow-sm" style={{ backgroundColor: color }} />
-                {status.charAt(0).toUpperCase() + status.slice(1)}
+                {tx(status)}
               </div>
             ))}
           </div>

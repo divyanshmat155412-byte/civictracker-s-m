@@ -116,7 +116,7 @@ const AdminWorkers = () => {
             <input value={phone} onChange={e => setPhone(e.target.value)} placeholder={tx("Phone (optional)")} className="w-full mb-2 px-3 py-2 rounded-lg border border-input bg-background text-sm" />
             <select value={deptId} onChange={e => setDeptId(e.target.value)} className="w-full mb-3 px-3 py-2 rounded-lg border border-input bg-background text-sm">
               <option value="">{tx("No department")}</option>
-              {departments.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
+              {departments.map((d: any) => <option key={d.id} value={d.id}>{tx(d.name)}</option>)}
             </select>
             <button type="submit" className="w-full py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold flex items-center justify-center gap-1">
               <Plus className="w-4 h-4" /> {tx(" Add ")}</button>
@@ -127,7 +127,7 @@ const AdminWorkers = () => {
             <h2 className="font-semibold mb-3">{tx("Assign Worker")}</h2>
             <select value={assignWorker} onChange={e => setAssignWorker(e.target.value)} className="w-full mb-2 px-3 py-2 rounded-lg border border-input bg-background text-sm">
               <option value="">{tx("Select worker")}</option>
-              {workers.map((w: any) => <option key={w.id} value={w.id}>{w.name}</option>)}
+              {workers.map((w: any) => <option key={w.id} value={w.id}>{tx(w.name)}</option>)}
             </select>
             <select value={assignComplaint} onChange={e => setAssignComplaint(e.target.value)} className="w-full mb-3 px-3 py-2 rounded-lg border border-input bg-background text-sm">
               <option value="">{tx("Select complaint")}</option>
@@ -147,7 +147,7 @@ const AdminWorkers = () => {
           {workers.map((w: any) => (
             <div key={w.id} className="bg-card border border-border rounded-lg p-3 flex items-center justify-between">
               <div>
-                <p className="font-medium text-foreground text-sm">{w.name}</p>
+                <p className="font-medium text-foreground text-sm">{tx(w.name)}</p>
                 <p className="text-xs text-muted-foreground">{w.phone || "—"} • {w.departments?.name || tx("Unassigned")}</p>
                 <form className="mt-2 flex gap-1" onSubmit={async (e) => {
                   e.preventDefault();

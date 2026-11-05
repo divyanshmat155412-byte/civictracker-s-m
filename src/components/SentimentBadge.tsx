@@ -1,3 +1,4 @@
+import { useUiText } from "@/hooks/useUiText";
 import { AlertTriangle, Frown, Meh, Smile, Heart } from "lucide-react";
 
 const SENTIMENT_CONFIG: Record<string, { icon: typeof Frown; color: string; bg: string }> = {
@@ -9,13 +10,14 @@ const SENTIMENT_CONFIG: Record<string, { icon: typeof Frown; color: string; bg: 
 };
 
 const SentimentBadge = ({ label }: { label: string | null }) => {
+  const tx = useUiText();
   if (!label) return null;
   const config = SENTIMENT_CONFIG[label] || SENTIMENT_CONFIG.neutral;
   const Icon = config.icon;
   return (
     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${config.bg} ${config.color}`}>
       <Icon className="w-2.5 h-2.5" />
-      {label}
+      {tx(label)}
     </span>
   );
 };

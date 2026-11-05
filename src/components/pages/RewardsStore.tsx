@@ -293,7 +293,7 @@ const RewardsStore = () => {
                       </div>
                       <span className="text-xs font-medium text-muted-foreground shrink-0">-{r.points_spent} {tx(" pts")}</span>
                       <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium shrink-0 ${r.status === "pending" ? "bg-yellow-500/10 text-yellow-600" : "bg-green-500/10 text-green-600"}`}>
-                        {r.status}
+                        {tx(r.status)}
                       </span>
                     </div>
                   ))}

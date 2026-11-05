@@ -75,7 +75,7 @@ function WardsPage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-3xl font-bold text-foreground">{tx("Wards & Zones")}</h1>
           <select value={city} onChange={(e) => setCity(e.target.value)} className="rounded-lg border border-input bg-background px-3 py-2 text-foreground" aria-label={tx("City")}>
-            {CITIES.map((c) => <option key={c}>{c}</option>)}
+            {CITIES.map((c) => <option key={c}>{tx(c)}</option>)}
           </select>
         </div>
         <p className="text-sm text-muted-foreground">{tx("New complaints are placed in a ward automatically from GPS: inside a ward boundary when one is uploaded, otherwise the nearest ward centre within its radius. Anything outside is flagged for checking.")}</p>
@@ -87,7 +87,7 @@ function WardsPage() {
             <tbody>
               {wards.map((w) => (
                 <tr key={w.id} className="border-t border-border text-foreground">
-                  <td className="p-3">{w.ward_number}</td><td className="p-3">{w.name}{w.is_demo && <span className="ml-2 rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">{tx("demo")}</span>}{w.boundary ? <span className="ml-1 text-[10px] text-muted-foreground">{tx("boundary")}</span> : null}</td><td className="p-3">{w.zone}</td>
+                  <td className="p-3">{w.ward_number}</td><td className="p-3">{tx(w.name)}{w.is_demo && <span className="ml-2 rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">{tx("demo")}</span>}{w.boundary ? <span className="ml-1 text-[10px] text-muted-foreground">{tx("boundary")}</span> : null}</td><td className="p-3">{tx(w.zone)}</td>
                   <td className="p-3">{counts[w.id]?.total ?? 0}</td><td className="p-3">{counts[w.id]?.open ?? 0}</td>
                   {isModerator && <td className="p-3 text-right"><button onClick={() => remove(w.id)} className="text-destructive">{tx("Remove")}</button></td>}
                 </tr>

@@ -42,7 +42,7 @@ const Complaints = () => {
     enabled: cityFilter !== "all",
     queryFn: async () => (await supabase.from("wards").select("id,ward_number,name,zone").eq("city", cityFilter).order("ward_number")).data ?? [],
   });
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { user } = useAuth();
   
 
@@ -142,17 +142,17 @@ const Complaints = () => {
           </select>
           <select value={cityFilter} onChange={(e) => setCityFilter(e.target.value)} className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
             <option value="all">{tx("All cities")}</option>
-            {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            {CITIES.map((c) => <option key={c} value={c}>{tx(c)}</option>)}
           </select>
           {cityFilter !== "all" && wardList.length > 0 && (
             <select value={wardFilter} onChange={(e) => setWardFilter(e.target.value)} aria-label={tx("Ward")} className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
               <option value="all">{tx("All wards")}</option>
-              {wardList.map((w) => <option key={w.id} value={w.id}>{tx("Ward ")}{w.ward_number} · {w.name} ({w.zone})</option>)}
+              {wardList.map((w) => <option key={w.id} value={w.id}>{tx("Ward ")}{w.ward_number} · {tx(w.name)} ({tx(w.zone)})</option>)}
             </select>
           )}
         </div>
 
-        <p className="text-sm text-muted-foreground mb-4">{filtered.length} {t("complaints.complaint")}{filtered.length !== 1 ? "s" : ""} {t("complaints.found")}</p>
+        <p className="text-sm text-muted-foreground mb-4">{filtered.length} {t("complaints.complaint")}{language === "en" && filtered.length !== 1 ? "s" : ""} {t("complaints.found")}</p>
 
         <div className="grid gap-4">
           {filtered.map((c: any, i: number) => {
@@ -179,7 +179,7 @@ const Complaints = () => {
                       <SentimentBadge label={c.sentiment_label} />
                       <SLACountdown category={c.category} createdAt={c.created_at} status={c.status} />
                       {deptName && (
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">🏢 {deptName}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">🏢 {tx(deptName)}</span>
                       )}
                       {c.source === "whatsapp" && (
                         <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 text-accent font-medium">{tx("💬 WhatsApp")}</span>

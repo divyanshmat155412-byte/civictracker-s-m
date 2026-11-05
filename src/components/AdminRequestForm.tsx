@@ -125,7 +125,7 @@ const AdminRequestForm = () => {
           <select value={city} onChange={(e) => setCity(e.target.value)}
             className="w-full rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground">
             <option value="">{tx("City you work for…")}</option>
-            {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            {CITIES.map((c) => <option key={c} value={c}>{tx(c)}</option>)}
           </select>
           <textarea
             placeholder={tx("Why do you need admin access? Mention your role and responsibilities.")}

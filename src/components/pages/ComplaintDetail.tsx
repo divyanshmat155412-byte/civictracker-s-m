@@ -155,7 +155,7 @@ const ComplaintDetail = () => {
             <SLACountdown category={complaint.category} createdAt={complaint.created_at} status={complaint.status} />
             {complaint.city && (
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary/15 text-foreground font-medium">
-                🌆 {complaint.city}
+                🌆 {tx(complaint.city)}
               </span>
             )}
             {(complaint as { zone?: string | null }).zone && (
@@ -170,7 +170,7 @@ const ComplaintDetail = () => {
             )}
             {((complaint as { escalation_level?: number }).escalation_level ?? 0) > 0 && complaint.status !== "resolved" && (
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-destructive/15 text-destructive font-semibold">
-                🚨 {ESCALATION_LABEL[(complaint as { escalation_level: number }).escalation_level]}
+                🚨 {tx(ESCALATION_LABEL[(complaint as { escalation_level: number }).escalation_level])}
               </span>
             )}
           </div>
@@ -210,7 +210,7 @@ const ComplaintDetail = () => {
             <PrintDownloadMenu complaint={complaint} />
             {department && (
               <span className="flex items-center gap-1 text-primary">
-                <Building2 className="w-3.5 h-3.5" /> {department.name}
+                <Building2 className="w-3.5 h-3.5" /> {tx(department.name)}
               </span>
             )}
           </div>
