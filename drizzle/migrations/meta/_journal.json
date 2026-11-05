@@ -8,6 +8,13 @@
       "when": 1793860393852,
       "tag": "0000_civic_base_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793860462396,
+      "tag": "0001_civic_departments_workers_cities",
+      "breakpoints": true
     }
   ]
 }
