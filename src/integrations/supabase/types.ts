@@ -1018,6 +1018,10 @@ export type Database = {
         }
         Returns: Json
       }
+      admin_link_worker_account: {
+        Args: { _email: string; _worker_id: string }
+        Returns: undefined
+      }
       admin_list_known_cities: {
         Args: never
         Returns: {
