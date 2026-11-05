@@ -127,7 +127,7 @@ const handler = async (req: Request): Promise<Response> => {
       .single();
 
     if (insertErr) {
-      return new Response(JSON.stringify({ error: insertErr.message }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Could not log the message" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     return new Response(JSON.stringify({ success: true, log, simulated: provider === "simulated" }), {
@@ -135,7 +135,7 @@ const handler = async (req: Request): Promise<Response> => {
     });
   } catch (e: any) {
     console.error("send-sms error:", e);
-    return new Response(JSON.stringify({ error: e?.message || "Unknown error" }), {
+    return new Response(JSON.stringify({ error: "Request could not be completed. Please try again." }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
