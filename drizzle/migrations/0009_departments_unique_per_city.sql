@@ -1,0 +1,2 @@
+ALTER TABLE public.departments DROP CONSTRAINT IF EXISTS departments_name_key;
+CREATE UNIQUE INDEX IF NOT EXISTS departments_name_city_key ON public.departments (lower(name), lower(COALESCE(city, '')));
