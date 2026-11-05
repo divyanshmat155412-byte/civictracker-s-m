@@ -1,6 +1,10 @@
 /** Local fixed interface copy only. Never pass citizen text to this dictionary. */
 export const uiHindi: Readonly<Record<string, string>> = {
   "404": "404",
+  "Delete failed:": "हटाने में समस्या:",
+  "Link this complaint as a duplicate of": "इस शिकायत को इसकी दोहराई गई शिकायत के रूप में जोड़ें:",
+  "The reporter is notified; you can undo it.": "शिकायतकर्ता को सूचना मिलेगी; आप इसे पूर्ववत कर सकते हैं।",
+  "Merged into": "इस शिकायत में मिलाया गया:",
   "Dept Head": "विभाग प्रमुख",
   "Water Supply": "जल आपूर्ति",
   "Electricity": "बिजली",
