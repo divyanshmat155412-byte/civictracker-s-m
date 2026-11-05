@@ -161,7 +161,7 @@ const Navbar = () => {
           </button>
           <NotificationBell />
           <button
-            className="p-2 rounded-md text-foreground hover:bg-muted"
+            className="min-h-11 min-w-11 grid place-items-center rounded-md text-foreground hover:bg-muted"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
