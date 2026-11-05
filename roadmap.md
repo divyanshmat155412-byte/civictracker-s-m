@@ -1,6 +1,7 @@
 # Civic Tracker roadmap
 
-- [ ] Complete frontend Hindi-English coverage, persistence, browser verification and audit report (no production-data changes)
+- [x] Local fixed-copy translation, persistence, public browser verification and audit report
+- [ ] Complete authenticated/dynamic Hindi coverage (requires authorized non-root test sessions; free-form AI/notification translation remains unsupported)
 
 - [x] Import ZIP source, set up database, logins, photo storage
 - [x] Feature audit (docs/FEATURE_AUDIT.md)
