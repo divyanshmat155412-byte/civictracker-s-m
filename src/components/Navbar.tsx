@@ -111,7 +111,7 @@ const Navbar = () => {
           <button
             onClick={toggleLanguage}
             className="group relative shrink-0 ml-1 px-3 py-1.5 rounded-full text-xs font-bold border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 hover:border-primary/60 transition-all duration-300 flex items-center gap-1.5 shadow-sm hover:shadow-md overflow-hidden"
-            title="Switch language"
+            title="Switch language" aria-label="Switch language"
           >
             <Globe className="w-3.5 h-3.5 text-primary group-hover:rotate-180 transition-transform duration-500" />
             <span className="relative z-10 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-extrabold tracking-wide">
@@ -123,10 +123,10 @@ const Navbar = () => {
           <NotificationBell />
           {user ? (
             <div className="flex shrink-0 items-center gap-2 ml-1">
-              <Link to="/profile" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted" title="My Profile">
+              <Link to="/profile" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted" title="My Profile" aria-label="My Profile">
                 <User className="w-4 h-4" />
               </Link>
-              <button onClick={signOut} className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted" title={t("nav.signOut")}>
+              <button onClick={signOut} className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted" title={t("nav.signOut")} aria-label={t("nav.signOut")}>
                 <LogOut className="w-4 h-4" />
               </button>
             </div>
