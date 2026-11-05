@@ -1,11 +1,13 @@
 # Civic Tracker
 
-**AI-Powered Citizen-to-Resolution Platform**
-Report. Resolve. Renew.
+**Every Complaint Tracked. Every Fix Proven.**
+
+Team SANT (Mohit Katara, team lead; Divyansh Mathur) · Unstop CodeQuest 2026 · Pilot city: Ratlam, Madhya Pradesh
 
 Civic Tracker is a mobile-first, multilingual web platform where citizens report civic problems (garbage, broken roads, waterlogging, streetlights and more) by text, photo or voice, and city officials resolve them in public view. Google Gemini reads every request, suggests the category and priority, answers questions in the citizen's language, and turns the data into hotspots, trend forecasts and reports for planners.
 
-- **Live prototype:** https://civictracker1.lovable.app
+- **Live prototype:** https://civictracker-s-m.lovable.app
+- **Test report:** [docs/END_TO_END_TEST_REPORT.md](docs/END_TO_END_TEST_REPORT.md)
 - **Hackathon track:** Problem Statement 01, AI for Digital Public Infrastructure & Governance (Theme: Innovation)
 
 ---
@@ -62,7 +64,7 @@ Citizen feedback in India is spread across many systems. Central grievances go t
 **For citizens**
 - Report a problem in under a minute with a photo, automatic GPS location (or a map picker), category and priority.
 - Speak the complaint instead of typing.
-- Get a unique public ID (for example `CT-07`) and track the status live, with a 48-hour countdown and a timeline of every update.
+- Get a unique public ID (for example `CT-142`) and track the status live, with a deadline countdown and a timeline of every update.
 - Ask the Civic AI assistant questions in eight Indian languages.
 - Report anonymously when needed. Only the name is hidden.
 - Comment, upvote, verify ("I have seen this too"), share and rate the resolution.
@@ -83,12 +85,15 @@ Citizen feedback in India is spread across many systems. Central grievances go t
 
 ## Feature status
 
+Status as verified on 5 November 2026 (see the test report for evidence).
+
 | Status | Features |
 |---|---|
-| **Working** | Sign in (email and Google), complaint submission with photo and GPS, map picker, unique IDs, anonymous reporting, priority levels, public tracking and timeline, comments, upvotes, verification, sharing, rating, notification bell, complaint map (clusters, markers, heatmap, area stats), hotspot page, public dashboard, all Gemini features listed above, Hindi interface, 8-language AI chat, city-scoped admin panel, status updates with proof photo, admin access requests and role management, polls, AI admin reports, CSV and PDF export, posters with QR codes, green points, badges, leaderboard, installable web app |
-| **Partly working** | 48-hour rule (countdown is shown, escalation is set manually by an admin), browser notifications (only while the app is open), Hindi translation (main screens only), departments (in progress), rewards store and achievements (built, but no items configured yet), installable app (no offline mode yet) |
-| **Needs external setup** | SMS updates (need Twilio keys, simulated until then), WhatsApp intake (needs a Twilio or Meta business number, works in the built-in test simulator), email reports (need an email domain, not built yet) |
-| **Simulated** | Field worker live tracking (demo movement only, workers do not log in yet) |
+| **Tested end to end** | Photo complaint with GPS, automatic city/ward/zone detection, department routing with deadline, AI photo category suggestion (citizen must accept), duplicate warning, City Admin merge and undo, worker assignment, field-worker jobs page, after-repair photo required to resolve, public tracking with before/after proof, rating, notification bell, Hindi interface, city isolation and role security |
+| **Tested by automated scripts only** | Automatic escalation (L1 officer, L2 City Admin, L3 Super Admin), Public Accountability Score formula, City Admin applications, new-city onboarding |
+| **Built, not re-tested in this round** | Hindi/English voice input with confirmation, Civic AI chat, trend predictions, AI admin reports, polls, rewards store, leaderboard, heatmap, offline drafts, CSV/PDF export, posters with QR codes |
+| **Needs external setup** | Real SMS (Twilio keys), real WhatsApp intake (business number; built-in simulator works without it), email reports |
+| **Demonstration data** | Ratlam ward boundaries are demo data, not official boundaries |
 
 ## Architecture
 
@@ -136,7 +141,10 @@ Every change is saved in one database and pushed live to all open screens, so th
 │   └── routes/                    App routes
 │       └── api/public/fn/         Server functions (Gemini features, SMS, WhatsApp webhook, worker simulation)
 ├── supabase/
-│   └── migrations/                Database schema, policies and triggers
+│   └── config.toml                Backend project config
+├── drizzle/migrations/            Database migrations (schema, policies, triggers)
+├── scripts/                       End-to-end test scripts (run one at a time)
+├── docs/                          Feature audit, security report, end-to-end test report
 ├── .env.example                   Environment variables template
 └── README.md
 ```
@@ -170,12 +178,16 @@ bun run format    # format the code
 
 ### Set up the database
 
+Apply the SQL files in `drizzle/migrations` in order to a fresh Supabase (Postgres) project. The Platform Super Admin is identified by a user ID stored in the `app_config` table (`root_admin_user_id`), never by email; set it once for your own account after signing up.
+
+### Run the tests
+
 ```bash
-supabase link --project-ref <your-project-ref>
-supabase db push
+bun run test                                   # unit tests
+bun scripts/e2e-civic-flow.ts                  # end-to-end, needs server-only env vars
 ```
 
-Before running the migrations, replace the placeholder `main-admin@example.com` in `supabase/migrations` with the email of your own main admin. See [Configuration](#configuration).
+Run end-to-end scripts **one at a time** against a test database. Each script takes a lock and checks that the Super Admin record is unchanged.
 
 ## Configuration
 
@@ -184,16 +196,15 @@ All values go in `.env` (copy it from `.env.example`). Never commit the real `.e
 | Variable | Where it is used | Purpose |
 |---|---|---|
 | `VITE_SUPABASE_URL` | Browser | URL of your Supabase project |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | Browser | Public (anon) key of your Supabase project |
-| `VITE_SUPABASE_PROJECT_ID` | Browser | Supabase project ID |
-| `VITE_MAIN_ADMIN_EMAIL` | Browser | Email of the main admin, used to show main admin screens |
-| `SUPABASE_URL` | Server only | Supabase URL for server functions |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server only | Service key for server functions. Keep it secret |
-| `LOVABLE_API_KEY` | Server only | Access to Google Gemini through the Lovable AI Gateway |
-| `MAIN_ADMIN_EMAIL` | Server only | Email of the main admin, checked by server functions |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Browser | Public (publishable) key |
+| `VITE_SUPABASE_PROJECT_ID` | Browser | Project ID |
+| `SUPABASE_URL` | Server only | Backend URL for server functions |
+| `SUPABASE_PUBLISHABLE_KEY` | Server only | Publishable key for server-side public reads |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server only | Service key. Keep it secret |
+| `LOVABLE_API_KEY` | Server only | Google Gemini through the Lovable AI Gateway |
 | `TWILIO_API_KEY`, `TWILIO_FROM_NUMBER` | Server only | Optional, for real SMS delivery |
 
-The main admin email is never hard-coded in the source code. The database functions in `supabase/migrations` contain the placeholder `main-admin@example.com`; replace it with your own main admin email before running them.
+All values in `.env.example` are placeholders. No real keys are stored in this repository.
 
 ## Database
 
@@ -234,8 +245,8 @@ All server functions live in `src/routes/api/public/fn` and run on the server.
 ## Roadmap
 
 - Policy Insights: join complaint hotspots with open data such as Census population and infrastructure indices, so Gemini can rank development projects for policymakers.
-- Automatic escalation after 48 hours.
-- Field worker app with real GPS tracking.
+- Official ward boundaries for Ratlam and city-specific department routing.
+- Real GPS tracking for field workers.
 - Server push notifications and offline support.
 - More Indian languages in the interface.
 
@@ -247,6 +258,12 @@ All server functions live in `src/routes/api/public/fn` and run on the server.
 - Anonymous reporting hides the reporter's name.
 - API keys and service keys stay on the server and are read from environment variables.
 - See [SECURITY.md](SECURITY.md) to report a security issue.
+
+## AI assistance disclosure
+
+- **Inside the product:** Google Gemini models (via the Lovable AI Gateway) suggest categories, summaries, transcripts and forecasts. Every AI result is a suggestion; citizens and officials confirm it before it is saved as fact.
+- **Building the product:** the code was written with the help of Lovable, an AI app builder, directed and reviewed by Team SANT. Test scripts, documentation and this README were also prepared with AI assistance.
+- **Pre-existing components:** shadcn/ui components, open-source libraries listed below, OpenStreetMap data, and royalty-free Wikimedia Commons photos used only in test records.
 
 ## Open-source credits
 
