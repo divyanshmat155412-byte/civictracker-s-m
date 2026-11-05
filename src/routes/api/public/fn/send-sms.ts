@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { jsonError } from "@/lib/server/api-guard";
 import { createClient } from "@supabase/supabase-js";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -47,7 +48,7 @@ const handler = async (req: Request): Promise<Response> => {
       return new Response(JSON.stringify({ error: "Admins only" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const { to, body, complaint_id, user_id } = (await req.json()) as SendSmsBody;
+    const { to, body, complaint_id } = (await req.json()) as SendSmsBody;
     if (!to || !body) {
       return new Response(JSON.stringify({ error: "to and body required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
@@ -59,6 +60,22 @@ const handler = async (req: Request): Promise<Response> => {
     if (body.length > 480) {
       return new Response(JSON.stringify({ error: "Message too long (max 480 chars)" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
+
+    // Recipient must be the citizen behind a complaint in a city this admin manages
+    if (!complaint_id) return jsonError(400, "Choose the complaint this message is about");
+    const { data: target } = await supabase.from("complaints").select("city, user_id, whatsapp_number").eq("id", complaint_id).maybeSingle();
+    if (!target) return jsonError(404, "Complaint not found");
+    const { data: cityOk } = await supabase.rpc("admin_can_manage_city", { _user_id: user.id, _city: target.city });
+    if (cityOk !== true) return jsonError(403, "You can only message citizens in your city");
+    const norm = (v: string | null | undefined) => (v || "").replace(/[\s-]/g, "").replace(/^\+/, "");
+    let allowedPhones = [norm(target.whatsapp_number)];
+    if (target.user_id) {
+      const { data: prof } = await supabase.from("profiles").select("phone_number, sms_opt_in").eq("user_id", target.user_id).maybeSingle();
+      if (prof?.sms_opt_in) allowedPhones.push(norm(prof.phone_number));
+    }
+    allowedPhones = allowedPhones.filter(Boolean);
+    if (!allowedPhones.includes(norm(phone))) return jsonError(403, "Number does not belong to this complaint's citizen");
+    const user_id = target.user_id;
 
     let provider = "simulated";
     let status = "simulated";
