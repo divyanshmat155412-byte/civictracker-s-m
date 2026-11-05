@@ -1321,6 +1321,7 @@ export type Database = {
       }
       log_session_event: { Args: { _event: string }; Returns: undefined }
       main_admin_email: { Args: never; Returns: string }
+      my_complaint_ids: { Args: never; Returns: string[] }
       my_worker_jobs: {
         Args: never
         Returns: {

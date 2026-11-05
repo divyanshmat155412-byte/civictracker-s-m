@@ -120,6 +120,13 @@
       "when": 1793893894374,
       "tag": "0016_fix_home_city_regex",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1793895101194,
+      "tag": "0017_secure_photos_ownership_anonymity",
+      "breakpoints": true
     }
   ]
 }

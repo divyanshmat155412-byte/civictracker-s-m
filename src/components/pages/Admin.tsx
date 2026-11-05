@@ -126,7 +126,7 @@ const Admin = () => {
       let afterPhotoUrl: string | null = null;
       if (afterPhoto) {
         const ext = afterPhoto.name.split(".").pop();
-        const filePath = `admin/${Date.now()}.${ext}`;
+        const filePath = `${user.id}/after-${Date.now()}.${ext}`;
         const { error: uploadError } = await supabase.storage.from("complaint-photos").upload(filePath, afterPhoto);
         if (!uploadError) {
           afterPhotoUrl = photoUrlFor(filePath);
