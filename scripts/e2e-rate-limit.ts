@@ -92,12 +92,14 @@ try {
   ok("B4 at exactly 600s after oldest: refused, Retry-After = 1s", at600.allowed === false && at600.retry_after === 1, at600);
   const at601 = await R(c.id, T0 + 601_000);
   ok("B5 at 601s after oldest: allowed (oldest fell out)", at601.allowed === true && at601.used === 30, at601);
-  const again = await R(c.id, T0 + 601_100);
-  ok("B6 next request at 601.1s refused (window full again), Retry-After matches next oldest", again.allowed === false && again.retry_after === 1, again);
+  const s15 = await R(c.id, T0 + 601_500);
+  ok("B6a at 601.5s the 1s entry has aged out: one more allowed", s15.allowed === true && s15.used === 30, s15);
+  const again = await R(c.id, T0 + 601_500);
+  ok("B6b immediate next request refused, Retry-After 1s (oldest at 2s frees at 602s+)", again.allowed === false && again.retry_after === 1, again);
   const evCount = await admin.from("api_usage_events").select("id", { count: "exact", head: true }).eq("user_id", c.id);
-  ok("B7 refused requests are not stored (31 entries total)", evCount.count === 31, evCount.count);
+  ok("B7 refused requests are not stored (32 entries total)", evCount.count === 32, evCount.count);
   // concurrency at the boundary: 20 simultaneous calls when 1 slot frees
-  const conc2 = await Promise.all(Array.from({ length: 20 }, () => R(c.id, T0 + 602_000)));
+  const conc2 = await Promise.all(Array.from({ length: 20 }, () => R(c.id, T0 + 602_500)));
   ok("B8 20 simultaneous calls when 1 slot opens: exactly 1 allowed", conc2.filter(x => x.allowed).length === 1, conc2.filter(x => x.allowed).length);
   const tenMin = await R(b.id, Date.now() + 601_000);
   ok("B9 user B fresh again 601s later", tenMin.allowed === true && tenMin.used === 1, tenMin);
