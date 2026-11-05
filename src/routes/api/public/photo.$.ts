@@ -28,6 +28,8 @@ export const Route = createFileRoute("/api/public/photo/$")({
           headers: {
             "content-type": type,
             "x-content-type-options": "nosniff",
+            // Posters/PDF draw these with crossOrigin="anonymous" (needed on preview domains).
+            "access-control-allow-origin": "*",
             "cache-control": "public, max-age=3600",
           },
         });
