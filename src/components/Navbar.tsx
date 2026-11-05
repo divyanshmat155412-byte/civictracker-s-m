@@ -24,6 +24,7 @@ const NAV_LINKS: { to: string; labelKey: TranslationKey }[] = [
   { to: "/polls", labelKey: "nav.polls" },
   { to: "/heatmap", labelKey: "nav.heatmap" as TranslationKey },
   { to: "/departments", labelKey: "nav.departments" as TranslationKey },
+  { to: "/worker", labelKey: "nav.worker" as TranslationKey },
 ];
 
 const Navbar = () => {

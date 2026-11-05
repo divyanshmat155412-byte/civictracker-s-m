@@ -32,6 +32,12 @@ const Complaints = () => {
   const [categoryFilter, setCategoryFilter] = useState<ComplaintCategory | "all">("all");
   const [statusFilter, setStatusFilter] = useState<ComplaintStatus | "all">("all");
   const [cityFilter, setCityFilter] = useState<string>("all");
+  const [wardFilter, setWardFilter] = useState<string>("all");
+  const { data: wardList = [] } = useQuery({
+    queryKey: ["wards-filter", cityFilter],
+    enabled: cityFilter !== "all",
+    queryFn: async () => (await supabase.from("wards").select("id,ward_number,name,zone").eq("city", cityFilter).order("ward_number")).data ?? [],
+  });
   const { t } = useLanguage();
   const { user } = useAuth();
   
@@ -57,12 +63,13 @@ const Complaints = () => {
   }, [invalidateComplaints]);
 
   const { data: complaints = [] } = useQuery({
-    queryKey: ["all-complaints", categoryFilter, statusFilter, cityFilter],
+    queryKey: ["all-complaints", categoryFilter, statusFilter, cityFilter, wardFilter],
     queryFn: async () => {
       let query = supabase.from("complaints").select(COMPLAINT_COLS).order("created_at", { ascending: false });
       if (categoryFilter !== "all") query = query.eq("category", categoryFilter);
       if (statusFilter !== "all") query = query.eq("status", statusFilter);
       if (cityFilter !== "all") query = query.eq("city", cityFilter);
+      if (cityFilter !== "all" && wardFilter !== "all") query = query.eq("ward_id", wardFilter);
       const { data, error } = await query;
       if (error) throw error;
       return data;
@@ -133,6 +140,12 @@ const Complaints = () => {
             <option value="all">All cities</option>
             {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
+          {cityFilter !== "all" && wardList.length > 0 && (
+            <select value={wardFilter} onChange={(e) => setWardFilter(e.target.value)} aria-label="Ward" className="rounded-lg border border-input bg-card px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring">
+              <option value="all">All wards</option>
+              {wardList.map((w) => <option key={w.id} value={w.id}>Ward {w.ward_number} · {w.name} ({w.zone})</option>)}
+            </select>
+          )}
         </div>
 
         <p className="text-sm text-muted-foreground mb-4">{filtered.length} {t("complaints.complaint")}{filtered.length !== 1 ? "s" : ""} {t("complaints.found")}</p>

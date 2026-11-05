@@ -151,6 +151,15 @@ const AdminWorkers = () => {
               <div>
                 <p className="font-medium text-foreground text-sm">{w.name}</p>
                 <p className="text-xs text-muted-foreground">{w.phone || "—"} • {w.departments?.name || "Unassigned"}</p>
+                <form className="mt-2 flex gap-1" onSubmit={async (e) => {
+                  e.preventDefault();
+                  const email = String(new FormData(e.currentTarget).get("email") || "");
+                  const { error } = await supabase.rpc("admin_link_worker_account", { _worker_id: w.id, _email: email });
+                  if (error) toast.error(error.message); else toast.success("Login linked — the worker now sees jobs at /worker");
+                }}>
+                  <input name="email" type="email" required placeholder="Worker login email" className="px-2 py-1 rounded border border-input bg-background text-xs" />
+                  <button className="px-2 py-1 rounded bg-primary text-primary-foreground text-xs">Link login</button>
+                </form>
               </div>
               <button onClick={() => deleteWorker(w.id)} className="p-2 text-destructive hover:bg-destructive/10 rounded">
                 <Trash2 className="w-4 h-4" />
