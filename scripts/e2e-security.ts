@@ -1,4 +1,5 @@
 // Security & role tests (A–L). Uses throw-away test accounts; never touches the real Super Admin.
+// RUN ALONE: e2e-gps-routing-applications.ts temporarily swaps the root ID; running both together once removed the real root roles.
 import { createClient } from "@supabase/supabase-js";
 const url = process.env.SUPABASE_URL!, svc = process.env.SUPABASE_SERVICE_ROLE_KEY!, anon = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY!;
 const admin = createClient(url, svc, { auth: { persistSession: false } });
