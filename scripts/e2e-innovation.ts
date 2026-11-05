@@ -25,7 +25,7 @@ try {
     { user_id: adA.id, role: "admin", city: A, status: "active" },
     { user_id: adB.id, role: "admin", city: B, status: "active" },
   ]);
-  const mk = (title: string, lat = 23.33, lng = 75.04, category = "garbage", city = A) =>
+  const mk = (title: string, lat = 10.33, lng = 10.04, category = "garbage", city = A) =>
     cit.c.from("complaints").insert({ user_id: cit.id, title, description: title + " near the market", category, priority: "medium", location: "Demo", city, latitude: lat, longitude: lng, submitted_by: "T" }).select("id").single();
 
   // ===== A. Escalation =====
@@ -63,7 +63,7 @@ try {
   ];
   const ids: string[] = [];
   for (const [i, r] of rows.entries()) {
-    const c = await mk(`Score sample ${i}`, 23.4 + i * 0.05, 75.2, "streetlight");
+    const c = await mk(`Score sample ${i}`, 10.4 + i * 0.05, 10.2, "streetlight");
     ids.push(c.data!.id);
     const dueAt = new Date(now - (r.resolved ? 10 : r.overdue ? 1 : -50) * H);
     await admin.from("complaints").update({
@@ -83,9 +83,9 @@ try {
   ok("B2 fewer than 5 complaints -> no score", m2 && m2.score === null, m2);
 
   // ===== C. Duplicate merging =====
-  const p = await mk("Garbage heap not collected at bus stand", 23.5, 75.5);
-  const d = await mk("Garbage heap at bus stand not collected", 23.5005, 75.5005);
-  const far = await mk("Garbage heap at bus stand", 23.6, 75.6);
+  const p = await mk("Garbage heap not collected at bus stand", 10.5, 10.5);
+  const d = await mk("Garbage heap at bus stand not collected", 10.5005, 10.5005);
+  const far = await mk("Garbage heap at bus stand", 10.6, 10.6);
   const sim = await adA.c.rpc("find_similar_complaints" as never, { _complaint_id: d.data!.id } as never);
   const simIds = ((sim.data ?? []) as { id: string; similarity: number }[]);
   ok("C1 nearby similar report found with text similarity", simIds.some((s) => s.id === p.data!.id && s.similarity > 0.5), [sim.error, simIds]);
