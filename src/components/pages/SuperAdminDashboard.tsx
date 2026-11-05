@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Crown, Shield } from "lucide-react";
 import Layout from "@/components/Layout";
 import AdminRequestsManager from "@/components/AdminRequestsManager";
+import CityOnboarding from "@/components/CityOnboarding";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -118,6 +119,8 @@ const SuperAdminDashboard = () => {
               {(ov?.by_admin ?? []).length === 0 && <p className="text-muted-foreground">No City Admin activity yet.</p>}
             </CardContent></Card>
         </section>
+
+        <CityOnboarding />
 
         <AdminRequestsManager />
 

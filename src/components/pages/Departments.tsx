@@ -1,3 +1,6 @@
+import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
+import { useAdminCities } from "@/hooks/useAdminCities";
+import { useCities } from "@/hooks/useCities";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Building2, Trophy, Clock, CheckCircle2, AlertCircle, Plus, Sparkles, X, Search } from "lucide-react";
@@ -57,12 +60,17 @@ const Departments = () => {
   const [createOpen, setCreateOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [form, setForm] = useState({ name: "", description: "", head_name: "", contact_email: "" });
+  const [deptCity, setDeptCity] = useState("");
+  const { isMainAdmin } = useIsRootAdmin();
+  const { cities: adminCities } = useAdminCities();
+  const { cities: allCities } = useCities();
+  const cityChoices = isMainAdmin ? allCities : (adminCities ?? []);
 
   const { data: stats = [], isLoading } = useQuery<DeptStat[]>({
     queryKey: ["dept-leaderboard"],
     queryFn: async () => {
       const [{ data: depts }, { data: complaints }] = await Promise.all([
-        supabase.from("departments").select("id,name,description,head_name,created_at"),
+        supabase.from("departments").select("id,name,description,head_name,created_at,city"),
         supabase.from("complaints").select("department_id, status, created_at, resolved_at"),
       ]);
       if (!depts) return [];
@@ -81,7 +89,7 @@ const Departments = () => {
             : null;
         return {
           id: d.id,
-          name: d.name,
+          name: d.city ? `${d.name} (${d.city})` : d.name,
           description: d.description,
           head_name: d.head_name,
           total: own.length,
@@ -115,6 +123,7 @@ const Departments = () => {
         description: input.description || null,
         head_name: input.head_name || null,
         contact_email: input.contact_email ? input.contact_email : null,
+        city: deptCity || (isMainAdmin ? null : cityChoices[0] ?? null),
       };
       const { error } = await supabase.from("departments").insert(payload);
       if (error) throw error;
@@ -374,6 +383,15 @@ const Departments = () => {
                   placeholder={t("dept.descPlaceholder")}
                   className="w-full rounded-lg border border-input bg-card px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring"
                 />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-foreground mb-1">City</label>
+                <select value={deptCity} onChange={(e) => setDeptCity(e.target.value)}
+                  className="w-full rounded-lg border border-input bg-card px-3 py-2 text-sm">
+                  {isMainAdmin && <option value="">All cities (shared)</option>}
+                  {!isMainAdmin && <option value="">Choose city…</option>}
+                  {cityChoices.map((c) => <option key={c} value={c}>{c}</option>)}
+                </select>
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>

@@ -57,6 +57,20 @@
       "when": 1793864702922,
       "tag": "0007_root_super_admin_hierarchy",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793865566299,
+      "tag": "0008_dynamic_city_onboarding",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793865713835,
+      "tag": "0009_departments_unique_per_city",
+      "breakpoints": true
     }
   ]
 }

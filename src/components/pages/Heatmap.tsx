@@ -8,7 +8,7 @@ import { Flame, Filter, MapPin } from "lucide-react";
 import Layout from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { CITIES } from "@/lib/cities";
+import { useCities } from "@/hooks/useCities";
 import { CATEGORY_CONFIG, ComplaintCategory } from "@/lib/types";
 
 type RangeKey = "24h" | "7d" | "30d" | "all";
@@ -57,6 +57,7 @@ const HeatLayer = ({ points }: { points: [number, number, number][] }) => {
 };
 
 const Heatmap = () => {
+  const { cities: CITIES } = useCities();
   const [range, setRange] = useState<RangeKey>("7d");
   const [city, setCity] = useState<string>("all");
   const [category, setCategory] = useState<ComplaintCategory | "all">("all");

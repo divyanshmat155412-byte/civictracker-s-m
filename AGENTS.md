@@ -13,3 +13,4 @@
 - The Platform Super Admin is identified only by `app_config.root_admin_user_id` (checked via `is_main_admin()` / `useIsRootAdmin`); never by email or client state — keeps the identity private and immune to signup/role tricks.
 - City scoping for admins/officers goes through `admin_can_manage_city()`; only the root gets all-city access, and `guard_user_roles` rejects city-less admin rows — prevents a second super admin.
 - Audit rows are written only by SECURITY DEFINER triggers/RPCs via `write_audit()`; clients cannot insert/update/delete `audit_logs` — keeps the log tamper-proof.
+- City lists come from `useCities()` (built-in `CITIES` + active rows in `public.cities`); never map `CITIES` directly in a selector — new cities must appear without code changes.

@@ -28,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CITIES } from "@/lib/cities";
+import { useCities } from "@/hooks/useCities";
 import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
 
 
@@ -47,6 +47,7 @@ type RoleAssignment = {
 };
 
 const AdminUsers = () => {
+  const { cities: CITIES } = useCities();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
