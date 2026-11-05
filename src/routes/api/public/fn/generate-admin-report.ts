@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getCaller, isStaff, canManageCity, sanitizeChat, jsonError } from "@/lib/api-guard";
+import { getCaller, isStaff, canManageCity, sanitizeChat, jsonError, enforceAiQuota } from "@/lib/api-guard";
 import { createClient } from "@supabase/supabase-js";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -15,6 +15,8 @@ const handler = async (req: Request): Promise<Response> => {
   const caller = await getCaller(req);
   if (!caller) return jsonError(401, "Please sign in to use this feature");
   if (!(await isStaff(caller))) return jsonError(403, "Staff only");
+  const limited = await enforceAiQuota(caller, "generate-admin-report");
+  if (limited) return limited;
 
 
   try {

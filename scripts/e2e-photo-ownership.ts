@@ -43,10 +43,10 @@ try {
   ok("O4 anonymous complaint still linked to filer privately", anonRow.data?.user_id === cit.id, anonRow);
   ok("O5 anonymous complaint shows 'Anonymous' as filer name", anonRow.data?.submitted_by === "Anonymous", anonRow);
   const wa = await pub.from("complaints").insert({ ...base, user_id: cit.id, title: "TEST whatsapp", source: "whatsapp", submitted_by: "WhatsApp test" }).select("id");
-  ok("O6 WhatsApp-style signed-out insert still allowed", !wa.error, wa.error);
+  ok("O6 public app key can NOT insert WhatsApp complaints directly (SA-05)", !!wa.error, wa.error);
   const waRow = await admin.from("complaints").select("id, user_id").eq("title", "TEST whatsapp").eq("city", "PhotoTestCity").maybeSingle();
   if (waRow.data) complaints.push(waRow.data.id);
-  ok("O7 signed-out insert cannot claim an account", waRow.data && waRow.data.user_id === null, waRow);
+  ok("O7 no WhatsApp row was created by the signed-out attempt", !waRow.data, waRow);
   const steal = await other.c.from("complaints").update({ user_id: other.id }).eq("id", own.data!.id).select("id");
   const stillOwn = await admin.from("complaints").select("user_id").eq("id", own.data!.id).single();
   ok("O8 another citizen cannot take over a complaint", stillOwn.data?.user_id === cit.id, steal);

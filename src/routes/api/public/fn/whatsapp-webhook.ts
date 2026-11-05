@@ -5,6 +5,9 @@ import { authorizeWebhook, cleanWhatsAppInput } from "@/lib/whatsapp-guard";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+// Must match the complaints category check in the database.
+const ALLOWED_CATEGORIES = ["garbage", "waterlogging", "broken-road", "theft", "fire", "streetlight", "drainage", "encroachment", "noise", "other"];
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -114,7 +117,7 @@ const handler = async (req: Request): Promise<Response> => {
                   properties: {
                     title: { type: "string" },
                     description: { type: "string" },
-                    category: { type: "string", enum: ["garbage", "water", "pothole", "safety", "fire", "lighting", "sewage", "building", "noise", "other"] },
+                    category: { type: "string", enum: ["garbage", "waterlogging", "broken-road", "theft", "fire", "streetlight", "drainage", "encroachment", "noise", "other"] },
                     priority: { type: "string", enum: ["low", "medium", "high", "emergency"] },
                   },
                   required: ["title", "description", "category", "priority"],
@@ -130,8 +133,8 @@ const handler = async (req: Request): Promise<Response> => {
           const args = JSON.parse(data.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments || "{}");
           if (args.title) title = args.title;
           if (args.description) description = args.description;
-          if (args.category) category = args.category;
-          if (args.priority) priority = args.priority;
+          if (ALLOWED_CATEGORIES.includes(args.category)) category = args.category;
+          if (["low", "medium", "high", "emergency"].includes(args.priority)) priority = args.priority;
         }
       } catch (e) {
         console.error("AI extraction failed:", e);

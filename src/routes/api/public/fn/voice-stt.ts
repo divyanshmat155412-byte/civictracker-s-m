@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getCaller, isStaff, canManageCity, sanitizeChat, jsonError } from "@/lib/api-guard";
+import { getCaller, isStaff, canManageCity, sanitizeChat, jsonError, enforceAiQuota } from "@/lib/api-guard";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -13,6 +13,8 @@ const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   const caller = await getCaller(req);
   if (!caller) return jsonError(401, "Please sign in to use this feature");
+  const limited = await enforceAiQuota(caller, "voice-stt");
+  if (limited) return limited;
 
 
   try {
