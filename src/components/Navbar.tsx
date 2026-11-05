@@ -104,6 +104,9 @@ const Navbar = () => {
             </>
           )}
 
+        </nav>
+
+        <div className="hidden xl:flex shrink-0 items-center gap-1">
           {/* Language Toggle */}
           <button
             onClick={toggleLanguage}
@@ -135,7 +138,7 @@ const Navbar = () => {
               {t("nav.signIn")}
             </Link>
           )}
-        </nav>
+        </div>
 
         <div className="xl:hidden flex items-center gap-1">
           {/* Mobile language toggle */}
