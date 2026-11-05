@@ -141,6 +141,13 @@
       "when": 1793897506889,
       "tag": "0019_scope_complaint_insert_policy",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1793899628063,
+      "tag": "0020_sa05_sa06_whatsapp_policy_and_ai_rate_limit",
+      "breakpoints": true
     }
   ]
 }

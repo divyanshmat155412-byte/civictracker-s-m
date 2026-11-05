@@ -89,6 +89,30 @@ export type Database = {
         }
         Relationships: []
       }
+      api_usage: {
+        Row: {
+          endpoint: string
+          request_count: number
+          updated_at: string
+          user_id: string
+          window_start: string
+        }
+        Insert: {
+          endpoint: string
+          request_count?: number
+          updated_at?: string
+          user_id: string
+          window_start: string
+        }
+        Update: {
+          endpoint?: string
+          request_count?: number
+          updated_at?: string
+          user_id?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
       app_config: {
         Row: {
           key: string
@@ -1164,6 +1188,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _consume_ai_quota: {
+        Args: {
+          _endpoint: string
+          _limit: number
+          _now: string
+          _uid: string
+          _window_seconds: number
+        }
+        Returns: Json
+      }
       admin_can_manage_city: {
         Args: { _city: string; _user_id: string }
         Returns: boolean
@@ -1220,6 +1254,7 @@ export type Database = {
         Args: { _duplicate: string; _note?: string }
         Returns: Json
       }
+      consume_ai_quota: { Args: { _endpoint: string }; Returns: Json }
       department_scores: {
         Args: { _city?: string }
         Returns: {
