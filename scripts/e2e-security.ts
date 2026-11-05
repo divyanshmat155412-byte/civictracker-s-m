@@ -73,22 +73,22 @@ ok("F6 no admin rights before approval", (stillNo ?? []).length === 0);
 const mk = async (city: string) => (await cit.c.from("complaints").insert({ user_id: cit.id, title: `Sec ${city}`, description: "sec test", category: "broken-road", priority: "medium", location: city, city, submitted_by: "T" }).select("id,complaint_id").single()).data!;
 const cA = await mk("TestCityA"), cB = await mk("TestCityB");
 const { data: dept } = await admin.from("departments").select("id").limit(2);
-const edit = await adA.c.from("complaints").update({ description: "corrected", category: "garbage", priority: "high", department_id: dept?.[1]?.id ?? dept?.[0]?.id, due_at: new Date(Date.now() + 86400e3).toISOString(), status: "in-progress" }).eq("id", cA.id).select();
+const edit = await adA.c.from("complaints").update({ description: "corrected", category: "garbage", priority: "high", department_id: dept?.[1]?.id ?? dept?.[0]?.id, due_at: new Date(Date.now() + 86400e3).toISOString(), status: "in-progress" }).eq("id", cA.id).select("id");
 ok("I1 City Admin edits/routes/prioritises own-city complaint", !edit.error && edit.data?.length === 1, edit);
 const note = await adA.c.from("complaint_timeline").insert({ complaint_id: cA.id, status: "in-progress", note: "Internal note", updated_by: adA.id });
 ok("I2 City Admin adds timeline note", !note.error, note.error);
 const { data: w } = await admin.from("workers").insert({ name: "Sec Worker", city: "TestCityA", user_id: wk.id }).select("id").single();
 const asg = await adA.c.from("worker_assignments").insert({ complaint_id: cA.id, worker_id: w!.id }).select("id").single();
 ok("I3 City Admin assigns field worker", !asg.error, asg.error);
-const resolveNoProof = await adA.c.from("complaints").update({ status: "resolved" }).eq("id", cA.id).select();
+const resolveNoProof = await adA.c.from("complaints").update({ status: "resolved" }).eq("id", cA.id).select("id");
 ok("K1 admin cannot resolve without after-photo", !!resolveNoProof.error, resolveNoProof);
-const crossEdit = await adA.c.from("complaints").update({ description: "hacked" }).eq("id", cB.id).select();
+const crossEdit = await adA.c.from("complaints").update({ description: "hacked" }).eq("id", cB.id).select("id");
 ok("J1 City Admin cannot edit other city's complaint", (crossEdit.data ?? []).length === 0, crossEdit);
-const crossMove = await adA.c.from("complaints").update({ city: "TestCityB" }).eq("id", cA.id).select();
+const crossMove = await adA.c.from("complaints").update({ city: "TestCityB" }).eq("id", cA.id).select("id");
 ok("J2 City Admin cannot move complaint into another city", !!crossMove.error || (crossMove.data ?? []).length === 0, crossMove);
 const crossAsg = await adA.c.from("worker_assignments").insert({ complaint_id: cB.id, worker_id: w!.id });
 ok("J3 City Admin cannot assign on other city's complaint", !!crossAsg.error);
-const del = await adA.c.from("complaints").delete().eq("id", cA.id).select();
+const del = await adA.c.from("complaints").delete().eq("id", cA.id).select("id");
 ok("J4 City Admin cannot delete complaint evidence", (del.data ?? []).length === 0, del);
 const bWorker = await adB.c.from("workers").update({ name: "x" }).eq("id", w!.id).select();
 ok("J5 City Admin B cannot edit City A workers", (bWorker.data ?? []).length === 0, bWorker);
@@ -127,7 +127,7 @@ const { data: aMayB } = await adA.c.rpc("admin_can_manage_city", { _user_id: adA
 ok("C4 City Admin A has no rights in City B", aMayB === false);
 // suspension
 await admin.from("user_roles").update({ status: "suspended" }).eq("user_id", adA.id);
-const susp = await adA.c.from("complaints").update({ description: "after suspend" }).eq("id", cA.id).select();
+const susp = await adA.c.from("complaints").update({ description: "after suspend" }).eq("id", cA.id).select("id");
 ok("L1 suspended City Admin loses access immediately", (susp.data ?? []).length === 0, susp);
 
 // G — email privacy
