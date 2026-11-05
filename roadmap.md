@@ -10,7 +10,8 @@
 - [x] True 300 m / 7-day duplicate check
 - [x] Field worker login + jobs page with required after-photo
 - [x] Block citizens from changing official status/proof
-- [ ] Main admin email (waiting on user)
+- [x] Main admin email
+- [x] City Admin applications from verified accounts, GPS ward/zone, city routing, corrections (38/38 tests)
 - [ ] Old data export (optional, waiting on user)
 - [ ] Role labels in Users admin (Officer / City Admin / Super Admin), officer overdue view
 - [ ] Branding: dark teal / mint / white / yellow; Hindi-first default

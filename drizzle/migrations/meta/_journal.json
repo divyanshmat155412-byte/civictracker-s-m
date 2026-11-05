@@ -71,6 +71,13 @@
       "when": 1793865713835,
       "tag": "0009_departments_unique_per_city",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1793866556570,
+      "tag": "0010_gps_wards_city_routing_applications",
+      "breakpoints": true
     }
   ]
 }

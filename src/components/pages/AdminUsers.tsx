@@ -170,7 +170,7 @@ const AdminUsers = () => {
             <h1 className="text-2xl font-bold sm:text-3xl">Manage Users & Roles</h1>
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            Grant or revoke admin / moderator access by email.
+            Manual override (Super Admin only): grant or revoke admin / officer access directly by email. For new City Admins, use the applications inbox instead — it checks the applicant's verified account.
           </p>
         </motion.div>
 

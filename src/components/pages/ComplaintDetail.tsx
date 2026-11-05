@@ -13,6 +13,7 @@ import VerifyButton from "@/components/VerifyButton";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import LiveTrackingMap from "@/components/LiveTrackingMap";
 import PrintDownloadMenu from "@/components/PrintDownloadMenu";
+import ComplaintAssignmentPanel from "@/components/ComplaintAssignmentPanel";
 import { CATEGORY_CONFIG, STATUS_CONFIG, ComplaintCategory } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
 import { COMPLAINT_COLS, DEPARTMENT_COLS_PUBLIC } from "@/lib/db-columns";
@@ -197,6 +198,8 @@ const ComplaintDetail = () => {
               </span>
             )}
           </div>
+
+          <ComplaintAssignmentPanel complaint={complaint as never} />
 
           {complaint.photo_url && !complaint.after_photo_url && (
             <div className="mt-5 relative">

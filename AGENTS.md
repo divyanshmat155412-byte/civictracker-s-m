@@ -14,3 +14,6 @@
 - City scoping for admins/officers goes through `admin_can_manage_city()`; only the root gets all-city access, and `guard_user_roles` rejects city-less admin rows — prevents a second super admin.
 - Audit rows are written only by SECURITY DEFINER triggers/RPCs via `write_audit()`; clients cannot insert/update/delete `audit_logs` — keeps the log tamper-proof.
 - City lists come from `useCities()` (built-in `CITIES` + active rows in `public.cities`); never map `CITIES` directly in a selector — new cities must appear without code changes.
+- Ward/zone/department assignment happens only in the `route_new_complaint` trigger via `locate_point()` (boundary first, nearest centre within radius second, else `needs_verification`); corrections go through `admin_correct_complaint()` so they are audited.
+- City routing lives in `city_category_routing`; `category_routing` is the shared fallback editable only by the root — keeps cities isolated.
+- `admin_requests` identity (user_id, email, status) is forced server-side by the `guard_admin_request` trigger — never trust form values.

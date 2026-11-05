@@ -6,6 +6,7 @@ import Layout from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useCities } from "@/hooks/useCities";
+import { WardImport, CityRouting, NeedsChecking } from "@/components/WardConfigTools";
 
 export const Route = createFileRoute("/admin/wards")({
   head: () => ({
@@ -75,7 +76,7 @@ function WardsPage() {
             {CITIES.map((c) => <option key={c}>{c}</option>)}
           </select>
         </div>
-        <p className="text-sm text-muted-foreground">New complaints are placed in the nearest ward automatically from their GPS location.</p>
+        <p className="text-sm text-muted-foreground">New complaints are placed in a ward automatically from GPS: inside a ward boundary when one is uploaded, otherwise the nearest ward centre within its radius. Anything outside is flagged for checking.</p>
         <div className="overflow-x-auto rounded-xl border border-border bg-card">
           <table className="w-full text-sm">
             <thead className="bg-muted text-left text-muted-foreground">
@@ -84,7 +85,7 @@ function WardsPage() {
             <tbody>
               {wards.map((w) => (
                 <tr key={w.id} className="border-t border-border text-foreground">
-                  <td className="p-3">{w.ward_number}</td><td className="p-3">{w.name}</td><td className="p-3">{w.zone}</td>
+                  <td className="p-3">{w.ward_number}</td><td className="p-3">{w.name}{w.is_demo && <span className="ml-2 rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">demo</span>}{w.boundary ? <span className="ml-1 text-[10px] text-muted-foreground">boundary</span> : null}</td><td className="p-3">{w.zone}</td>
                   <td className="p-3">{counts[w.id]?.total ?? 0}</td><td className="p-3">{counts[w.id]?.open ?? 0}</td>
                   {isModerator && <td className="p-3 text-right"><button onClick={() => remove(w.id)} className="text-destructive">Remove</button></td>}
                 </tr>
@@ -102,6 +103,9 @@ function WardsPage() {
             <button onClick={add} className="rounded-lg bg-primary px-3 py-2 font-medium text-primary-foreground">Add ward</button>
           </div>
         )}
+        {isModerator && <NeedsChecking city={city} />}
+        {isModerator && <WardImport city={city} />}
+        {isModerator && <CityRouting city={city} />}
       </div>
     </Layout>
   );
