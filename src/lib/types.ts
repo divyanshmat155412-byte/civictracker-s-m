@@ -48,3 +48,17 @@ export const STATUS_CONFIG: Record<ComplaintStatus, { label: string; color: stri
   resolved: { label: "Resolved", color: "hsl(var(--success))" },
   escalated: { label: "Escalated", color: "hsl(var(--destructive))" },
 };
+
+/** Hindi display names for categories (UI only; stored values stay in English keys). */
+export const CATEGORY_LABEL_HI: Record<ComplaintCategory, string> = {
+  garbage: "कचरा",
+  waterlogging: "जलभराव",
+  "broken-road": "टूटी सड़क",
+  theft: "चोरी",
+  fire: "आग",
+  streetlight: "स्ट्रीट लाइट",
+  drainage: "नाली",
+  encroachment: "अतिक्रमण",
+  noise: "ध्वनि प्रदूषण",
+  other: "अन्य",
+};

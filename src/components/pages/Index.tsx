@@ -697,7 +697,7 @@ const Index = () => {
                   return (
                     <button key={key} type="button" onClick={() => setSelectedCategory(key as ComplaintCategory)}
                       className={`flex items-center gap-2 p-3 rounded-lg border text-sm font-medium transition-all ${selectedCategory === key ? "border-secondary bg-secondary/10 text-foreground shadow-card" : "border-border bg-card text-muted-foreground hover:border-secondary/50"}`}>
-                      <Icon className="w-4 h-4 shrink-0" /> {config.label}
+                      <Icon className="w-4 h-4 shrink-0" /> {language === "hi" ? CATEGORY_LABEL_HI[key as ComplaintCategory] : config.label}
                     </button>
                   );
                 })}
