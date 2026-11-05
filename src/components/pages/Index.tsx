@@ -1,3 +1,4 @@
+import { photoUrlFor } from "@/lib/photo-url";
 import { invokeFunction } from "@/lib/invoke-function";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
@@ -283,8 +284,7 @@ const Index = () => {
         const filePath = `${user.id}/${Date.now()}.${ext}`;
         const { error: uploadError } = await supabase.storage.from("complaint-photos").upload(filePath, photo);
         if (!uploadError) {
-          const { data: urlData } = supabase.storage.from("complaint-photos").getPublicUrl(filePath);
-          photoUrl = urlData.publicUrl;
+          photoUrl = photoUrlFor(filePath);
         }
       }
 

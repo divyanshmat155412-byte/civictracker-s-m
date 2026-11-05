@@ -1,3 +1,4 @@
+import { photoUrlFor } from "@/lib/photo-url";
 import { COMPLAINT_COLS, PROFILE_COLS, DEPARTMENT_COLS_PUBLIC } from "@/lib/db-columns";
 import { useState } from "react";
 import { useNavigate } from "@/lib/router-compat";
@@ -124,8 +125,7 @@ const Admin = () => {
         const filePath = `admin/${Date.now()}.${ext}`;
         const { error: uploadError } = await supabase.storage.from("complaint-photos").upload(filePath, afterPhoto);
         if (!uploadError) {
-          const { data: urlData } = supabase.storage.from("complaint-photos").getPublicUrl(filePath);
-          afterPhotoUrl = urlData.publicUrl;
+          afterPhotoUrl = photoUrlFor(filePath);
         }
       }
       const updates: any = { status: newStatus, updated_at: new Date().toISOString() };
