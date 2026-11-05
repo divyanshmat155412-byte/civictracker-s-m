@@ -153,12 +153,12 @@ const ComplaintDetail = () => {
             <SentimentBadge label={complaint.sentiment_label} />
             <SLACountdown category={complaint.category} createdAt={complaint.created_at} status={complaint.status} />
             {complaint.city && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary/15 text-secondary-foreground/80 font-medium">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary/15 text-foreground font-medium">
                 🌆 {complaint.city}
               </span>
             )}
             {(complaint as { zone?: string | null }).zone && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary/15 text-secondary-foreground/80 font-medium">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary/15 text-foreground font-medium">
                 🗺️ {(complaint as { zone?: string | null }).zone}
               </span>
             )}
