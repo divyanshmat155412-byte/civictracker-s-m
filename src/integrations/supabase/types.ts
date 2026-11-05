@@ -413,11 +413,15 @@ export type Database = {
           department_id: string | null
           description: string
           due_at: string | null
+          escalated_at: string | null
+          escalation_level: number
           id: string
           latitude: number | null
           location: string
           location_status: string
           longitude: number | null
+          merged_at: string | null
+          merged_into: string | null
           photo_url: string | null
           priority: string
           resolved_at: string | null
@@ -448,11 +452,15 @@ export type Database = {
           department_id?: string | null
           description: string
           due_at?: string | null
+          escalated_at?: string | null
+          escalation_level?: number
           id?: string
           latitude?: number | null
           location: string
           location_status?: string
           longitude?: number | null
+          merged_at?: string | null
+          merged_into?: string | null
           photo_url?: string | null
           priority?: string
           resolved_at?: string | null
@@ -483,11 +491,15 @@ export type Database = {
           department_id?: string | null
           description?: string
           due_at?: string | null
+          escalated_at?: string | null
+          escalation_level?: number
           id?: string
           latitude?: number | null
           location?: string
           location_status?: string
           longitude?: number | null
+          merged_at?: string | null
+          merged_into?: string | null
           photo_url?: string | null
           priority?: string
           resolved_at?: string | null
@@ -512,6 +524,13 @@ export type Database = {
             columns: ["department_id"]
             isOneToOne: false
             referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "complaints_merged_into_fkey"
+            columns: ["merged_into"]
+            isOneToOne: false
+            referencedRelation: "complaints"
             referencedColumns: ["id"]
           },
           {
@@ -1189,14 +1208,37 @@ export type Database = {
           user_id: string
         }[]
       }
+      admin_merge_complaint: {
+        Args: { _duplicate: string; _note?: string; _primary: string }
+        Returns: Json
+      }
       admin_revoke_role_by_email: {
         Args: { _email: string; _role: Database["public"]["Enums"]["app_role"] }
         Returns: Json
+      }
+      admin_unmerge_complaint: {
+        Args: { _duplicate: string; _note?: string }
+        Returns: Json
+      }
+      department_scores: {
+        Args: { _city?: string }
+        Returns: {
+          avg_resolution_hours: number
+          city: string
+          department_id: string
+          department_name: string
+          open_overdue: number
+          resolved_on_time: number
+          resolved_with_proof: number
+          score: number
+          total: number
+        }[]
       }
       distance_m: {
         Args: { _lat1: number; _lat2: number; _lng1: number; _lng2: number }
         Returns: number
       }
+      escalate_overdue_complaints: { Args: { _now?: string }; Returns: number }
       find_nearby_duplicates: {
         Args: {
           _category: string
@@ -1210,6 +1252,19 @@ export type Database = {
           created_at: string
           distance_m: number
           id: string
+          status: string
+          title: string
+        }[]
+      }
+      find_similar_complaints: {
+        Args: { _complaint_id: string; _days?: number; _radius_m?: number }
+        Returns: {
+          complaint_id: string
+          created_at: string
+          distance_m: number
+          id: string
+          merged_into: string
+          similarity: number
           status: string
           title: string
         }[]
