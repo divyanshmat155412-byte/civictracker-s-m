@@ -21,7 +21,6 @@ const RANGE_HOURS: Record<RangeKey, number | null> = {
 };
 
 const HeatLayer = ({ points }: { points: [number, number, number][] }) => {
-  const { cities: CITIES } = useCities();
   const map = useMap();
   const layerRef = useRef<any>(null);
 
@@ -58,6 +57,7 @@ const HeatLayer = ({ points }: { points: [number, number, number][] }) => {
 };
 
 const Heatmap = () => {
+  const { cities: CITIES } = useCities();
   const [range, setRange] = useState<RangeKey>("7d");
   const [city, setCity] = useState<string>("all");
   const [category, setCategory] = useState<ComplaintCategory | "all">("all");
