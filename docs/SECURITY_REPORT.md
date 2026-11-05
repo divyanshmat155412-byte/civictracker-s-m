@@ -3,3 +3,6 @@ Automated test: `bun ./scripts/e2e-security.ts` (45 checks, temporary accounts, 
 Results 2026-11-05: 45/45 PASS security, 21/21 PASS regression. Super Admin dashboard UI: NOT TESTED in a browser as the real account.
 Roles: Platform Super Admin (one, by internal ID) > City Admin (admin + city) > Officer (moderator + city) > Field Worker > Citizen.
 See scripts/e2e-security.ts for test IDs A–L.
+
+## Dynamic city onboarding
+Test: `bun ./scripts/e2e-city-onboarding.ts` — 21/21 PASS (profile, wards/zones, city departments, City Admin scoping, auto-routing to the city's department, GPS ward detection, cross-city isolation, rename protection).
