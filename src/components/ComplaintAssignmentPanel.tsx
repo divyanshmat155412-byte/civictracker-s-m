@@ -51,7 +51,7 @@ export default function ComplaintAssignmentPanel({ complaint }: { complaint: C }
     queryFn: async () => {
       const [w, d] = await Promise.all([
         supabase.from("wards").select("id,ward_number,name,zone").eq("city", complaint.city).order("ward_number"),
-        supabase.from("departments").select("id,name,city").or(`city.is.null,city.eq.${complaint.city}`).order("name"),
+        supabase.from("departments").select("id,name,city").or(`city.is.null,city.eq."${String(complaint.city ?? "").replace(/["\\]/g, "")}"`).order("name"),
       ]);
       return { wards: w.data ?? [], depts: d.data ?? [] };
     },

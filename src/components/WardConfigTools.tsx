@@ -48,7 +48,7 @@ export function CityRouting({ city }: { city: string }) {
     queryFn: async () => {
       const [r, d] = await Promise.all([
         supabase.from("city_category_routing").select("id,category,department_id,deadline_hours").eq("city", city),
-        supabase.from("departments").select("id,name,city").or(`city.is.null,city.eq.${city}`).order("name"),
+        supabase.from("departments").select("id,name,city").or(`city.is.null,city.eq."${String(city ?? "").replace(/["\\]/g, "")}"`).order("name"),
       ]);
       return { rules: r.data ?? [], depts: d.data ?? [] };
     },
