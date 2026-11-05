@@ -179,7 +179,7 @@ const Navbar = () => {
             transition={{ duration: 0.2 }}
             className="overflow-hidden border-t border-border bg-card"
           >
-            <div className="container py-3 flex flex-col gap-1 max-h-[calc(100vh-4rem)] overflow-y-auto overscroll-contain">
+            <div className="container py-3 grid gap-1 sm:grid-cols-2 xl:grid-cols-4 max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.to}
