@@ -14,7 +14,7 @@ import ExportButtons from "@/components/ExportButtons";
 import LiveTrackingMap from "@/components/LiveTrackingMap";
 import Layout from "@/components/Layout";
 import { CATEGORY_CONFIG, STATUS_CONFIG, ComplaintCategory, ComplaintStatus } from "@/lib/types";
-import { CITIES } from "@/lib/cities";
+import { useCities } from "@/hooks/useCities";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -28,6 +28,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 };
 
 const Complaints = () => {
+  const { cities: CITIES } = useCities();
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<ComplaintCategory | "all">("all");
   const [statusFilter, setStatusFilter] = useState<ComplaintStatus | "all">("all");

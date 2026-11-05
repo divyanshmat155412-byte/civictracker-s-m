@@ -14,10 +14,11 @@ import { CATEGORY_CONFIG, ComplaintCategory, STATUS_CONFIG, ComplaintStatus } fr
 import AdminRequestForm from "@/components/AdminRequestForm";
 import AdminRequestsManager from "@/components/AdminRequestsManager";
 import { useAdminCities } from "@/hooks/useAdminCities";
-import { CITIES } from "@/lib/cities";
+import { useCities } from "@/hooks/useCities";
 import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
 
 const Admin = () => {
+  const { cities: CITIES } = useCities();
   const { user } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();

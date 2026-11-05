@@ -4,10 +4,11 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
-import { CITIES } from "@/lib/cities";
+import { useCities } from "@/hooks/useCities";
 
 /** Private approval inbox — visible and usable only by the Platform Super Admin (enforced in the database). */
 const AdminRequestsManager = () => {
+  const { cities: CITIES } = useCities();
   const queryClient = useQueryClient();
   const { isMainAdmin } = useIsRootAdmin();
   const [cityFor, setCityFor] = useState<Record<string, string>>({});

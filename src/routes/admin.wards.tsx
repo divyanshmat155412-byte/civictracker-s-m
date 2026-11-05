@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import Layout from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
-import { CITIES } from "@/lib/cities";
+import { useCities } from "@/hooks/useCities";
 
 export const Route = createFileRoute("/admin/wards")({
   head: () => ({
@@ -22,6 +22,7 @@ export const Route = createFileRoute("/admin/wards")({
 });
 
 function WardsPage() {
+  const { cities: CITIES } = useCities();
   const { isModerator } = useUserRole();
   const qc = useQueryClient();
   const [city, setCity] = useState("Ratlam");

@@ -5,10 +5,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
-import { CITIES } from "@/lib/cities";
+import { useCities } from "@/hooks/useCities";
 
 
 const AdminRequestForm = () => {
+  const { cities: CITIES } = useCities();
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [fullName, setFullName] = useState("");
