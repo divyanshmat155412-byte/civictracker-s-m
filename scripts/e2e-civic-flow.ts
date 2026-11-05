@@ -14,7 +14,7 @@ const cit = await user(`e2e-citizen-${Date.now()}@example.com`);
 const wk = await user(`e2e-worker-${Date.now()}@example.com`);
 const ins = await cit.c.from("complaints").insert({ user_id: cit.id, title: "E2E pothole", description: "Big pothole near station", category: "broken-road", priority: "high", location: "Station Road, Ratlam", city: "Ratlam", latitude: 23.3316, longitude: 75.0368, submitted_by: "E2E" }).select("id,complaint_id").single();
 ok("citizen inserts complaint", !ins.error, ins.error);
-const ins2 = await cit.c.from("complaints").insert({ user_id: cit.id, title: "E2E id check", description: "id uniqueness check", category: "garbage", priority: "low", location: "Demo", city: "Ratlam", submitted_by: "E2E" }).select("id,complaint_id").single();
+const ins2 = await wk.c.from("complaints").insert({ user_id: wk.id, title: "E2E id check", description: "id uniqueness check", category: "garbage", priority: "low", location: "Demo", city: "Ratlam", submitted_by: "E2E" }).select("id,complaint_id").single();
 ok("tracking numbers are full-length and unique", ins.data?.complaint_id !== ins2.data?.complaint_id && Number(ins2.data?.complaint_id?.slice(3)) > 99, [ins.data?.complaint_id, ins2.data?.complaint_id]);
 await admin.from("complaints").delete().eq("id", ins2.data!.id);
 const { COMPLAINT_COLS } = await import("../src/lib/db-columns");
