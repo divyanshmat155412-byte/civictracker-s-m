@@ -38,12 +38,12 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
-      <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-lg gradient-hero flex items-center justify-center">
+      <div className="container flex items-center justify-between gap-3 h-16">
+        <Link to="/" className="flex shrink-0 items-center gap-2">
+          <div className="w-9 h-9 shrink-0 rounded-lg gradient-hero flex items-center justify-center">
             <MapPin className="w-5 h-5 text-primary-foreground" />
           </div>
-          <div className="flex flex-col leading-tight">
+          <div className="flex flex-col leading-tight whitespace-nowrap">
             <span className="font-display font-bold text-foreground text-base tracking-tight">
               CT — <span className="text-secondary">City</span>
             </span>
@@ -53,12 +53,12 @@ const Navbar = () => {
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden xl:flex min-w-0 flex-1 items-center justify-end gap-0.5 overflow-x-auto [scrollbar-width:none]">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={`shrink-0 whitespace-nowrap px-2.5 py-2 rounded-md text-sm font-medium transition-colors ${
                 location.pathname === link.to
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -70,7 +70,7 @@ const Navbar = () => {
           {!isAdmin && (
             <Link
               to="/request-admin"
-              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
+              className={`shrink-0 whitespace-nowrap px-2.5 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
                 location.pathname === "/request-admin"
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -83,7 +83,7 @@ const Navbar = () => {
             <>
               <Link
                 to="/admin"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
+                className={`shrink-0 whitespace-nowrap px-2.5 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
                   location.pathname === "/admin"
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -93,7 +93,7 @@ const Navbar = () => {
               </Link>
               <Link
                 to="/reports"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
+                className={`shrink-0 whitespace-nowrap px-2.5 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1 ${
                   location.pathname === "/reports"
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -107,7 +107,7 @@ const Navbar = () => {
           {/* Language Toggle */}
           <button
             onClick={toggleLanguage}
-            className="group relative ml-1 px-3 py-1.5 rounded-full text-xs font-bold border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 hover:border-primary/60 transition-all duration-300 flex items-center gap-1.5 shadow-sm hover:shadow-md overflow-hidden"
+            className="group relative shrink-0 ml-1 px-3 py-1.5 rounded-full text-xs font-bold border-2 border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 hover:border-primary/60 transition-all duration-300 flex items-center gap-1.5 shadow-sm hover:shadow-md overflow-hidden"
             title="Switch language"
           >
             <Globe className="w-3.5 h-3.5 text-primary group-hover:rotate-180 transition-transform duration-500" />
@@ -119,7 +119,7 @@ const Navbar = () => {
 
           <NotificationBell />
           {user ? (
-            <div className="flex items-center gap-2 ml-1">
+            <div className="flex shrink-0 items-center gap-2 ml-1">
               <Link to="/profile" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted" title="My Profile">
                 <User className="w-4 h-4" />
               </Link>
@@ -130,14 +130,14 @@ const Navbar = () => {
           ) : (
             <Link
               to="/auth"
-              className="ml-1 px-4 py-2 rounded-lg gradient-accent text-accent-foreground text-sm font-semibold"
+              className="ml-1 shrink-0 whitespace-nowrap px-4 py-2 rounded-lg gradient-accent text-accent-foreground text-sm font-semibold"
             >
               {t("nav.signIn")}
             </Link>
           )}
         </nav>
 
-        <div className="md:hidden flex items-center gap-1">
+        <div className="xl:hidden flex items-center gap-1">
           {/* Mobile language toggle */}
           <button
             onClick={toggleLanguage}
@@ -167,7 +167,7 @@ const Navbar = () => {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden overflow-hidden border-t border-border bg-card"
+            className="xl:hidden overflow-hidden border-t border-border bg-card"
           >
             <div className="container py-3 flex flex-col gap-1 max-h-[calc(100vh-4rem)] overflow-y-auto overscroll-contain">
               {NAV_LINKS.map((link) => (
