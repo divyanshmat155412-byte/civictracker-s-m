@@ -71,8 +71,8 @@ const AdminRequestForm = () => {
     };
     const statusMessages = {
       pending: "Your admin access request is pending review by the Platform Super Admin.",
-      approved: "Your request has been approved! Please refresh the page.",
-      rejected: "Your admin access request was rejected.",
+      approved: `Approved — you are City Admin for ${existingRequest.requested_city ?? "your city"}. Refresh the page to see the admin tools.`,
+      rejected: "Your admin access request was rejected. You have no admin permissions.",
     };
     return (
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto mt-6 p-6 rounded-xl bg-card border border-border shadow-card text-center">
@@ -83,6 +83,7 @@ const AdminRequestForm = () => {
         <p className="text-muted-foreground text-sm">
           {statusMessages[existingRequest.status as keyof typeof statusMessages]}
         </p>
+        {existingRequest.decision_note && <p className="text-sm text-foreground mt-2">Note from Super Admin: {existingRequest.decision_note}</p>}
       </motion.div>
     );
   }
@@ -94,7 +95,11 @@ const AdminRequestForm = () => {
         <p className="text-muted-foreground text-sm mb-4">
           If you are a Nagar Palika employee or municipal official, submit a request below. The Platform Super Admin will review and approve your access.
         </p>
+        {!user?.email_confirmed_at ? (
+          <p className="text-sm text-destructive">Please verify your email address first (check your inbox for the link), then sign in again.</p>
+        ) : (
         <div className="space-y-3">
+          <p className="text-xs text-muted-foreground">Applying as <strong className="text-foreground">{user.email}</strong> (your verified account email). Only the Platform Super Admin sees this application.</p>
           <input
             type="text"
             placeholder="Your full name"
@@ -136,7 +141,9 @@ const AdminRequestForm = () => {
             <Send className="w-4 h-4" />
             {submitMutation.isPending ? "Submitting..." : "Submit Request"}
           </button>
+          {submitMutation.error && <p className="text-sm text-destructive">{(submitMutation.error as Error).message}</p>}
         </div>
+        )}
       </div>
     </motion.div>
   );
