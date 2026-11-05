@@ -53,7 +53,7 @@ try {
   const an = await a.c.from("complaints").insert({ ...base, user_id: a.id, title: "TEST anon", anonymous: true, submitted_by: "x" }).select("id").single();
   if (an.data) complaints.push(an.data.id);
   ok("W9 anonymous complaint still works", !an.error, an.error);
-  const upd = await staff.c.from("complaints").update({ status: "in_progress" }).eq("id", cit.data!.id).select("id");
+  const upd = await staff.c.from("complaints").update({ status: "in-progress" }).eq("id", cit.data!.id).select("id");
   ok("W10 City Admin can still update complaints in their city", (upd.data?.length ?? 0) === 1, upd);
 
   // ---- SA-06 database layer
