@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 const url = process.env.SUPABASE_URL!, svc = process.env.SUPABASE_SERVICE_ROLE_KEY!, anon = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY!;
 const admin = createClient(url, svc, { auth: { persistSession: false } });
+import { acquireSafety } from "./_safety";
+const safety = await acquireSafety("civic-flow");
 const ok = (n: string, c: unknown, d?: unknown) => console.log(c ? "PASS" : "FAIL", n, c ? "" : JSON.stringify(d));
 async function user(email: string) {
   const { data } = await admin.auth.admin.createUser({ email, password: "Test-pass-12345!", email_confirm: true });
@@ -57,3 +59,4 @@ await admin.from("workers").delete().eq("id", w!.id);
 await admin.auth.admin.deleteUser(cit.id); await admin.auth.admin.deleteUser(wk.id);
 const { data: gone } = await admin.from("profiles").select("id").eq("user_id", cit.id);
 ok("account deletion removes profile", gone?.length === 0, gone);
+await safety.release();

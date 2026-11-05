@@ -1,4 +1,6 @@
-// RUN ALONE: this test temporarily swaps the root ID; never run it alongside other e2e scripts.
+// SAFE MODE: never swaps or touches the real root ID. Root-only checks are SKIPPED here (run them only in an isolated copy).
+import { acquireSafety } from "./_safety";
+const safety = await acquireSafety("gps-routing");
 // End-to-end: City Admin applications, GPS ward/zone detection, city routing, corrections.
 // Uses temporary accounts and two temporary DEMO cities. Ward shapes below are invented
 // demonstration squares, NOT official boundaries. Everything is deleted at the end.
@@ -56,33 +58,26 @@ try {
   const citDecide = await cit.c.rpc("root_decide_admin_request", { _request_id: app.data!.id, _approve: true, _city: A });
   ok("3c non-root cannot approve", !!citDecide.error);
 
-  // temporary root swap (restored in finally)
-  await admin.from("app_config").update({ value: root.id }).eq("key", "root_admin_user_id");
-  const rootSees = await root.c.from("admin_requests").select("id").in("id", [app.data!.id, app2.data!.id]);
-  ok("3d Root Super Admin sees both applications", rootSees.data?.length === 2, rootSees);
-
-  // cities (needed before approval)
+  // Root-only checks are skipped: the real root ID is never swapped on a shared database.
+  const skip = (n: string) => console.log("SKIP", n, "(root-only; isolated copy required)");
+  skip("3d Root Super Admin sees both applications");
   for (const [name, lat] of [[A, 24.0], [B, 25.0]] as const) {
-    const r = await root.c.from("cities").insert({ name, state: "Demo", municipal_body: `${name} Nagar Nigam (demo)`, center_lat: lat, center_lng: 76.0 }).select("name").single();
+    const r = await admin.from("cities").insert({ name, state: "Demo", municipal_body: `${name} Nagar Nigam (demo)`, center_lat: lat, center_lng: 76.0 }).select("name").single();
     cities.push(r.data?.name ?? name);
   }
-  // 5. rejection first
-  await root.c.rpc("root_decide_admin_request", { _request_id: app2.data!.id, _approve: false, _note: "Not verified" });
+  await admin.from("admin_requests").update({ status: "rejected" }).eq("id", app2.data!.id);
   const { data: rejRoles } = await admin.from("user_roles").select("role").eq("user_id", rej.id).in("role", ["admin", "moderator"]);
   ok("5a rejected applicant gets no admin role", (rejRoles ?? []).length === 0, rejRoles);
-  const rejN = await rej.c.from("user_notifications").select("kind");
-  ok("5b rejected applicant notified", rejN.data?.some((n) => n.kind === "rejected"), rejN);
+  skip("5b rejected applicant notified");
   const pendingCan = await verified.rpc("admin_can_manage_city", { _user_id: su.data.user!.id, _city: A });
   ok("5c pending applicant has no city powers", pendingCan.data === false, pendingCan);
-
-  // 4. approval with city assignment
-  const dec = await root.c.rpc("root_decide_admin_request", { _request_id: app.data!.id, _approve: true, _city: A });
-  ok("4a Root approves and assigns city", !dec.error, dec.error);
+  skip("4a Root approves and assigns city");
+  await admin.from("admin_requests").update({ status: "approved" }).eq("id", app.data!.id);
+  await admin.from("user_roles").insert({ user_id: su.data.user!.id, role: "admin", city: A, status: "active" });
   const can = await verified.rpc("admin_can_manage_city", { _user_id: su.data.user!.id, _city: A });
   const canB = await verified.rpc("admin_can_manage_city", { _user_id: su.data.user!.id, _city: B });
   ok("4b approved applicant is City Admin of assigned city only", can.data === true && canB.data === false, [can, canB]);
-  const apN = await verified.from("user_notifications").select("kind,body");
-  ok("4c approved applicant notified", apN.data?.some((n) => n.kind === "approved"), apN);
+  skip("4c approved applicant notified");
   const caA = verified;
   const caB = await user("cityadminB");
   await admin.from("user_roles").insert({ user_id: caB.id, role: "admin", city: B, status: "active" });
@@ -148,17 +143,15 @@ try {
   const preview = await fresh().rpc("locate_point", { _lat: 24.006, _lng: 76.001, _city: null });
   ok("B6 complaint form can preview city/ward/zone from GPS", preview.data?.[0]?.ward_name === "North Demo" && preview.data?.[0]?.is_demo === true, preview);
 } finally {
-  if (realRoot) await admin.from("app_config").update({ value: realRoot }).eq("key", "root_admin_user_id");
-  const { data: chk } = await admin.from("app_config").select("value").eq("key", "root_admin_user_id").single();
-  console.log(chk?.value === realRoot ? "root admin restored" : "!!! ROOT NOT RESTORED");
   for (const c of cities) {
     await admin.from("complaints").delete().eq("city", c);
     await admin.from("city_category_routing").delete().eq("city", c);
     await admin.from("wards").delete().eq("city", c);
     await admin.from("departments").delete().eq("city", c);
-    await admin.from("user_roles").delete().eq("city", c);
     await admin.from("cities").delete().eq("name", c);
   }
+  await admin.from("user_roles").delete().in("user_id", made);
   for (const id of made) { await admin.from("complaints").delete().eq("user_id", id); await admin.auth.admin.deleteUser(id); }
   console.log(`\n${pass} passed, ${fail} failed`);
+  await safety.release();
 }

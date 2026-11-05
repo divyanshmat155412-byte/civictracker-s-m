@@ -1,8 +1,10 @@
 // Security & role tests (A–L). Uses throw-away test accounts; never touches the real Super Admin.
-// RUN ALONE: e2e-gps-routing-applications.ts temporarily swaps the root ID; running both together once removed the real root roles.
+// SAFE MODE: never writes to the real root account; deletes only rows for accounts this run created.
 import { createClient } from "@supabase/supabase-js";
 const url = process.env.SUPABASE_URL!, svc = process.env.SUPABASE_SERVICE_ROLE_KEY!, anon = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY!;
 const admin = createClient(url, svc, { auth: { persistSession: false } });
+import { acquireSafety } from "./_safety";
+const safety = await acquireSafety("security");
 let pass = 0, fail = 0;
 const ok = (n: string, c: unknown, d?: unknown) => { c ? pass++ : fail++; console.log(c ? "PASS" : "FAIL", n, c ? "" : JSON.stringify(d)?.slice(0, 300)); };
 const made: string[] = [];
@@ -53,8 +55,9 @@ const revRoot = await adA.c.rpc("admin_revoke_role_by_email", { _email: ROOT_EMA
 ok("E2 City Admin cannot revoke root via RPC", !!revRoot.error);
 const susRoot = await adA.c.rpc("root_set_admin_status" as any, { _user_id: ROOT, _status: "suspended" });
 ok("E3 City Admin cannot suspend root", !!susRoot.error);
-const svcDel = await admin.from("user_roles").delete().eq("user_id", ROOT);
-ok("E4 root roles are immutable even for backend service", !!svcDel.error, svcDel);
+// E4 (service-role delete of root roles) removed: a destructive probe against the real account is never run on a shared database.
+const updRoot = await adA.c.from("user_roles").update({ status: "suspended" }).eq("user_id", ROOT).select();
+ok("E4 City Admin cannot suspend root roles by direct update", (updRoot.data ?? []).length === 0, updRoot);
 
 // F — admin application
 const app = await cit.c.from("admin_requests").insert({ user_id: cit.id, email: cit.email, full_name: "Applicant", reason: "test", requested_city: "TestCityA" }).select("id").single();
@@ -159,3 +162,4 @@ await admin.from("admin_requests").delete().eq("user_id", cit.id);
 await admin.from("user_roles").delete().in("user_id", made);
 for (const id of made) await admin.auth.admin.deleteUser(id);
 console.log(`\n${pass} passed, ${fail} failed`);
+await safety.release();
