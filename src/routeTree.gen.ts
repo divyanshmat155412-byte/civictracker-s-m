@@ -24,6 +24,7 @@ import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as PollsRouteImport } from './routes/polls'
 import { Route as PredictionsRouteImport } from './routes/predictions'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as RequestAdminRouteImport } from './routes/request-admin'
@@ -125,6 +126,11 @@ const PollsRoute = PollsRouteImport.update({
 const PredictionsRoute = PredictionsRouteImport.update({
   id: '/predictions',
   path: '/predictions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -286,6 +292,7 @@ export interface FileRoutesByFullPath {
   '/map': typeof MapRoute
   '/polls': typeof PollsRoute
   '/predictions': typeof PredictionsRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/reports': typeof ReportsRoute
   '/request-admin': typeof RequestAdminRoute
@@ -330,6 +337,7 @@ export interface FileRoutesByTo {
   '/map': typeof MapRoute
   '/polls': typeof PollsRoute
   '/predictions': typeof PredictionsRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/reports': typeof ReportsRoute
   '/request-admin': typeof RequestAdminRoute
@@ -375,6 +383,7 @@ export interface FileRoutesById {
   '/map': typeof MapRoute
   '/polls': typeof PollsRoute
   '/predictions': typeof PredictionsRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/reports': typeof ReportsRoute
   '/request-admin': typeof RequestAdminRoute
@@ -421,6 +430,7 @@ export interface FileRouteTypes {
     | '/map'
     | '/polls'
     | '/predictions'
+    | '/privacy'
     | '/profile'
     | '/reports'
     | '/request-admin'
@@ -465,6 +475,7 @@ export interface FileRouteTypes {
     | '/map'
     | '/polls'
     | '/predictions'
+    | '/privacy'
     | '/profile'
     | '/reports'
     | '/request-admin'
@@ -509,6 +520,7 @@ export interface FileRouteTypes {
     | '/map'
     | '/polls'
     | '/predictions'
+    | '/privacy'
     | '/profile'
     | '/reports'
     | '/request-admin'
@@ -554,6 +566,7 @@ export interface RootRouteChildren {
   MapRoute: typeof MapRoute
   PollsRoute: typeof PollsRoute
   PredictionsRoute: typeof PredictionsRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   ReportsRoute: typeof ReportsRoute
   RequestAdminRoute: typeof RequestAdminRoute
@@ -688,6 +701,13 @@ declare module '@tanstack/react-router' {
       path: '/predictions'
       fullPath: '/predictions'
       preLoaderRoute: typeof PredictionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -898,6 +918,7 @@ const rootRouteChildren: RootRouteChildren = {
   MapRoute: MapRoute,
   PollsRoute: PollsRoute,
   PredictionsRoute: PredictionsRoute,
+  PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   ReportsRoute: ReportsRoute,
   RequestAdminRoute: RequestAdminRoute,
