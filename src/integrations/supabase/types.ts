@@ -113,6 +113,27 @@ export type Database = {
         }
         Relationships: []
       }
+      api_usage_events: {
+        Row: {
+          created_at: string
+          endpoint: string
+          id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          endpoint: string
+          id?: never
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          endpoint?: string
+          id?: never
+          user_id?: string
+        }
+        Relationships: []
+      }
       app_config: {
         Row: {
           key: string
@@ -1189,6 +1210,16 @@ export type Database = {
     }
     Functions: {
       _consume_ai_quota: {
+        Args: {
+          _endpoint: string
+          _limit: number
+          _now: string
+          _uid: string
+          _window_seconds: number
+        }
+        Returns: Json
+      }
+      _consume_ai_quota_rolling: {
         Args: {
           _endpoint: string
           _limit: number

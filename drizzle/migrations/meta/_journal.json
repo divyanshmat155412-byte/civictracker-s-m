@@ -148,6 +148,13 @@
       "when": 1793899628063,
       "tag": "0020_sa05_sa06_whatsapp_policy_and_ai_rate_limit",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1793900507402,
+      "tag": "0021_sa06_rolling_ai_rate_limit",
+      "breakpoints": true
     }
   ]
 }
