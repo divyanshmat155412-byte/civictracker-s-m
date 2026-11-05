@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import Layout from "@/components/Layout";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { escapeHtml as e } from "@/lib/html-escape";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -193,17 +194,17 @@ const MapView = () => {
         marker.bindPopup(
           `<div style="min-width:220px;font-family:system-ui,sans-serif">
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
-              <span style="font-size:10px;font-family:monospace;color:#888">#${c.complaint_id}</span>
-              <span style="font-size:10px;padding:1px 6px;border-radius:10px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${tx(c.status)}</span>
+              <span style="font-size:10px;font-family:monospace;color:#888">#${e(c.complaint_id)}</span>
+              <span style="font-size:10px;padding:1px 6px;border-radius:10px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${e(tx(c.status))}</span>
             </div>
-            <h3 style="font-weight:700;font-size:14px;margin:0 0 4px;color:#111">${c.title}</h3>
-            <p style="font-size:12px;color:#666;margin:0 0 8px;line-height:1.4">${(c.description || "").slice(0, 120)}${(c.description || "").length > 120 ? "..." : ""}</p>
+            <h3 style="font-weight:700;font-size:14px;margin:0 0 4px;color:#111">${e(c.title)}</h3>
+            <p style="font-size:12px;color:#666;margin:0 0 8px;line-height:1.4">${e((c.description || "").slice(0, 120))}${(c.description || "").length > 120 ? "..." : ""}</p>
             <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px">
-              <span style="font-size:10px;padding:2px 8px;border:1px solid ${CATEGORY_COLORS[c.category] || "#ddd"};border-radius:10px;color:${CATEGORY_COLORS[c.category] || "#666"}">${tx(c.category)}</span>
-              <span style="font-size:10px;padding:2px 8px;background:#f3f4f6;border-radius:10px">${tx(c.priority)} ${tx("Priority")}</span>
-              ${c.upvotes > 0 ? `<span style="font-size:10px;padding:2px 8px;background:#f3f4f6;border-radius:10px">👍 ${c.upvotes}</span>` : ""}
+              <span style="font-size:10px;padding:2px 8px;border:1px solid ${CATEGORY_COLORS[c.category] || "#ddd"};border-radius:10px;color:${CATEGORY_COLORS[c.category] || "#666"}">${e(tx(c.category))}</span>
+              <span style="font-size:10px;padding:2px 8px;background:#f3f4f6;border-radius:10px">${e(tx(c.priority))} ${tx("Priority")}</span>
+              ${c.upvotes > 0 ? `<span style="font-size:10px;padding:2px 8px;background:#f3f4f6;border-radius:10px">👍 ${e(c.upvotes)}</span>` : ""}
             </div>
-            <p style="font-size:10px;color:#999;margin:0">📍 ${c.location}</p>
+            <p style="font-size:10px;color:#999;margin:0">📍 ${e(c.location)}</p>
           </div>`
         );
         clusterRef.current!.addLayer(marker);
@@ -215,7 +216,7 @@ const MapView = () => {
       mappable.forEach((c: any) => {
         const marker = L.marker([Number(c.latitude), Number(c.longitude)], { icon: createIcon(c.status) });
         marker.bindPopup(
-          `<div style="min-width:200px"><h3 style="font-weight:bold;font-size:14px;margin-bottom:4px">${c.title}</h3><p style="font-size:12px;color:#666;margin-bottom:8px">${(c.description || "").slice(0, 100)}</p><div style="display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 6px;border:1px solid #ddd;border-radius:4px">${tx(c.category)}</span><span style="font-size:10px;padding:2px 6px;border-radius:4px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${tx(c.status)}</span></div><p style="font-size:10px;color:#999;margin-top:6px">📍 ${c.location}</p></div>`
+          `<div style="min-width:200px"><h3 style="font-weight:bold;font-size:14px;margin-bottom:4px">${e(c.title)}</h3><p style="font-size:12px;color:#666;margin-bottom:8px">${e((c.description || "").slice(0, 100))}</p><div style="display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 6px;border:1px solid #ddd;border-radius:4px">${e(tx(c.category))}</span><span style="font-size:10px;padding:2px 6px;border-radius:4px;color:white;background:${STATUS_COLORS[c.status] || "#888"}">${e(tx(c.status))}</span></div><p style="font-size:10px;color:#999;margin-top:6px">📍 ${e(c.location)}</p></div>`
         );
         markersRef.current!.addLayer(marker);
       });

@@ -1,13 +1,14 @@
+import { escapeHtml, csvSafe } from "@/lib/html-escape";
 export const exportToCSV = (data: any[], filename: string) => {
   if (data.length === 0) return;
   const headers = Object.keys(data[0]);
   const csv = [
-    headers.join(","),
+    headers.map((h) => csvSafe(h)).join(","),
     ...data.map((row) =>
       headers.map((h) => {
         const val = row[h];
         if (val === null || val === undefined) return "";
-        const str = String(val).replace(/"/g, '""');
+        const str = csvSafe(String(val)).replace(/"/g, '""');
         return str.includes(",") || str.includes('"') || str.includes("\n") ? `"${str}"` : str;
       }).join(",")
     ),
@@ -26,7 +27,7 @@ export const exportToPDF = async (data: any[], title: string) => {
   const headers = Object.keys(data[0] || {});
   const html = `
     <!DOCTYPE html>
-    <html><head><title>${title}</title>
+    <html><head><title>${escapeHtml(title)}</title>
     <style>
       body { font-family: Arial, sans-serif; margin: 20px; }
       h1 { color: #333; font-size: 18px; }
@@ -37,11 +38,11 @@ export const exportToPDF = async (data: any[], title: string) => {
       .footer { margin-top: 20px; font-size: 10px; color: #888; }
     </style></head>
     <body>
-      <h1>${title}</h1>
+      <h1>${escapeHtml(title)}</h1>
       <p style="font-size:11px;color:#666;">Generated on ${new Date().toLocaleString()} • ${data.length} records</p>
       <table>
-        <thead><tr>${headers.map((h) => `<th>${h.replace(/_/g, " ").toUpperCase()}</th>`).join("")}</tr></thead>
-        <tbody>${data.map((row) => `<tr>${headers.map((h) => `<td>${row[h] ?? ""}</td>`).join("")}</tr>`).join("")}</tbody>
+        <thead><tr>${headers.map((h) => `<th>${escapeHtml(h.replace(/_/g, " ").toUpperCase())}</th>`).join("")}</tr></thead>
+        <tbody>${data.map((row) => `<tr>${headers.map((h) => `<td>${escapeHtml(row[h])}</td>`).join("")}</tr>`).join("")}</tbody>
       </table>
       <div class="footer">Civic Tracker Report</div>
     </body></html>`;
