@@ -289,7 +289,7 @@ const AdminUsers = () => {
                               variant={a.role === "admin" ? "default" : "secondary"}
                               className="capitalize"
                             >
-                              {a.role === "admin" ? "City Admin" : a.role === "moderator" ? "Officer" : a.role === "field_worker" ? "Field Worker" : a.role}
+                              {a.role === "admin" ? "City Admin" : a.role === "moderator" ? "Officer" : a.role}
                             </Badge>
                           </TableCell>
                           <TableCell className="text-sm text-muted-foreground">
