@@ -23,3 +23,4 @@
 - Complaint columns added later need an explicit column-level `GRANT SELECT` to anon/authenticated when non-private; otherwise every list using `COMPLAINT_COLS` fails silently.
 - Fixed interface translations use local dictionaries and React language context; never translate citizen content or change stored records for localization.
 - Notification localization uses an allowlisted frontend formatter for known system prefixes and enum scaffolding; unknown bodies and embedded citizen text stay verbatim to avoid rewriting personal content.
+- Photo uploads are validated by real image bytes (src/lib/image-validate.ts) both before upload and in the photo-serving route; storage rules can't inspect content, so the serving route is the final gate.
