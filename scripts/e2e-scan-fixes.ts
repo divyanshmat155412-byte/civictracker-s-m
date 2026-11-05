@@ -52,7 +52,7 @@ try {
   ok("9 citizen cannot set own green_points", !!up.error && after === before, { up: up.error?.message, before, after });
   const cc = await cit.c.from("profiles").update({ complaints_count: 500, badge_level: "diamond" }).eq("user_id", cit.id).select();
   ok("10 citizen cannot set complaints_count/badge", !!cc.error, cc.error?.message);
-  const nm = await cit.c.from("profiles").update({ full_name: "Scan Tester" }).eq("user_id", cit.id).select();
+  const nm = await cit.c.from("profiles").update({ full_name: "Scan Tester" }).eq("user_id", cit.id).select("full_name");
   ok("11 citizen can still edit own name", !nm.error && nm.data?.[0]?.full_name === "Scan Tester", nm.error);
   const hc = await cit.c.rpc("set_my_home_city", { _city: "Ratlam" });
   ok("12 home-city RPC still works", !hc.error && hc.data === "Ratlam", hc.error);
