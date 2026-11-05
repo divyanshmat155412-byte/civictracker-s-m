@@ -1,0 +1,1 @@
+GRANT SELECT (city) ON public.departments TO anon;

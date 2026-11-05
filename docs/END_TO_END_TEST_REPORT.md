@@ -74,6 +74,7 @@ Other features (pages opened only, functions not exercised): Map, Heatmap, Leade
 | B5 | Departments page titled "IT Departments" | Wrong label | "Departments" / "विभाग" | Preview check | Not yet published |
 | B6 | Hindi mode showed category names in English | No Hindi names | Added Hindi category names | Preview: कचरा, जलभराव, टूटी सड़क… | Not yet published |
 | B7 | Rating said "Thanks" even if saving failed | Error ignored | Shows an error and keeps the form | Code review only | Not yet published |
+| B8 | Public Departments / Accountability Score page empty for signed-out visitors | Department city field not readable publicly | Made that one field readable (approved); contact email stays private | Live page lists departments signed out | Live now |
 
 ## 7. Remaining issues (not fixed)
 

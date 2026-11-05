@@ -99,6 +99,13 @@
       "when": 1793879209462,
       "tag": "0013_fix_complaint_id_truncation",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1793880110822,
+      "tag": "0014_grant_read_department_city",
+      "breakpoints": true
     }
   ]
 }
