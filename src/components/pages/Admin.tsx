@@ -105,7 +105,8 @@ const Admin = () => {
     enabled: isAdmin === true,
     queryFn: async () => {
       let query = supabase.from("complaints").select(COMPLAINT_COLS).order("created_at", { ascending: false });
-      if (statusFilter !== "all") query = query.eq("status", statusFilter);
+      if (statusFilter === "escalated") query = query.or("status.eq.escalated,and(escalation_level.gt.0,status.neq.resolved)");
+      else if (statusFilter !== "all") query = query.eq("status", statusFilter);
       // Apply admin city scoping (null = super admin, sees all)
       if (assignedCities && assignedCities.length > 0) {
         query = query.in("city", assignedCities);
@@ -205,7 +206,7 @@ const Admin = () => {
     pending: complaints.filter((c: any) => c.status === "pending").length,
     "in-progress": complaints.filter((c: any) => c.status === "in-progress").length,
     resolved: complaints.filter((c: any) => c.status === "resolved").length,
-    escalated: complaints.filter((c: any) => c.status === "escalated").length,
+    escalated: complaints.filter((c: any) => c.status === "escalated" || ((c.escalation_level ?? 0) > 0 && c.status !== "resolved")).length,
   };
 
   return (

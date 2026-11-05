@@ -12,6 +12,7 @@
 - [x] Block citizens from changing official status/proof
 - [x] Main admin email
 - [x] City Admin applications from verified accounts, GPS ward/zone, city routing, corrections (38/38 tests)
+- [x] Innovation round: escalation, accountability score, duplicate merge, voice/photo AI confirmation
 - [ ] Old data export (optional, waiting on user)
 - [ ] Role labels in Users admin (Officer / City Admin / Super Admin), officer overdue view
 - [ ] Branding: dark teal / mint / white / yellow; Hindi-first default

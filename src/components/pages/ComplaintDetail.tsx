@@ -14,6 +14,8 @@ import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import LiveTrackingMap from "@/components/LiveTrackingMap";
 import PrintDownloadMenu from "@/components/PrintDownloadMenu";
 import ComplaintAssignmentPanel from "@/components/ComplaintAssignmentPanel";
+import DuplicateMergePanel from "@/components/DuplicateMergePanel";
+import { ESCALATION_LABEL } from "@/lib/accountability";
 import { CATEGORY_CONFIG, STATUS_CONFIG, ComplaintCategory } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
 import { COMPLAINT_COLS, DEPARTMENT_COLS_PUBLIC } from "@/lib/db-columns";
@@ -165,7 +167,21 @@ const ComplaintDetail = () => {
                 ⏰ Due {new Date((complaint as { due_at: string }).due_at).toLocaleDateString()}
               </span>
             )}
+            {((complaint as { escalation_level?: number }).escalation_level ?? 0) > 0 && complaint.status !== "resolved" && (
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-destructive/15 text-destructive font-semibold">
+                🚨 {ESCALATION_LABEL[(complaint as { escalation_level: number }).escalation_level]}
+              </span>
+            )}
           </div>
+
+          {(complaint as { merged_into?: string | null }).merged_into && (
+            <p className="text-sm mb-3 px-3 py-2 rounded-lg bg-muted text-foreground">
+              This report was linked to an existing complaint.{" "}
+              <Link to={`/complaints/${(complaint as { merged_into: string }).merged_into}`} className="text-primary font-semibold underline">
+                Follow progress there →
+              </Link>
+            </p>
+          )}
 
           <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">{complaint.title}</h1>
 
@@ -200,6 +216,7 @@ const ComplaintDetail = () => {
           </div>
 
           <ComplaintAssignmentPanel complaint={complaint as never} />
+          <DuplicateMergePanel complaint={complaint as never} />
 
           {complaint.photo_url && !complaint.after_photo_url && (
             <div className="mt-5 relative">

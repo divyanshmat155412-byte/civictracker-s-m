@@ -7,6 +7,7 @@ import { Building2, Trophy, Clock, CheckCircle2, AlertCircle, Plus, Sparkles, X,
 import { z } from "zod";
 import { toast } from "sonner";
 import Layout from "@/components/Layout";
+import AccountabilityScores from "@/components/AccountabilityScores";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserRole } from "@/hooks/useUserRole";
@@ -225,6 +226,8 @@ const Departments = () => {
             </div>
           )}
         </div>
+
+        <AccountabilityScores />
 
         {isLoading && (
           <div className="text-center py-12 text-muted-foreground">{t("dept.loading")}</div>

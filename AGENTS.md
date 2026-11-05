@@ -17,3 +17,5 @@
 - Ward/zone/department assignment happens only in the `route_new_complaint` trigger via `locate_point()` (boundary first, nearest centre within radius second, else `needs_verification`); corrections go through `admin_correct_complaint()` so they are audited.
 - City routing lives in `city_category_routing`; `category_routing` is the shared fallback editable only by the root — keeps cities isolated.
 - `admin_requests` identity (user_id, email, status) is forced server-side by the `guard_admin_request` trigger — never trust form values.
+- Escalation, merge fields (`escalation_level`, `merged_into`) are written only by SECURITY DEFINER functions (`escalate_overdue_complaints`, `admin_merge_complaint`) via the `civic.system_update` flag; the guard trigger blocks direct edits — keeps escalation and merges audited.
+- AI photo/voice results are suggestions the citizen must confirm; never auto-fill the form — avoids presenting AI guesses as facts.
