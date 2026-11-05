@@ -55,7 +55,7 @@ const AdminUsers = () => {
 
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<"admin" | "moderator">("moderator");
-  const [city, setCity] = useState<string>("__all__");
+  const [city, setCity] = useState<string>("Ratlam");
 
   const { data: assignments = [], isLoading: listLoading } = useQuery({
     queryKey: ["role-assignments"],
@@ -221,8 +221,8 @@ const AdminUsers = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="moderator">Moderator</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem value="moderator">Officer</SelectItem>
+                    <SelectItem value="admin">City Admin</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -233,7 +233,6 @@ const AdminUsers = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="__all__">All cities (super)</SelectItem>
                     {CITIES.map((c) => (
                       <SelectItem key={c} value={c}>
                         {c}
