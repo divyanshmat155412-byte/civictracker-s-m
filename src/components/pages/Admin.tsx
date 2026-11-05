@@ -1,3 +1,4 @@
+import { validatePhotoFile } from "@/lib/image-validate";
 import { useUiText } from "@/hooks/useUiText";
 import { photoUrlFor } from "@/lib/photo-url";
 import { COMPLAINT_COLS, PROFILE_COLS, DEPARTMENT_COLS_PUBLIC } from "@/lib/db-columns";
@@ -125,9 +126,10 @@ const Admin = () => {
       if (!selectedComplaint || !user) return;
       let afterPhotoUrl: string | null = null;
       if (afterPhoto) {
-        const ext = afterPhoto.name.split(".").pop();
-        const filePath = `${user.id}/after-${Date.now()}.${ext}`;
-        const { error: uploadError } = await supabase.storage.from("complaint-photos").upload(filePath, afterPhoto);
+        const checked = await validatePhotoFile(afterPhoto);
+        if ("error" in checked) throw new Error(checked.error);
+        const filePath = `${user.id}/after-${Date.now()}.${checked.ext}`;
+        const { error: uploadError } = await supabase.storage.from("complaint-photos").upload(filePath, afterPhoto, { contentType: checked.mime });
         if (!uploadError) {
           afterPhotoUrl = photoUrlFor(filePath);
         }
@@ -355,6 +357,17 @@ const Admin = () => {
                     <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
                       <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {c.location}</span>
                       <span>{tx("By: ")}{c.submitted_by}</span>
+                      {c.anonymous && (
+                        <button type="button" className="underline hover:text-foreground" onClick={async (e) => {
+                          e.stopPropagation();
+                          const reason = window.prompt(tx("Why do you need this citizen's identity? (recorded in the audit log, min 10 characters)"));
+                          if (!reason) return;
+                          const { data, error } = await supabase.rpc("reveal_anonymous_complainant", { _complaint_id: c.id, _reason: reason });
+                          if (error) { toast.error(error.message); return; }
+                          const r = data as { has_account: boolean; full_name: string | null; account_id: string | null };
+                          toast.info(r.has_account ? `${r.full_name || tx("Unnamed account")} (${r.account_id})` : tx("Filed without an account"), { duration: 15000 });
+                        }}>{tx("Reveal identity")}</button>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-2 shrink-0">

@@ -22,6 +22,8 @@ export function sniffImage(b: Uint8Array): SafeImage | null {
 export async function validatePhotoFile(file: File): Promise<SafeImage | { error: string }> {
   if (file.size > MAX_PHOTO_BYTES) return { error: "Photo is too large (maximum 5 MB)" };
   if (file.size === 0) return { error: "Photo file is empty" };
-  const head = new Uint8Array(await file.slice(0, 16).arrayBuffer());
+  const part = file.slice(0, 16);
+  const buf = typeof part.arrayBuffer === "function" ? await part.arrayBuffer() : await new Response(part).arrayBuffer();
+  const head = new Uint8Array(buf);
   return sniffImage(head) ?? { error: "Only JPG, PNG, WebP, GIF or HEIC photos are allowed" };
 }

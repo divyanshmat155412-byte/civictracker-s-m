@@ -106,6 +106,45 @@ try {
   const r4 = await fetch(`${APP}/api/public/photo/..%2F..%2Fetc%2Fpasswd`);
   ok("R4 path traversal rejected", r4.status === 404, r4.status);
 
+  // ---- Upload hardening (size + real content)
+  const big = new Uint8Array(5 * 1024 * 1024 + 10); big.set(JPEG);
+  const bigUp = await cit.c.storage.from("complaint-photos").upload(`${cit.id}/big-${T}.jpg`, big, { contentType: "image/jpeg" });
+  if (!bigUp.error) objects.push(`${cit.id}/big-${T}.jpg`);
+  ok("U1 photo over 5 MB rejected by storage", !!bigUp.error, bigUp);
+  const fake = `${cit.id}/fake-${T}.jpg`;
+  const fakeUp = await cit.c.storage.from("complaint-photos").upload(fake, new TextEncoder().encode("<html><script>alert(1)</script>                "), { contentType: "image/jpeg" });
+  if (!fakeUp.error) objects.push(fake);
+  await admin.from("complaints").update({ before_photo_url: `${APP}/api/public/photo/${fake}` }).eq("id", own.data!.id);
+  const rf = await fetch(`${APP}/api/public/photo/${fake}`);
+  ok("U2 HTML disguised as .jpg is never served, even if attached", rf.status === 404, rf.status);
+  const rOk = await fetch(`${APP}/api/public/photo/${mine1}`);
+  ok("U3 served type comes from real bytes (image/jpeg)", rOk.headers.get("content-type") === "image/jpeg", rOk.headers.get("content-type"));
+
+  // ---- Audited identity reveal
+  const reason = "TEST verifying a safety complaint";
+  const byOther = await other.c.rpc("reveal_anonymous_complainant", { _complaint_id: anonC.data!.id, _reason: reason });
+  ok("A1 citizen cannot reveal anonymous filer", !!byOther.error, byOther.data);
+  const byPub = await pub.rpc("reveal_anonymous_complainant", { _complaint_id: anonC.data!.id, _reason: reason });
+  ok("A2 signed-out visitor cannot reveal", !!byPub.error, byPub.data);
+  const officer = await user("officer");
+  await admin.from("user_roles").insert({ user_id: officer.id, role: "moderator", city: "PhotoTestCity" });
+  const byOfficer = await officer.c.rpc("reveal_anonymous_complainant", { _complaint_id: anonC.data!.id, _reason: reason });
+  ok("A3 officer (not City Admin) cannot reveal", !!byOfficer.error, byOfficer.data);
+  const otherCityAdmin = await user("othercity");
+  await admin.from("user_roles").insert({ user_id: otherCityAdmin.id, role: "admin", city: "ElsewhereTestCity" });
+  const byWrongCity = await otherCityAdmin.c.rpc("reveal_anonymous_complainant", { _complaint_id: anonC.data!.id, _reason: reason });
+  ok("A4 City Admin of another city cannot reveal", !!byWrongCity.error, byWrongCity.data);
+  const noReason = await staff.c.rpc("reveal_anonymous_complainant", { _complaint_id: anonC.data!.id, _reason: "x" });
+  ok("A5 reveal without a real reason refused", !!noReason.error, noReason.data);
+  const notAnon = await staff.c.rpc("reveal_anonymous_complainant", { _complaint_id: own.data!.id, _reason: reason });
+  ok("A6 reveal refused for non-anonymous complaint", !!notAnon.error, notAnon.data);
+  const byAdmin = await staff.c.rpc("reveal_anonymous_complainant", { _complaint_id: anonC.data!.id, _reason: reason });
+  ok("A7 City Admin of that city can reveal", !byAdmin.error && (byAdmin.data as any)?.account_id === cit.id, byAdmin.error);
+  const rev = await admin.from("audit_logs").select("user_id, details").eq("action", "anonymous_identity_revealed").eq("target_id", anonC.data!.id);
+  ok("A8 reveal written to audit log with who and why", rev.data?.length === 1 && rev.data[0].user_id === staff.id && (rev.data[0].details as any)?.reason === reason, rev.data);
+  const pubTrack = await pub.from("complaints").select("submitted_by").eq("id", anonC.data!.id).single();
+  ok("A9 public view still shows 'Anonymous' after reveal", pubTrack.data?.submitted_by === "Anonymous", pubTrack.data);
+
   const after = await admin.from("complaints").select("id", { count: "exact", head: true });
   ok("D1 only test complaints were added", (after.count ?? 0) - (before.count ?? 0) === complaints.length, { before: before.count, after: after.count });
 } finally {

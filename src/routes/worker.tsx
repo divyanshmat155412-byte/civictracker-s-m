@@ -1,3 +1,4 @@
+import { validatePhotoFile } from "@/lib/image-validate";
 import { useUiText } from "@/hooks/useUiText";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -80,8 +81,10 @@ function JobCard({ job, onDone, userId }: { job: Job; onDone: () => void; userId
       let after: string | null = null;
       if (status === "completed") {
         if (!file) { toast.error(tx("Upload the after-repair photo first")); return; }
-        const path = `${userId}/after-${Date.now()}.${file.name.split(".").pop() || "jpg"}`;
-        const { error: upErr } = await supabase.storage.from("complaint-photos").upload(path, file);
+        const checked = await validatePhotoFile(file);
+        if ("error" in checked) { toast.error(tx(checked.error)); return; }
+        const path = `${userId}/after-${Date.now()}.${checked.ext}`;
+        const { error: upErr } = await supabase.storage.from("complaint-photos").upload(path, file, { contentType: checked.mime });
         if (upErr) throw upErr;
         after = photoUrlFor(path);
       }
