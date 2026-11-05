@@ -3,7 +3,50 @@
 **Date:** 5 November 2026 (UTC)  
 **Environment:** local preview, http://localhost:8080; existing backend read-only. Changes are not published.
 
-## Outcome
+## Final follow-up audit — 5 November 2026
+
+**Overall: PARTIAL; not ready to claim complete bilingual coverage. Nothing published.**
+
+### Actual interactive verification
+24 checks across desktop (1280×1800), tablet (768×1024), mobile (390×844): **21 PASS, 0 FAIL, 3 PARTIAL** after reviewing genuine output.
+- Department search and live notification dropdown: 12 PASS (two languages × three viewports × two features). Only known system scaffolding is localized; original complaint titles, locations and description fragments remain unchanged.
+- Real chatbot requests: 3 English PASS, 3 Hindi PARTIAL. All returned HTTP 200 with actual replies. Hindi replies use Devanagari but include English UI/category terms and occasional inaccurate guidance, so full translation/accuracy is not claimed.
+- Real prediction requests: 6 PASS for summary/insight language, not prediction accuracy. Hindi summaries/insights were Hindi; English output was English. Area names remain original. Predictions use only three existing complaint records, so confidence is not evidence of forecasting reliability.
+- Rechecked 36 department/staff-access views in both languages at three sizes: zero horizontal overflow. Staff views were signed-out gates, not authenticated workflow tests.
+- Local regression checks: **16 PASS / 0 FAIL** (6 files), including three preservation checks for notification payloads. Latest preview compilation checked: OK.
+
+### Authorised temporary-account blocker — NOT TESTED
+Read-only backend checks found profile labels `DEMO TEST citizen`, `DEMO TEST cityadmin`, `DEMO TEST worker`, but all three have **no matching auth account**. The named admin/worker also have no role/worker-link access. A targeted session request for the existing DEMO cityadmin failed `user_not_found`. No default/root session was minted; no role, account or link was created or changed. One other active Ratlam admin role exists, but its identity was not established as an authorised temporary account, so it was not selected.
+**Staff, City Admin, Field Worker authenticated interactions: 3 NOT TESTED categories.** Existing authorised temporary account access must be supplied/restored through an approved process before those checks can be completed; never use the real Super Admin to substitute.
+
+### Safe frontend fixes in this follow-up
+- Known notification prefixes/status scaffolding localized in the bell and browser notification display; arbitrary payloads preserved. Removed one-line clipping in the dropdown.
+- Department name/city composed after translation, known department descriptions and hour/day units localized; validation feedback localized.
+- Worker success messages, assignment states, after-photo label and date locale localized. Worker names are no longer passed into the fixed UI dictionary.
+- Routing-row category/department labels, duplicate confirmation/result scaffolding and staff fallback errors localized.
+- Chat error messages respond to language changes without translating past user messages or AI prose. Prediction fixed fallbacks localized.
+- Existing keyed Hindi translations remain the fallback when an exact dictionary match is unavailable.
+
+### Remaining limitations (complete list for this audit)
+1. Authenticated staff/private notifications, assignment dialogs, after-photo interactions and staff-only reports remain NOT TESTED because temporary auth accounts are absent.
+2. Chatbot can mix English terms in Hindi and give inaccurate product instructions. Existing backend prompt needs separately approved review if stricter behavior is required; no backend changes made.
+3. Admin-report AI insights have no existing language parameter; passing one frontend-only would not work. Stored complaint summaries have no bilingual output contract; regenerating them can write data/change priority, so it was not attempted.
+4. Structured voice output is explicitly English in its current service. Actual microphone/voice AI and photo classification were not rerun in this read-only audit. Fixed suggestion/confirmation labels remain localized.
+5. Bell currently reads global `notifications`; private `user_notifications` events (including escalation/merge/application decisions) are not connected there. This pre-existing feature gap is reported, not changed during translation work.
+6. Unknown/custom department, ward, zone names, personal/admin-authored descriptions, free-text errors and notifications stay original; known dictionary scaffolding only is translated. Brand/service names, map attribution, acronyms and setup identifiers can remain English.
+7. Existing AI history is not automatically retranslated on switching. New chat/prediction requests use the selected language. Prediction requests may consume existing Lovable AI usage; no new service or dependency was added.
+8. Published-site timing and cold-refresh flicker are not newly verified; saved preference restores after mounting. No publication took place.
+9. Staff-only frontend fixes are source-reviewed and compilation-checked, not claimed live workflow PASS until an authorised temporary session exists.
+
+### Evidence
+Genuine screenshots and machine results: `docs/translation-evidence/final/`. Capture files show actual read-only app interactions, not mocks. No original user data, roles, permissions, database schemas, authentication settings or Super Admin account was modified.
+
+### Follow-up changed files
+`src/lib/notification-display.ts`, `src/lib/ui-translations.ts`, `src/contexts/LanguageContext.tsx`, `src/hooks/useNotifications.ts`, `src/components/NotificationBell.tsx`, `src/components/WardConfigTools.tsx`, `src/components/AdminRequestsManager.tsx`, `src/components/DuplicateMergePanel.tsx`, `src/components/pages/Departments.tsx`, `src/components/pages/AdminWorkers.tsx`, `src/components/pages/AdminUsers.tsx`, `src/components/pages/Admin.tsx`, `src/components/pages/AdminSMS.tsx`, `src/components/pages/AIChatbot.tsx`, `src/components/pages/Predictions.tsx`, `src/routes/worker.tsx`, `src/test/notification-display.test.ts`; documentation: `AGENTS.md`, `roadmap.md`, this audit.
+
+---
+
+## Earlier audit outcome
 **PARTIAL overall.** Fixed interface coverage and switching improved substantially; complete authenticated and dynamic-generated translation coverage is not yet verified. No account, role, database, policy, authentication or stored complaint changes were made in this audit.
 
 ## Issues and fixes

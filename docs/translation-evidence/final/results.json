@@ -1,0 +1,173 @@
+{
+  "results": [
+    {
+      "device": "desktop",
+      "language": "hi",
+      "feature": "Department search",
+      "status": "PASS"
+    },
+    {
+      "device": "desktop",
+      "language": "hi",
+      "feature": "Notification bell display",
+      "status": "PASS"
+    },
+    {
+      "device": "desktop",
+      "language": "hi",
+      "feature": "Actual chatbot response",
+      "status": "PASS",
+      "http": [
+        200
+      ]
+    },
+    {
+      "device": "desktop",
+      "language": "hi",
+      "feature": "Trend AI summary",
+      "status": "PARTIAL",
+      "text": "CT — शहर\nसिविक ट्रैकर\nहोम\nशिकायतें\nमानचित्र\nडैशबोर्ड\nलीडरबोर्ड\nएडमिन अनुरोध\nEN\nऔर\nसाइन इन\nरुझान भविष्यवाणियाँ\n\nक्षेत्र और श्रेणी के अनुसार शिकायतों में वृद्धि का AI-आधारित पूर्वानुमान\n\nपिछले 90 दिनों में कुल 3 शिकायतें दर्ज की गई हैं, जिनमें टूटी सड़कों और कचरे की समस्या प्रमुख है। अगले 2 हफ्तों में इन शिकायतों का स्तर स्थिर बने रहने का अनुमान है। स्टेशन रोड क्षेत्र में बुनियादी ढांचे पर विशेष ध्यान देने की आवश्यकता है।\n\nटूटी सड़क\n• Station Road\nस्थिर\n\nस्टेशन रोड क्षेत्र में टूटी सड़कों की शिकायतों की संख्या स्थिर रहने की संभावना है। बुनियादी ढांचे की मरम्मत न होने पर इनमें वृद्धि हो सकती है।\n\nअनुमानित: ~2 शिकायतें अगले 2 सप्ताह में\n\n65% विश्वास\nकचरा\n• Demo\nस्थिर\n\nकचरा प्रबंधन से संबंधित शिकायतें पिछले आंकड़ों के अनुसार स्थिर बनी रह सकती हैं, जिसके लिए नियमित सफाई निगरानी की आवश्यकता है।\n\nअनुमानित: ~1 शिकायतें अगले 2 सप्ताह में\n\n60% विश्वास\nसिविक ट्रैकर\n\nनागरिकों को नागरिक समस्याओं की रिपोर्ट करने और स्थानीय अधिकारियों को जवाबदेह ठहराने के लिए सशक्त बनाना। साथ मिलकर, हम स्वच्छ, सुरक्षित शहर बनाते हैं।\n\nत्वरित लिंक\nहोम\nशिकायतें\nडैशबोर्ड\nसंपर्क में रहें\nसंपर्क करें\nसामान्य प्रश्न\nगोपनीयता\nसमस्या कथन\n\nभारत भर की सरकारों को नागरिक प्रतिक्रिया को एकत्रित करने और उसे राष्ट्रीय अवसंरचना प्राथमिकताओं के साथ जोड़ने में कठिनाई होती है। विकास संबंधी अनुरोध बिखरी हुई प्रणालियों में रहते हैं, जिससे सार्वजनिक खर्च प्राथमिकताओं से भटक जाता है, अवसंरचना की कमियाँ अनसुलझी रहती हैं, और बड़े पैमाने की डिजिटल सार्वजनिक अवसंरचना पहलों के प्रभाव को मापने का कोई तरीका नहीं होता।"
+    },
+    {
+      "device": "desktop",
+      "language": "en",
+      "feature": "Department search",
+      "status": "PASS"
+    },
+    {
+      "device": "desktop",
+      "language": "en",
+      "feature": "Notification bell display",
+      "status": "PASS"
+    },
+    {
+      "device": "desktop",
+      "language": "en",
+      "feature": "Actual chatbot response",
+      "status": "PASS",
+      "http": [
+        200
+      ]
+    },
+    {
+      "device": "desktop",
+      "language": "en",
+      "feature": "Trend AI summary",
+      "status": "PARTIAL",
+      "text": "CT — City\nCIVIC TRACKER\nHome\nComplaints\nMap\nDashboard\nLeaderboard\nRequest Admin\nहिन्दी\nMore\nSign In\nTrend Predictions\n\nAI-powered forecasting of complaint surges by area and category\n\nOverall complaint activity is exceptionally low with only 3 recorded issues across the past 90 days. Road infrastructure issues on Station Road constitute the primary concern, while garbage reports in Demo remain minimal. Trends across both categories are projected to remain stable at near-baseline levels over the next 2 weeks.\n\nBroken-Road\n• Station Road\nstable\n\nBroken-road reports represent the majority of recent complaints, predominantly along Station Road. Volume is expected to remain stable at low baseline levels.\n\nExpected: ~2 complaints next 2 weeks\n\n40% confidence\nGarbage\n• Demo\nstable\n\nGarbage complaints are sporadic with very low historical counts. Expecting stable or negligible activity in the coming two weeks.\n\nExpected: ~1 complaints next 2 weeks\n\n35% confidence\nCivic Tracker\n\nEmpowering citizens to report civic issues and hold local authorities accountable. Together, we build cleaner, safer cities.\n\nQuick Links\nHome\nComplaints\nDashboard\nGet in Touch\nContact\nFAQ\nPrivacy / गोपनीयता\nProblem Statement\n\nGovernments across India struggle to consolidate citizen feedback and align it with national infrastructure priorities. Development requests live in fragmented systems, leading to misaligned public spending, unaddressed infrastructure gaps, and no way to measure the impact of large-scale digital public infrastructure initiatives."
+    },
+    {
+      "device": "tablet",
+      "language": "hi",
+      "feature": "Department search",
+      "status": "PASS"
+    },
+    {
+      "device": "tablet",
+      "language": "hi",
+      "feature": "Notification bell display",
+      "status": "PASS"
+    },
+    {
+      "device": "tablet",
+      "language": "hi",
+      "feature": "Actual chatbot response",
+      "status": "PASS",
+      "http": [
+        200
+      ]
+    },
+    {
+      "device": "tablet",
+      "language": "hi",
+      "feature": "Trend AI summary",
+      "status": "PARTIAL",
+      "text": "CT — शहर\nसिविक ट्रैकर\nEN\nरुझान भविष्यवाणियाँ\n\nक्षेत्र और श्रेणी के अनुसार शिकायतों में वृद्धि का AI-आधारित पूर्वानुमान\n\nपिछले आंकड़ों के आधार पर कुल 3 शिकायतें दर्ज की गई हैं, जिनमें सबसे अधिक मामले स्टेशन रोड पर टूटी सड़कों के हैं। अगले दो सप्ताह में शिकायतों की संख्या स्थिर रहने की संभावना है।\n\nटूटी सड़क\n• Station Road\nस्थिर\n\nस्टेशन रोड क्षेत्र में टूटी सड़कों की शिकायतों की संख्या अधिक है और आने वाले दो हफ्तों में यह प्रवृत्ति स्थिर रहने का अनुमान है।\n\nअनुमानित: ~2 शिकायतें अगले 2 सप्ताह में\n\n65% विश्वास\nकचरा\n• Demo\nस्थिर\n\nकचरे की समस्या से संबंधित शिकायतें फिलहाल कम हैं और अगले पखवाड़े में इनके स्थिर बने रहने की संभावना है।\n\nअनुमानित: ~1 शिकायतें अगले 2 सप्ताह में\n\n50% विश्वास\nसिविक ट्रैकर\n\nनागरिकों को नागरिक समस्याओं की रिपोर्ट करने और स्थानीय अधिकारियों को जवाबदेह ठहराने के लिए सशक्त बनाना। साथ मिलकर, हम स्वच्छ, सुरक्षित शहर बनाते हैं।\n\nत्वरित लिंक\nहोम\nशिकायतें\nडैशबोर्ड\nसंपर्क में रहें\nसंपर्क करें\nसामान्य प्रश्न\nगोपनीयता\nसमस्या कथन\n\nभारत भर की सरकारों को नागरिक प्रतिक्रिया को एकत्रित करने और उसे राष्ट्रीय अवसंरचना प्राथमिकताओं के साथ जोड़ने में कठिनाई होती है। विकास संबंधी अनुरोध बिखरी हुई प्रणालियों में रहते हैं, जिससे सार्वजनिक खर्च प्राथमिकताओं से भटक जाता है, अवसंरचना की कमियाँ अनसुलझी रहती हैं, और बड़े पैमाने की डिजिटल सार्वजनिक अवसंरचना पहलों के प्रभाव को मापने का कोई तरीका नहीं होता।"
+    },
+    {
+      "device": "tablet",
+      "language": "en",
+      "feature": "Department search",
+      "status": "PASS"
+    },
+    {
+      "device": "tablet",
+      "language": "en",
+      "feature": "Notification bell display",
+      "status": "PASS"
+    },
+    {
+      "device": "tablet",
+      "language": "en",
+      "feature": "Actual chatbot response",
+      "status": "PASS",
+      "http": [
+        200
+      ]
+    },
+    {
+      "device": "tablet",
+      "language": "en",
+      "feature": "Trend AI summary",
+      "status": "PARTIAL",
+      "text": "CT — City\nCIVIC TRACKER\nहिन्दी\nTrend Predictions\n\nAI-powered forecasting of complaint surges by area and category\n\nWith a total of 3 recorded complaints over the observed period, complaint volume is currently low and led by road infrastructure issues along Station Road, followed by minor waste management complaints in Demo. Over the next two weeks, overall complaint activity is projected to remain stable at minimal levels.\n\nBroken-Road\n• Station Road\nstable\n\nBroken road reports constitute the majority of current civic complaints, primarily centered around Station Road. Demand for infrastructure repair is expected to remain steady or slightly increase over the next two weeks.\n\nExpected: ~2 complaints next 2 weeks\n\n60% confidence\nGarbage\n• Demo\nstable\n\nGarbage issues have low reported volume but are likely to persist at baseline levels in the Demo area without intervention.\n\nExpected: ~1 complaints next 2 weeks\n\n50% confidence\nCivic Tracker\n\nEmpowering citizens to report civic issues and hold local authorities accountable. Together, we build cleaner, safer cities.\n\nQuick Links\nHome\nComplaints\nDashboard\nGet in Touch\nContact\nFAQ\nPrivacy / गोपनीयता\nProblem Statement\n\nGovernments across India struggle to consolidate citizen feedback and align it with national infrastructure priorities. Development requests live in fragmented systems, leading to misaligned public spending, unaddressed infrastructure gaps, and no way to measure the impact of large-scale digital public infrastructure initiatives."
+    },
+    {
+      "device": "mobile",
+      "language": "hi",
+      "feature": "Department search",
+      "status": "PASS"
+    },
+    {
+      "device": "mobile",
+      "language": "hi",
+      "feature": "Notification bell display",
+      "status": "PASS"
+    },
+    {
+      "device": "mobile",
+      "language": "hi",
+      "feature": "Actual chatbot response",
+      "status": "PASS",
+      "http": [
+        200
+      ]
+    },
+    {
+      "device": "mobile",
+      "language": "hi",
+      "feature": "Trend AI summary",
+      "status": "PARTIAL",
+      "text": "CT — शहर\nसिविक ट्रैकर\nEN\nरुझान भविष्यवाणियाँ\n\nक्षेत्र और श्रेणी के अनुसार शिकायतों में वृद्धि का AI-आधारित पूर्वानुमान\n\nपिछले आंकड़ों के आधार पर कुल 3 शिकायतें दर्ज की गई हैं, जिनमें मुख्य रूप से स्टेशन रोड पर टूटी सड़कों की समस्या प्रमुख है। अगले दो हफ्तों में शिकायतों का स्तर स्थिर रहने का अनुमान है, बशर्ते समय पर मरम्मत कार्य शुरू किए जाएं।\n\nटूटी सड़क\n• Station Road\nस्थिर\n\nस्टेशन रोड क्षेत्र में टूटी सड़कों की शिकायतों की संख्या अधिक है और आने वाले दो हफ्तों में यह स्तर स्थिर रहने या थोड़ा बढ़ने की संभावना है।\n\nअनुमानित: ~2 शिकायतें अगले 2 सप्ताह में\n\n65% विश्वास\nकचरा\n• Demo\nस्थिर\n\nकचरे से जुड़ी शिकायतों की संख्या फिलहाल कम है, लेकिन नियमित सफाई न होने पर इसमें हल्की वृद्धि देखी जा सकती है।\n\nअनुमानित: ~1 शिकायतें अगले 2 सप्ताह में\n\n55% विश्वास\nसिविक ट्रैकर\n\nनागरिकों को नागरिक समस्याओं की रिपोर्ट करने और स्थानीय अधिकारियों को जवाबदेह ठहराने के लिए सशक्त बनाना। साथ मिलकर, हम स्वच्छ, सुरक्षित शहर बनाते हैं।\n\nत्वरित लिंक\nहोम\nशिकायतें\nडैशबोर्ड\nसंपर्क में रहें\nसंपर्क करें\nसामान्य प्रश्न\nगोपनीयता\nसमस्या कथन\n\nभारत भर की सरकारों को नागरिक प्रतिक्रिया को एकत्रित करने और उसे राष्ट्रीय अवसंरचना प्राथमिकताओं के साथ जोड़ने में कठिनाई होती है। विकास संबंधी अनुरोध बिखरी हुई प्रणालियों में रहते हैं, जिससे सार्वजनिक खर्च प्राथमिकताओं से भटक जाता है, अवसंरचना की कमियाँ अनसुलझी रहती हैं, और बड़े पैमाने की डिजिटल सार्वजनिक अवसंरचना पहलों के प्रभाव को मापने का कोई तरीका नहीं होता।"
+    },
+    {
+      "device": "mobile",
+      "language": "en",
+      "feature": "Department search",
+      "status": "PASS"
+    },
+    {
+      "device": "mobile",
+      "language": "en",
+      "feature": "Notification bell display",
+      "status": "PASS"
+    },
+    {
+      "device": "mobile",
+      "language": "en",
+      "feature": "Actual chatbot response",
+      "status": "PASS",
+      "http": [
+        200
+      ]
+    },
+    {
+      "device": "mobile",
+      "language": "en",
+      "feature": "Trend AI summary",
+      "status": "PARTIAL",
+      "text": "CT — City\nCIVIC TRACKER\nहिन्दी\nTrend Predictions\n\nAI-powered forecasting of complaint surges by area and category\n\nOverall complaint volume across the platform is very low (3 total recorded incidents over the observed window). Broken road reports on Station Road constitute the primary concern. In the absence of major infrastructure changes or weather events, complaint levels are projected to remain stable at near-baseline levels over the next two weeks.\n\nBroken-Road\n• Station Road\nstable\n\nBroken-road issues represent the majority of reported complaints, primarily localized along Station Road. Expect low but steady incident reports over the next two weeks.\n\nExpected: ~2 complaints next 2 weeks\n\n65% confidence\nGarbage\n• Demo\nstable\n\nGarbage complaints remain minimal with baseline activity. Volumes are expected to stay low and stable barring seasonal or collection schedule disruptions.\n\nExpected: ~1 complaints next 2 weeks\n\n55% confidence\nCivic Tracker\n\nEmpowering citizens to report civic issues and hold local authorities accountable. Together, we build cleaner, safer cities.\n\nQuick Links\nHome\nComplaints\nDashboard\nGet in Touch\nContact\nFAQ\nPrivacy / गोपनीयता\nProblem Statement\n\nGovernments across India struggle to consolidate citizen feedback and align it with national infrastructure priorities. Development requests live in fragmented systems, leading to misaligned public spending, unaddressed infrastructure gaps, and no way to measure the impact of large-scale digital public infrastructure initiatives."
+    }
+  ],
+  "errors": []
+}
