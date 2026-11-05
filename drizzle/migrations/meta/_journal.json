@@ -43,6 +43,13 @@
       "when": 1793861597684,
       "tag": "0005_protect_complaint_status",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793863760249,
+      "tag": "0006_set_main_admin",
+      "breakpoints": true
     }
   ]
 }
