@@ -21,7 +21,8 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import heroBg from "@/assets/hero-bg.jpg";
 import PermissionPrompt from "@/components/PermissionPrompt";
-import LocationMapPicker from "@/components/LocationMapPicker";
+import { lazy, Suspense } from "react";
+const LocationMapPicker = lazy(() => import("@/components/LocationMapPicker"));
 import MapThumbnail from "@/components/MapThumbnail";
 import AddressAutocomplete from "@/components/AddressAutocomplete";
 import VoiceDictate from "@/components/VoiceDictate";
@@ -929,7 +930,7 @@ const Index = () => {
 
             {showMapPicker && (
               <div className="w-full max-w-full overflow-hidden">
-                <LocationMapPicker
+                <Suspense fallback={null}><LocationMapPicker
                   lat={manualLat}
                   lng={manualLng}
                   onSelect={(lat, lng) => {
@@ -939,7 +940,7 @@ const Index = () => {
                     setShowMapPicker(false);
                   }}
                   onClose={() => setShowMapPicker(false)}
-                />
+                /></Suspense>
               </div>
             )}
 

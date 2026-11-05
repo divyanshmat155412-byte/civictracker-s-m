@@ -12,7 +12,8 @@ import SLACountdown from "@/components/SLACountdown";
 import SentimentBadge from "@/components/SentimentBadge";
 import VerifyButton from "@/components/VerifyButton";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
-import LiveTrackingMap from "@/components/LiveTrackingMap";
+import { lazy, Suspense } from "react";
+const LiveTrackingMap = lazy(() => import("@/components/LiveTrackingMap"));
 import PrintDownloadMenu from "@/components/PrintDownloadMenu";
 import ComplaintAssignmentPanel from "@/components/ComplaintAssignmentPanel";
 import DuplicateMergePanel from "@/components/DuplicateMergePanel";
@@ -237,7 +238,7 @@ const ComplaintDetail = () => {
             </div>
           )}
 
-          {complaint.status === "in_progress" && <LiveTrackingMap complaintId={complaint.id} />}
+          {complaint.status === "in_progress" && <Suspense fallback={null}><LiveTrackingMap complaintId={complaint.id} /></Suspense>}
           {complaint.status === "resolved" && <SatisfactionRating complaintId={complaint.id} />}
         </motion.div>
 

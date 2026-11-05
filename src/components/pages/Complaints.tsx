@@ -12,7 +12,8 @@ import SLACountdown from "@/components/SLACountdown";
 import SentimentBadge from "@/components/SentimentBadge";
 import VerifyButton from "@/components/VerifyButton";
 import ExportButtons from "@/components/ExportButtons";
-import LiveTrackingMap from "@/components/LiveTrackingMap";
+import { lazy, Suspense } from "react";
+const LiveTrackingMap = lazy(() => import("@/components/LiveTrackingMap"));
 import Layout from "@/components/Layout";
 import { CATEGORY_CONFIG, STATUS_CONFIG, ComplaintCategory, ComplaintStatus } from "@/lib/types";
 import { useCities } from "@/hooks/useCities";
@@ -228,7 +229,7 @@ const Complaints = () => {
                   </div>
                 )}
                 {c.status === "resolved" && <SatisfactionRating complaintId={c.id} />}
-                {c.status === "in_progress" && <LiveTrackingMap complaintId={c.id} />}
+                {c.status === "in_progress" && <Suspense fallback={null}><LiveTrackingMap complaintId={c.id} /></Suspense>}
                 <CommentThread complaintId={c.id} />
               </motion.div>
             );

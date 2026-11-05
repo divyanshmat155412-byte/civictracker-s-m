@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import MapView from "@/components/pages/MapView";
+import { lazy, Suspense } from "react";
+import { ClientOnly } from "@tanstack/react-router";
+const MapView = lazy(() => import("@/components/pages/MapView"));
 
 export const Route = createFileRoute("/map")({
   ssr: false,
@@ -13,5 +15,5 @@ export const Route = createFileRoute("/map")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: MapView,
+  component: () => <ClientOnly><Suspense fallback={null}><MapView /></Suspense></ClientOnly>,
 });
