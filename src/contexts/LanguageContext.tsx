@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, useMemo, ReactNode } from "react";
 import { Language, translations, TranslationKey } from "@/lib/translations";
 
 interface LanguageContextType {
@@ -22,11 +22,14 @@ const syncHtmlLang = (lang: Language) => {
 };
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window === "undefined") return "en";
-    const saved = window.localStorage.getItem("app-language");
-    return (saved === "hi" ? "hi" : "en") as Language;
-  });
+  // Match the server on the first render, then restore the browser preference once.
+  const [language, setLanguageState] = useState<Language>("en");
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("app-language");
+      if (saved === "hi" || saved === "en") setLanguageState(saved);
+    } catch { /* Storage may be disabled; switching must still work. */ }
+  }, []);
 
   // Reflect language on <html> so :lang(hi) CSS, screen readers, and font fallbacks apply
   useEffect(() => {
@@ -46,8 +49,10 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     [language]
   );
 
+  const value = useMemo(() => ({ language, setLanguage, t }), [language, setLanguage, t]);
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
