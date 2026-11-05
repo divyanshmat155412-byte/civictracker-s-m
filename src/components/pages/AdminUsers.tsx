@@ -29,7 +29,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CITIES } from "@/lib/cities";
-import { MAIN_ADMIN_EMAIL, isMainAdminEmail } from "@/lib/main-admin";
+import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
 
 
 const formSchema = z.object({
@@ -43,6 +43,7 @@ type RoleAssignment = {
   email: string;
   role: "admin" | "moderator" | "user";
   city: string | null;
+  status?: string;
 };
 
 const AdminUsers = () => {
@@ -50,11 +51,11 @@ const AdminUsers = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const isMainAdmin = isMainAdminEmail(user?.email);
+  const { isMainAdmin } = useIsRootAdmin();
 
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<"admin" | "moderator">("moderator");
-  const [city, setCity] = useState<string>("__all__");
+  const [city, setCity] = useState<string>("Ratlam");
 
   const { data: assignments = [], isLoading: listLoading } = useQuery({
     queryKey: ["role-assignments"],
@@ -98,6 +99,15 @@ const AdminUsers = () => {
     onError: (e: any) => toast.error(e.message ?? "Failed to revoke role"),
   });
 
+  const statusMutation = useMutation({
+    mutationFn: async (v: { userId: string; status: string }) => {
+      const { error } = await supabase.rpc("root_set_admin_status" as any, { _user_id: v.userId, _status: v.status });
+      if (error) throw error;
+    },
+    onSuccess: () => { toast.success("Account status updated"); queryClient.invalidateQueries({ queryKey: ["role-assignments"] }); },
+    onError: (e: any) => toast.error(e.message ?? "Failed"),
+  });
+
   const handleGrant = (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = formSchema.safeParse({ email, role, city });
@@ -136,7 +146,7 @@ const AdminUsers = () => {
           <Shield className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
           <h1 className="mb-2 text-2xl font-bold">Restricted</h1>
           <p className="text-muted-foreground">
-            Only the main admin can manage user roles.
+            Only the Platform Super Admin can manage user roles.
           </p>
         </div>
       </Layout>
@@ -211,8 +221,8 @@ const AdminUsers = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="moderator">Moderator</SelectItem>
-                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem value="moderator">Officer</SelectItem>
+                    <SelectItem value="admin">City Admin</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -223,7 +233,6 @@ const AdminUsers = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="__all__">All cities (super)</SelectItem>
                     {CITIES.map((c) => (
                       <SelectItem key={c} value={c}>
                         {c}
@@ -264,13 +273,14 @@ const AdminUsers = () => {
                       <TableHead>Email</TableHead>
                       <TableHead>Role</TableHead>
                       <TableHead>City</TableHead>
+                      <TableHead>Status</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {assignments.map((a) => {
                       const isSelf =
-                        a.email?.toLowerCase() === MAIN_ADMIN_EMAIL && a.role === "admin";
+                        false;
                       return (
                         <TableRow key={`${a.user_id}-${a.role}-${a.city ?? ""}`}>
                           <TableCell className="font-medium break-all">User {a.user_id.slice(0, 8)}</TableCell>
@@ -279,19 +289,31 @@ const AdminUsers = () => {
                               variant={a.role === "admin" ? "default" : "secondary"}
                               className="capitalize"
                             >
-                              {a.role}
+                              {a.role === "admin" ? "City Admin" : a.role === "moderator" ? "Officer" : a.role}
                             </Badge>
                           </TableCell>
                           <TableCell className="text-sm text-muted-foreground">
-                            {a.city ?? "All"}
+                            {a.city ?? "—"}
                           </TableCell>
-                          <TableCell className="text-right">
+                          <TableCell>
+                            <Badge variant={(a.status ?? "active") === "active" ? "secondary" : "destructive"} className="capitalize">
+                              {a.status ?? "active"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right space-x-1 whitespace-nowrap">
+                            {(a.role === "admin" || a.role === "moderator") && (
+                              <Button size="sm" variant="ghost" disabled={statusMutation.isPending}
+                                onClick={() => statusMutation.mutate({ userId: a.user_id, status: (a.status ?? "active") === "active" ? "suspended" : "active" })}>
+                                {(a.status ?? "active") === "active" ? "Suspend" : "Reactivate"}
+                              </Button>
+                            )}
                             {a.role === "user" ? null : (
                               <Button
                                 size="sm"
                                 variant="outline"
                                 disabled={isSelf || revokeMutation.isPending}
                                 onClick={() =>
+                                  window.confirm(`Remove the ${a.role} role from this account? Their complaints stay intact.`) &&
                                   revokeMutation.mutate({
                                     email: a.email,
                                     role: a.role as "admin" | "moderator",

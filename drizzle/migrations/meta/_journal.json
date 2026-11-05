@@ -50,6 +50,13 @@
       "when": 1793863760249,
       "tag": "0006_set_main_admin",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793864702922,
+      "tag": "0007_root_super_admin_hierarchy",
+      "breakpoints": true
     }
   ]
 }

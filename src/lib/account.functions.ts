@@ -10,6 +10,8 @@ export const deleteMyAccount = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const uid = context.userId;
+    const { data: isRoot } = await context.supabase.rpc("is_main_admin");
+    if (isRoot) throw new Error("The Platform Super Admin account cannot be deleted.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     await supabaseAdmin
       .from("complaints")

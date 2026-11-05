@@ -50,10 +50,12 @@ export type Database = {
       admin_requests: {
         Row: {
           created_at: string
+          decision_note: string | null
           email: string
           full_name: string | null
           id: string
           reason: string | null
+          requested_city: string | null
           reviewed_at: string | null
           reviewed_by: string | null
           status: string
@@ -61,10 +63,12 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          decision_note?: string | null
           email: string
           full_name?: string | null
           id?: string
           reason?: string | null
+          requested_city?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: string
@@ -72,10 +76,12 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          decision_note?: string | null
           email?: string
           full_name?: string | null
           id?: string
           reason?: string | null
+          requested_city?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           status?: string
@@ -101,6 +107,7 @@ export type Database = {
       audit_logs: {
         Row: {
           action: string
+          city: string | null
           created_at: string
           details: Json | null
           id: string
@@ -110,6 +117,7 @@ export type Database = {
         }
         Insert: {
           action: string
+          city?: string | null
           created_at?: string
           details?: Json | null
           id?: string
@@ -119,6 +127,7 @@ export type Database = {
         }
         Update: {
           action?: string
+          city?: string | null
           created_at?: string
           details?: Json | null
           id?: string
@@ -827,21 +836,30 @@ export type Database = {
       }
       user_roles: {
         Row: {
+          approved_at: string | null
+          approved_by: string | null
           city: string | null
           id: string
           role: Database["public"]["Enums"]["app_role"]
+          status: string
           user_id: string
         }
         Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
           city?: string | null
           id?: string
           role: Database["public"]["Enums"]["app_role"]
+          status?: string
           user_id: string
         }
         Update: {
+          approved_at?: string | null
+          approved_by?: string | null
           city?: string | null
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          status?: string
           user_id?: string
         }
         Relationships: []
@@ -1032,9 +1050,11 @@ export type Database = {
       admin_list_role_assignments: {
         Args: never
         Returns: {
+          approved_at: string
           city: string
           email: string
           role: Database["public"]["Enums"]["app_role"]
+          status: string
           user_id: string
         }[]
       }
@@ -1096,6 +1116,7 @@ export type Database = {
           whatsapp_number: string
         }[]
       }
+      log_session_event: { Args: { _event: string }; Returns: undefined }
       main_admin_email: { Args: never; Returns: string }
       my_worker_jobs: {
         Args: never
@@ -1119,6 +1140,21 @@ export type Database = {
         }[]
       }
       redeem_reward: { Args: { _reward_id: string }; Returns: Json }
+      root_admin_id: { Args: never; Returns: string }
+      root_decide_admin_request: {
+        Args: {
+          _approve: boolean
+          _city?: string
+          _note?: string
+          _request_id: string
+        }
+        Returns: Json
+      }
+      root_platform_overview: { Args: never; Returns: Json }
+      root_set_admin_status: {
+        Args: { _status: string; _user_id: string }
+        Returns: undefined
+      }
       set_my_home_city: { Args: { _city: string }; Returns: string }
       update_my_profile_contact: {
         Args: { _opt_in: boolean; _phone: string }
@@ -1130,6 +1166,16 @@ export type Database = {
           _assignment_id: string
           _note?: string
           _status: string
+        }
+        Returns: undefined
+      }
+      write_audit: {
+        Args: {
+          _action: string
+          _city: string
+          _details: Json
+          _target_id: string
+          _target_type: string
         }
         Returns: undefined
       }

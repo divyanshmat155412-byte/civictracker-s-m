@@ -37,10 +37,12 @@ const handler = async (req: Request): Promise<Response> => {
       .select("role")
       .eq("user_id", user.id)
       .eq("role", "admin")
+      .eq("status", "active")
+      .limit(1)
       .maybeSingle();
 
-    const mainAdminEmail = (process.env["MAIN_ADMIN_EMAIL"] ?? "").trim().toLowerCase();
-    const isMainAdmin = !!mainAdminEmail && (user.email ?? "").toLowerCase() === mainAdminEmail;
+    const { data: rootRow } = await supabase.from("app_config").select("value").eq("key", "root_admin_user_id").maybeSingle();
+    const isMainAdmin = !!rootRow?.value && rootRow.value === user.id;
     if (!roleRow && !isMainAdmin) {
       return new Response(JSON.stringify({ error: "Admins only" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }

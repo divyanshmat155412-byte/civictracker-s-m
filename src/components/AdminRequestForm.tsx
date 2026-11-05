@@ -4,7 +4,8 @@ import { Shield, Send, Clock, CheckCircle, XCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { isMainAdminEmail } from "@/lib/main-admin";
+import { useIsRootAdmin } from "@/hooks/useIsRootAdmin";
+import { CITIES } from "@/lib/cities";
 
 
 const AdminRequestForm = () => {
@@ -14,6 +15,8 @@ const AdminRequestForm = () => {
   const [designation, setDesignation] = useState("");
   const [employeeId, setEmployeeId] = useState("");
   const [reason, setReason] = useState("");
+  const [city, setCity] = useState("");
+  const { isMainAdmin } = useIsRootAdmin();
 
   const { data: existingRequest, isLoading } = useQuery({
     queryKey: ["admin-request", user?.id],
@@ -37,6 +40,7 @@ const AdminRequestForm = () => {
         email: user.email || "",
         full_name: fullName,
         reason: fullReason,
+        requested_city: city,
       });
       if (error) throw error;
     },
@@ -48,11 +52,11 @@ const AdminRequestForm = () => {
   if (isLoading) return null;
 
   // Main admin already has access, no need to show this form
-  if (isMainAdminEmail(user?.email)) {
+  if (isMainAdmin) {
     return (
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto mt-6 p-6 rounded-xl bg-card border border-border shadow-card text-center">
         <Shield className="w-8 h-8 text-secondary mx-auto" />
-        <h3 className="font-display font-semibold text-foreground mt-3 mb-1">You are the Main Administrator</h3>
+        <h3 className="font-display font-semibold text-foreground mt-3 mb-1">You are the Platform Super Admin</h3>
         <p className="text-muted-foreground text-sm">You already have full admin access. No request needed.</p>
       </motion.div>
     );
@@ -65,7 +69,7 @@ const AdminRequestForm = () => {
       rejected: <XCircle className="w-8 h-8 text-destructive" />,
     };
     const statusMessages = {
-      pending: "Your admin access request is pending review by the main administrator.",
+      pending: "Your admin access request is pending review by the Platform Super Admin.",
       approved: "Your request has been approved! Please refresh the page.",
       rejected: "Your admin access request was rejected.",
     };
@@ -87,7 +91,7 @@ const AdminRequestForm = () => {
       <div className="p-6 rounded-xl bg-card border border-border shadow-card">
         <h3 className="font-display font-semibold text-foreground mb-1">Nagar Palika Employee — Request Admin Access</h3>
         <p className="text-muted-foreground text-sm mb-4">
-          If you are a Nagar Palika employee or municipal official, submit a request below. The main administrator will review and approve your access.
+          If you are a Nagar Palika employee or municipal official, submit a request below. The Platform Super Admin will review and approve your access.
         </p>
         <div className="space-y-3">
           <input
@@ -111,6 +115,11 @@ const AdminRequestForm = () => {
             onChange={(e) => setEmployeeId(e.target.value)}
             className="w-full rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           />
+          <select value={city} onChange={(e) => setCity(e.target.value)}
+            className="w-full rounded-lg border border-input bg-card px-4 py-3 text-sm text-foreground">
+            <option value="">City you work for…</option>
+            {CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
           <textarea
             placeholder="Why do you need admin access? Mention your role and responsibilities."
             value={reason}
@@ -120,7 +129,7 @@ const AdminRequestForm = () => {
           />
           <button
             onClick={() => submitMutation.mutate()}
-            disabled={submitMutation.isPending || !fullName.trim() || !designation.trim()}
+            disabled={submitMutation.isPending || !fullName.trim() || !designation.trim() || !city}
             className="w-full py-3 rounded-lg gradient-accent text-accent-foreground font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
           >
             <Send className="w-4 h-4" />
