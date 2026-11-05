@@ -1,1 +1,0 @@
-CREATE OR REPLACE FUNCTION public.__setup_exec(script text) RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $fn$ BEGIN EXECUTE script; END; $fn$; REVOKE ALL ON FUNCTION public.__setup_exec(text) FROM PUBLIC; GRANT EXECUTE ON FUNCTION public.__setup_exec(text) TO sandbox_exec;
