@@ -70,7 +70,7 @@ const AdminSMS = () => {
       queryClient.invalidateQueries({ queryKey: ["sms-logs"] });
     } catch (e: any) {
       console.error("SMS send error:", e);
-      toast.error(e?.message || "Failed to send SMS");
+      toast.error(tx(e?.message || "Failed to send SMS"));
     } finally {
       setSending(false);
     }

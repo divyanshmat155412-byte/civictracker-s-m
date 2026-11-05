@@ -172,7 +172,7 @@ const Admin = () => {
       toast.success(tx("Complaint deleted successfully"));
     },
     onError: (error: any) => {
-      toast.error("Delete failed: " + (error?.message || "Unknown error"));
+      toast.error(tx("Delete failed:") + " " + tx(error?.message || "Unknown error"));
       setConfirmDeleteId(null);
     },
   });

@@ -31,10 +31,10 @@ export default function DuplicateMergePanel({ complaint }: { complaint: C }) {
     qc.invalidateQueries({ queryKey: ["similar"] });
   };
   const merge = async (primary: Sim) => {
-    if (!confirm(`Link this complaint as a duplicate of #${primary.complaint_id}? The reporter is notified; you can undo it.`)) return;
+    if (!confirm(`${tx("Link this complaint as a duplicate of")} #${primary.complaint_id}? ${tx("The reporter is notified; you can undo it.")}`)) return;
     const { error } = await supabase.rpc("admin_merge_complaint" as never, { _duplicate: complaint.id, _primary: primary.id } as never);
     if (error) return toast.error(error.message);
-    toast.success(`Merged into #${primary.complaint_id}`); refresh();
+    toast.success(`${tx("Merged into")} #${primary.complaint_id}`); refresh();
   };
   const unmerge = async () => {
     const { error } = await supabase.rpc("admin_unmerge_complaint" as never, { _duplicate: complaint.id } as never);

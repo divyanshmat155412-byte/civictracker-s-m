@@ -46,7 +46,10 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const t = useCallback(
     (key: TranslationKey): string => {
       const text = translations[key]?.[language] || translations[key]?.en || key;
-      return language === "hi" ? translateUi(translations[key]?.en || text, language) : text;
+      if (language === "en") return text;
+      const english = translations[key]?.en || text;
+      const local = translateUi(english, language);
+      return local === english ? text : local;
     },
     [language]
   );
