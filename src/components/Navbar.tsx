@@ -53,8 +53,8 @@ const Navbar = () => {
           </div>
         </Link>
 
-        <nav className="hidden xl:flex min-w-0 flex-1 items-center justify-end gap-0.5 overflow-x-auto [scrollbar-width:none]">
-          {NAV_LINKS.map((link) => (
+        <nav className="hidden xl:flex min-w-0 flex-1 items-center justify-center gap-0.5">
+          {NAV_LINKS.slice(0, 5).map((link) => (
             <Link
               key={link.to}
               to={link.to}
@@ -121,6 +121,13 @@ const Navbar = () => {
           </button>
 
           <NotificationBell />
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-expanded={mobileOpen}
+            className="shrink-0 whitespace-nowrap px-2.5 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted flex items-center gap-1"
+          >
+            {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />} {language === "hi" ? "और" : "More"}
+          </button>
           {user ? (
             <div className="flex shrink-0 items-center gap-2 ml-1">
               <Link to="/profile" className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted" title="My Profile" aria-label="My Profile">
@@ -170,7 +177,7 @@ const Navbar = () => {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="xl:hidden overflow-hidden border-t border-border bg-card"
+            className="overflow-hidden border-t border-border bg-card"
           >
             <div className="container py-3 flex flex-col gap-1 max-h-[calc(100vh-4rem)] overflow-y-auto overscroll-contain">
               {NAV_LINKS.map((link) => (
