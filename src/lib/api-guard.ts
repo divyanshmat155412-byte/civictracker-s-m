@@ -69,3 +69,19 @@ export function sanitizeChat(messages: unknown, maxTurns = 20, maxChars = 2000) 
     .slice(-maxTurns)
     .map((m) => ({ role: m.role, content: m.content.slice(0, maxChars) }));
 }
+
+/** Shared AI quota: 30 requests per signed-in user per 10 minutes, across all AI endpoints.
+ *  Identity comes from the caller's verified session (auth.uid() in the database).
+ *  Returns a 429 Response when over the limit, otherwise null. */
+export async function enforceAiQuota(caller: Caller, endpoint: string): Promise<Response | null> {
+  const { data, error } = await caller.supabase.rpc("consume_ai_quota" as never, { _endpoint: endpoint } as never);
+  const r = data as { allowed?: boolean; retry_after?: number } | null;
+  if (error || !r) return jsonError(503, "Request could not be completed. Please try again.");
+  if (r.allowed) return null;
+  const retry = Math.max(1, Number(r.retry_after) || 600);
+  const mins = Math.ceil(retry / 60);
+  return new Response(
+    JSON.stringify({ error: `AI request limit reached (30 per 10 minutes). Please try again in about ${mins} minute${mins === 1 ? "" : "s"}.`, retry_after: retry }),
+    { status: 429, headers: { ...jsonHeaders, "Retry-After": String(retry) } },
+  );
+}
