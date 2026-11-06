@@ -1343,6 +1343,10 @@ export type Database = {
         Args: { _duplicate: string; _note?: string }
         Returns: Json
       }
+      can_read_complaint_notification: {
+        Args: { _complaint_id: string }
+        Returns: boolean
+      }
       consume_ai_quota: { Args: { _endpoint: string }; Returns: Json }
       department_scores: {
         Args: { _city?: string }
