@@ -23,7 +23,7 @@ const DEFAULT_LAST_READ_AT = "2000-01-01T00:00:00Z";
 
 const getStoredLastReadAt = () => {
   if (typeof window === "undefined") return DEFAULT_LAST_READ_AT;
-  return localStorage.getItem("notifications_last_read") || DEFAULT_LAST_READ_AT;
+  return localStorage.getItem(`notifications_last_read:${notificationAudience ?? "public"}`) || DEFAULT_LAST_READ_AT;
 };
 
 let snapshot: NotificationSnapshot = {
@@ -83,7 +83,7 @@ const ensureInitialNotifications = async () => {
         syncUnreadCount(data as AppNotification[], snapshot.lastReadAt);
       }
     })().finally(() => {
-      initialFetchPromise = null;
+      if (generation === audienceGeneration) initialFetchPromise = null;
     });
   }
 
@@ -112,6 +112,7 @@ const handleIncomingNotification = (notification: AppNotification) => {
 
 const ensureRealtimeSubscription = () => {
   if (notificationsChannel) return;
+  const generation = audienceGeneration;
 
   const channelName =
     typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
@@ -123,7 +124,9 @@ const ensureRealtimeSubscription = () => {
     .on(
       "postgres_changes",
       { event: "INSERT", schema: "public", table: "notifications" },
-      (payload) => handleIncomingNotification(payload.new as AppNotification),
+      (payload) => {
+        if (generation === audienceGeneration) handleIncomingNotification(payload.new as AppNotification);
+      },
     )
     .subscribe();
 };
@@ -137,11 +140,12 @@ const cleanupRealtimeSubscription = () => {
 
 export const useNotifications = () => {
   const { user } = useAuth();
+  const audience = user?.id ?? null;
+  const [stateAudience, setStateAudience] = useState(notificationAudience);
   const [notifications, setNotifications] = useState<AppNotification[]>(snapshot.notifications);
   const [unreadCount, setUnreadCount] = useState(snapshot.unreadCount);
 
   useEffect(() => {
-    const audience = user?.id ?? null;
     if (notificationAudience !== audience) {
       notificationAudience = audience;
       audienceGeneration++;
@@ -152,6 +156,7 @@ export const useNotifications = () => {
       syncUnreadCount([], snapshot.lastReadAt);
     }
     const syncLocalState = (next: NotificationSnapshot) => {
+      setStateAudience(notificationAudience);
       setNotifications(next.notifications);
       setUnreadCount(next.unreadCount);
     };
@@ -179,11 +184,11 @@ export const useNotifications = () => {
     const now = new Date().toISOString();
 
     if (typeof window !== "undefined") {
-      localStorage.setItem("notifications_last_read", now);
+      localStorage.setItem(`notifications_last_read:${audience ?? "public"}`, now);
     }
 
     syncUnreadCount(snapshot.notifications, now);
-  }, []);
+  }, [audience]);
 
-  return { notifications, unreadCount, markAllRead, requestPermission };
+  return { notifications: stateAudience === audience ? notifications : [], unreadCount: stateAudience === audience ? unreadCount : 0, markAllRead, requestPermission };
 };
