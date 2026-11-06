@@ -47,17 +47,15 @@ Test safety: exclusive lock plus complete root-account/role digest and all pre-e
 Before and after: **users 5 → 5; profiles 5 → 5; photos 2 → 2; complaints 3 → 3**.
 - Root ID unchanged; complete root roles and root account digest unchanged. Root was never used to sign in or test.
 - **CT-14, CT-142, CT-29**: complete row digests unchanged, including status, owner, timestamps and proof links.
-- Every existing user and profile unchanged (per-row SHA-256); SQL whole-table hashes additionally unchanged:
-  - users `d5c8d4138b44545a0416a234b08837ec`
-  - profiles `c63bd6d61b823c75ee700729478cdbdc`
-  - complaints `657b48d23347f9b887896cb313cb02c4`
-  - storage objects `e85da29266ccc8fcf9e67df70ccba745`
+- Every existing user and profile unchanged according to saved baseline comparison; protected complaint rows and photo metadata unchanged.
 No existing photos edited/deleted. Temporary IDs only cleaned after verification.
 
 ## GitHub and credential verification
 Read-only checkout inspection found only Lovable-internal remotes, no GitHub URL. GitHub connection/status is managed by Lovable settings and not observable from this sandbox. `git ls-remote origin HEAD` returned `2169f08941da8cee60ee4d75222bf0de11c00842` — this is an internal remote, **not evidence of GitHub push**. Local commit evolves automatically; final report includes last observed local hash. No stateful git commands were used.
 
-Read-only secret review scanned 445 tracked paths at that checkpoint, 207 reachable commits, 1,811 reachable objects / 913 historical blobs: **zero confirmed actual secrets** by pattern scan. Public .env configuration is not a private credential; .env remains previously tracked despite ignore rules, and cannot be untracked through agent Git commands. .env.example placeholders retained. .gitignore expanded for environment files while explicitly preserving the example. Remote/pruned/unavailable history was not inspected; pattern scans cannot prove absence of all secret formats.
+Read-only secret review scanned 445 tracked paths at that checkpoint, 207 reachable commits, 1,811 reachable objects / 913 historical blobs: **zero confirmed actual secrets** by pattern scan. Public .env configuration is not a private credential; .env remains previously tracked despite ignore rules, and cannot be untracked through agent Git commands. .env.example placeholders retained. .gitignore contains .env, .env.local and .env.*.local; the attempted broader .env.* rule was refused because the file is platform-read-only, so no change was applied. Remote/pruned/unavailable history was not inspected; pattern scans cannot prove absence of all secret formats.
+
+Last observed local commit before documentation finalization: `2ef4b8ecc5f558581965533b72baf52bda5e265c` (450 tracked files at that checkpoint). This is not the final GitHub commit; automatic documentation commits can advance it.
 
 **Required next step:** open **Project settings → Git**, inspect the connected repository link and status; if disconnected, connect GitHub there (creates a repository only if no existing connection). If connected, use its status/re-check and inspect the repository latest commit against the reported local commit. Repository URL and latest GitHub commit remain **unverified**. Do not publish to resolve this.
 
