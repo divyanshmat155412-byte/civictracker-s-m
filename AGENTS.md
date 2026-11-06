@@ -24,3 +24,7 @@
 - Fixed interface translations use local dictionaries and React language context; never translate citizen content or change stored records for localization.
 - Notification localization uses an allowlisted frontend formatter for known system prefixes and enum scaffolding; unknown bodies and embedded citizen text stay verbatim to avoid rewriting personal content.
 - Photo uploads are validated by real image bytes (src/lib/image-validate.ts) both before upload and in the photo-serving route; storage rules can't inspect content, so the serving route is the final gate.
+- Client chatbot histories contain user turns only; assistant responses remain display-only because client roles are untrusted.
+- Public leaderboard and assignment tracking use narrow RPC projections, while owner profile reads remain RLS-scoped; this prevents exposing account IDs and assignment internals.
+- Worker linking requires verified same-city opt-in requests and uses the audited RPC only; direct user_id writes are revoked to prevent bypass.
+- Complaint/upvote rewards use a private lifetime-deduplicated ledger and per-user transaction lock with UTC-day caps; reward redemption never resets earned allowance.

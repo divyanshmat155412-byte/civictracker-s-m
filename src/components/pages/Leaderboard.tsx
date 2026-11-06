@@ -36,11 +36,7 @@ const Leaderboard = () => {
   const { data: profiles = [], isLoading } = useQuery({
     queryKey: ["leaderboard-profiles"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select(PROFILE_COLS)
-        .order("green_points", { ascending: false })
-        .limit(50);
+      const { data, error } = await supabase.rpc("public_leaderboard");
       if (error) throw error;
       return data;
     },

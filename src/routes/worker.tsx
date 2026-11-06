@@ -10,6 +10,8 @@ import Layout from "@/components/Layout";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { photoUrlFor } from "@/lib/photo-url";
+import { useCities } from "@/hooks/useCities";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/worker")({
   head: () => ({
@@ -36,6 +38,9 @@ function WorkerPage() {
   const tx = useUiText();
   const { user } = useAuth();
   const qc = useQueryClient();
+  const { cities } = useCities();
+  const [requestCity, setRequestCity] = useState("");
+  const [requestBusy, setRequestBusy] = useState(false);
   const { data: jobs = [], isLoading } = useQuery({
     queryKey: ["worker-jobs", user?.id],
     enabled: !!user,
@@ -60,7 +65,24 @@ function WorkerPage() {
       <div className="container mx-auto max-w-4xl px-4 py-8 space-y-6">
         <h1 className="text-3xl font-bold text-foreground">{tx("My assigned jobs")}</h1>
         {isLoading ? <p className="text-muted-foreground">{tx("Loading…")}</p> : jobs.length === 0 ? (
-          <p className="text-muted-foreground">{tx("No jobs assigned to your account yet. Ask your officer to link your email in Workers.")}</p>
+          <div className="space-y-3">
+            <p className="text-muted-foreground">{tx("No jobs assigned to your account yet. Ask your officer to link your email in Workers.")}</p>
+            <div className="flex flex-wrap gap-2">
+              <select aria-label={tx("City")} value={requestCity} onChange={(e) => setRequestCity(e.target.value)} className="rounded border border-input bg-background px-3 py-2 text-foreground">
+                <option value="">{tx("Choose city")}</option>
+                {cities.map((city) => <option key={city} value={city}>{city}</option>)}
+              </select>
+              <Button disabled={!requestCity || requestBusy} onClick={async () => {
+                setRequestBusy(true);
+                try {
+                  const { error } = await supabase.rpc("request_field_worker_role", { _city: requestCity });
+                  if (error) throw error;
+                  toast.success(tx("Request submitted"));
+                } catch (e) { toast.error(e instanceof Error ? e.message : tx("Request failed")); }
+                finally { setRequestBusy(false); }
+              }}>{tx("Request worker access")}</Button>
+            </div>
+          </div>
         ) : jobs.map((j) => <JobCard key={j.assignment_id} job={j} onDone={() => qc.invalidateQueries({ queryKey: ["worker-jobs"] })} userId={user.id} />)}
       </div>
     </Layout>
