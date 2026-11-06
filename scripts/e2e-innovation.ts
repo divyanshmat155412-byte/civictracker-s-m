@@ -33,19 +33,23 @@ try {
   // ===== A. Escalation =====
   const e = await mk("Overflowing garbage bin");
   ok("A0 complaint created", !e.error, e.error);
-  const due = new Date(Date.now() - 2 * H);
+  // Historical clock keeps global escalation RPC from ever reaching current protected rows.
+  const testNow = new Date("2026-01-01T12:00:00Z");
+  const protectedBefore = await admin.from("complaints").select("id,due_at").in("complaint_id", ["CT-14", "CT-142", "CT-29"]);
+  if ((protectedBefore.data ?? []).some((c) => c.due_at && new Date(c.due_at).getTime() <= testNow.getTime() + 25 * H)) throw new Error("Unsafe escalation test clock");
+  const due = new Date(testNow.getTime() - 2 * H);
   await admin.from("complaints").update({ due_at: due.toISOString() }).eq("id", e.data!.id);
   const citEsc = await cit.c.rpc("escalate_overdue_complaints" as never);
   ok("A1 citizens cannot run escalation", !!citEsc.error);
   const selfEsc = await cit.c.from("complaints").update({ escalation_level: 3 } as never).eq("id", e.data!.id).select("id");
   ok("A2 citizen cannot set escalation level", !!selfEsc.error || (selfEsc.data ?? []).length === 0, selfEsc);
-  await admin.rpc("escalate_overdue_complaints" as never);
+  await admin.rpc("escalate_overdue_complaints" as never, { _now: testNow.toISOString() } as never);
   let row = (await admin.from("complaints").select("escalation_level,status").eq("id", e.data!.id).single()).data as { escalation_level: number } | null;
   ok("A3 missed deadline -> level 1", row?.escalation_level === 1, row);
   ok("A4 city A officer notified", (await notes(modA.id)).length === 1);
   ok("A5 city B admin NOT notified", (await notes(adB.id)).length === 0);
   ok("A6 reporter told it was escalated", (await notes(cit.id)).length === 1);
-  await admin.rpc("escalate_overdue_complaints" as never);
+  await admin.rpc("escalate_overdue_complaints" as never, { _now: testNow.toISOString() } as never);
   ok("A7 re-running does not repeat (no spam)", (await notes(modA.id)).length === 1);
   await admin.rpc("escalate_overdue_complaints" as never, { _now: new Date(due.getTime() + 25 * H).toISOString() } as never);
   row = (await admin.from("complaints").select("escalation_level").eq("id", e.data!.id).single()).data as never;
