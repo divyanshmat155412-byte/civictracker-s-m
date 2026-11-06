@@ -176,6 +176,13 @@
       "when": 1793938527640,
       "tag": "0024_private_notification_authorization_helper",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1793938809477,
+      "tag": "0025_worker_link_city_consistency",
+      "breakpoints": true
     }
   ]
 }
