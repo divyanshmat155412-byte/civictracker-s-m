@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { notificationDisplay } from "@/lib/notification-display";
+import { useAuth } from "@/contexts/AuthContext";
 
 export interface AppNotification {
   id: string;
@@ -34,6 +35,8 @@ let snapshot: NotificationSnapshot = {
 let notificationsChannel: RealtimeChannel | null = null;
 let hasFetchedInitialNotifications = false;
 let initialFetchPromise: Promise<void> | null = null;
+let notificationAudience: string | null | undefined;
+let audienceGeneration = 0;
 const listeners = new Set<(next: NotificationSnapshot) => void>();
 
 const emitSnapshot = () => {
@@ -67,6 +70,7 @@ const ensureSnapshotHydrated = () => {
 const ensureInitialNotifications = async () => {
   if (hasFetchedInitialNotifications) return;
   if (!initialFetchPromise) {
+    const generation = audienceGeneration;
     initialFetchPromise = (async () => {
       const { data } = await supabase
         .from("notifications")
@@ -74,7 +78,7 @@ const ensureInitialNotifications = async () => {
         .order("created_at", { ascending: false })
         .limit(50);
 
-      if (data) {
+      if (data && generation === audienceGeneration) {
         hasFetchedInitialNotifications = true;
         syncUnreadCount(data as AppNotification[], snapshot.lastReadAt);
       }
@@ -132,10 +136,21 @@ const cleanupRealtimeSubscription = () => {
 };
 
 export const useNotifications = () => {
+  const { user } = useAuth();
   const [notifications, setNotifications] = useState<AppNotification[]>(snapshot.notifications);
   const [unreadCount, setUnreadCount] = useState(snapshot.unreadCount);
 
   useEffect(() => {
+    const audience = user?.id ?? null;
+    if (notificationAudience !== audience) {
+      notificationAudience = audience;
+      audienceGeneration++;
+      hasFetchedInitialNotifications = false;
+      initialFetchPromise = null;
+      if (notificationsChannel) supabase.removeChannel(notificationsChannel);
+      notificationsChannel = null;
+      syncUnreadCount([], snapshot.lastReadAt);
+    }
     const syncLocalState = (next: NotificationSnapshot) => {
       setNotifications(next.notifications);
       setUnreadCount(next.unreadCount);
@@ -151,7 +166,7 @@ export const useNotifications = () => {
       listeners.delete(syncLocalState);
       cleanupRealtimeSubscription();
     };
-  }, []);
+  }, [user?.id]);
 
   const requestPermission = useCallback(async () => {
     if (typeof window === "undefined" || !("Notification" in window)) return;
