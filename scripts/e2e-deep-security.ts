@@ -29,6 +29,7 @@ try{
  const direct=await ad.c.from('workers').update({user_id:a.id}).eq('id',wr.data.id);ok('D2 direct worker-account update bypass refused',!!direct.error);
  r=await ad.c.rpc('admin_link_worker_account',{_worker_id:wr.data.id,_email:b.email});ok('D2 eligible link succeeds',!r.error);
  const role=await admin.from('user_roles').select('city,status').eq('user_id',b.id).eq('role','field_worker').single();ok('D2 approved role bound to same city',role.data?.city===city&&role.data.status==='active');
+ const move=await admin.from('workers').update({city:'Indore'}).eq('id',wr.data.id);ok('D2 linked worker city cannot bypass request binding',!!move.error);
  const first=await mk(a,1);ok('D3 first legitimate complaint earns 10 points',await points(a.id)===10);
  await mk(a,1);ok('D3 identical repeated complaint earns no additional points',await points(a.id)===10);
  await Promise.all(Array.from({length:10},(_,i)=>mk(a,i+2)));ok('D3 concurrent unique complaints capped at 50 daily points',await points(a.id)===50);
