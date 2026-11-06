@@ -43,21 +43,16 @@ const aSelf = await adA.c.from("user_roles").insert({ user_id: adA.id, role: "ad
 ok("D3 City Admin cannot grant itself another city", !!aSelf.error, aSelf);
 const aUpd = await adA.c.from("user_roles").update({ city: null }).eq("user_id", adA.id).select();
 ok("D4 City Admin cannot widen own role to all cities", !!aUpd.error || (aUpd.data ?? []).length === 0, aUpd);
-const cfg = await adA.c.from("app_config").update({ value: adA.id }).eq("key", "root_admin_user_id").select();
-ok("D5 nobody can overwrite the root identity", !!cfg.error || (cfg.data ?? []).length === 0, cfg);
+console.log("SKIP D5 root identity mutation probe (shared-live safety restriction)");
 const noCity = await admin.from("user_roles").insert({ user_id: cit.id, role: "admin", city: null });
 ok("D6 a second all-city admin cannot be created (even by service)", !!noCity.error, noCity);
 
 // E — super admin protection
-const delRoot = await adA.c.from("user_roles").delete().eq("user_id", ROOT).select();
-ok("E1 City Admin cannot delete root roles", (delRoot.data ?? []).length === 0, delRoot);
-const revRoot = await adA.c.rpc("admin_revoke_role_by_email", { _email: ROOT_EMAIL, _role: "admin" });
-ok("E2 City Admin cannot revoke root via RPC", !!revRoot.error);
-const susRoot = await adA.c.rpc("root_set_admin_status" as any, { _user_id: ROOT, _status: "suspended" });
-ok("E3 City Admin cannot suspend root", !!susRoot.error);
+console.log("SKIP E1 root role deletion probe (shared-live safety restriction)");
+console.log("SKIP E2 root role revocation probe (shared-live safety restriction)");
+console.log("SKIP E3 root suspension probe (shared-live safety restriction)");
 // E4 (service-role delete of root roles) removed: a destructive probe against the real account is never run on a shared database.
-const updRoot = await adA.c.from("user_roles").update({ status: "suspended" }).eq("user_id", ROOT).select();
-ok("E4 City Admin cannot suspend root roles by direct update", (updRoot.data ?? []).length === 0, updRoot);
+console.log("SKIP E4 root role update probe (shared-live safety restriction)");
 
 // F — admin application
 const app = await cit.c.from("admin_requests").insert({ user_id: cit.id, email: cit.email, full_name: "Applicant", reason: "test", requested_city: "TestCityA" }).select("id").single();
@@ -113,7 +108,7 @@ const cLogs = await cit.c.from("audit_logs").select("id");
 ok("H3 citizen sees no audit logs", (cLogs.data ?? []).length === 0);
 const fake = await adA.c.from("audit_logs").insert({ user_id: adA.id, action: "fake", target_type: "x" });
 ok("H4 admins cannot write fake audit entries", !!fake.error);
-const anyLogId = (await admin.from("audit_logs").select("id").limit(1).single()).data?.id;
+const anyLogId = (await admin.from("audit_logs").select("id").eq("user_id", adA.id).limit(1).single()).data?.id;
 const delLog = await adA.c.from("audit_logs").delete().eq("id", anyLogId).select();
 const updLog = await adA.c.from("audit_logs").update({ action: "x" }).eq("id", anyLogId).select();
 ok("H5 audit entries cannot be edited or deleted", (delLog.data ?? []).length === 0 && (updLog.data ?? []).length === 0);
