@@ -652,6 +652,33 @@ export type Database = {
           },
         ]
       }
+      point_reward_events: {
+        Row: {
+          created_at: string
+          id: number
+          kind: string
+          points: number
+          reward_key: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          kind: string
+          points: number
+          reward_key: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          kind?: string
+          points?: number
+          reward_key?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       poll_options: {
         Row: {
           display_order: number
@@ -1163,6 +1190,33 @@ export type Database = {
           },
         ]
       }
+      worker_role_requests: {
+        Row: {
+          city: string
+          created_at: string
+          id: string
+          reviewed_at: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          id?: string
+          reviewed_at?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          id?: string
+          reviewed_at?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       workers: {
         Row: {
           city: string | null
@@ -1209,6 +1263,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _award_capped_points: {
+        Args: { _key: string; _kind: string; _uid: string }
+        Returns: number
+      }
       _consume_ai_quota: {
         Args: {
           _endpoint: string
@@ -1417,7 +1475,31 @@ export type Database = {
         Args: { _lat: number; _lng: number; _ring: Json }
         Returns: boolean
       }
+      public_complaint_assignment: {
+        Args: { _complaint_id: string }
+        Returns: {
+          latitude: number
+          location: string
+          longitude: number
+          status: string
+          worker_latitude: number
+          worker_longitude: number
+          worker_name: string
+        }[]
+      }
+      public_leaderboard: {
+        Args: never
+        Returns: {
+          avatar_url: string
+          badge_level: string
+          complaints_count: number
+          full_name: string
+          green_points: number
+          id: string
+        }[]
+      }
       redeem_reward: { Args: { _reward_id: string }; Returns: Json }
+      request_field_worker_role: { Args: { _city: string }; Returns: undefined }
       reveal_anonymous_complainant: {
         Args: { _complaint_id: string; _reason: string }
         Returns: Json
