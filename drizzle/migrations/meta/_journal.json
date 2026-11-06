@@ -183,6 +183,13 @@
       "when": 1793938809477,
       "tag": "0025_worker_link_city_consistency",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1793940859345,
+      "tag": "0026_restrict_public_achievement_and_worker_reads",
+      "breakpoints": true
     }
   ]
 }

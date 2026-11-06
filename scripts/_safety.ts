@@ -67,8 +67,9 @@ export async function acquireSafety(name: string) {
     const currentUsers = await admin.auth.admin.listUsers({ perPage: 1000 });
     if (currentUsers.error) throw currentUsers.error;
     const currentIds = new Set(currentUsers.data.users.map((u) => u.id));
-    for (const table of ["point_reward_events", "api_usage_events"]) {
-      const r = await admin.from(table).select("id,user_id").gte("created_at", started);
+    for (const table of ["point_reward_events", "api_usage_events", "user_achievements"]) {
+      const timeColumn = table === "user_achievements" ? "unlocked_at" : "created_at";
+      const r = await admin.from(table).select("id,user_id").gte(timeColumn, started);
       if (r.error) throw r.error;
       const ids = (r.data ?? []).filter((x) => !originalUsers.has(x.user_id) && !currentIds.has(x.user_id)).map((x) => x.id);
       if (ids.length) {
