@@ -18,11 +18,11 @@ try{
  const mine=await owner.c.from('user_achievements').select('*').eq('user_id',owner.id);ok('Owner sees genuine achievement history',!mine.error&&mine.data?.some(x=>x.id===a.data.id));
  const hidden=await stranger.c.from('user_achievements').select('*').eq('user_id',owner.id);ok('Other account cannot read owner achievements',!hidden.error&&hidden.data?.length===0);
  const forge=await owner.c.from('user_achievements').insert({user_id:owner.id,achievement_id:catalog.data[0].id});ok('Client cannot forge earned achievements',!!forge.error);
- for(const active of [true,false]){const w=await admin.from('workers').insert({name:`DEMO access ${active}`,city,user_id:owner.id,is_active:active}).select('id').single();if(w.error||!w.data)throw new Error('Temporary worker failed');workers.push(w.data.id);}
+ for(const active of [true,false]){const w=await admin.from('workers').insert({name:`DEMO access ${active}`,city,is_active:active}).select('id').single();if(w.error||!w.data)throw new Error('Temporary worker failed: '+w.error?.message);workers.push(w.data.id);if(active){const link=await admin.from('workers').update({user_id:owner.id}).eq('id',w.data.id);if(link.error)throw link.error;}}
  const list=await pub.from('workers').select('id,name,department_id,is_active,created_at').in('id',workers);ok('Public active worker fields preserved',!list.error&&list.data?.length===1&&list.data[0].id===workers[0]);
  ok('Inactive worker absent from anonymous list',!list.error&&!list.data?.some(x=>x.id===workers[1]));
  for(const col of ['phone','user_id','city']){const r=await pub.from('workers').select(col);ok(`Anonymous worker ${col} denied`,!!r.error);}
- const ownWorkers=await owner.c.from('workers').select('id,user_id,city').in('id',workers);ok('Linked worker reads own active and inactive records',!ownWorkers.error&&ownWorkers.data?.length===2);
+ const ownWorkers=await owner.c.from('workers').select('id,user_id,city').in('id',workers);ok('Linked worker reads only own worker record',!ownWorkers.error&&ownWorkers.data?.length===1&&ownWorkers.data[0].id===workers[0]);
  const foreign=await stranger.c.from('workers').select('id,user_id,city').in('id',workers);ok('Unrelated citizen cannot enumerate worker account IDs',!foreign.error&&foreign.data?.length===0);
  const managed=await staff.c.from('workers').select('id,user_id,city').in('id',workers);ok('Same-city Admin reads managed workers',!managed.error&&managed.data?.length===2);
  const otherCity=await cross.c.from('workers').select('id,user_id,city').in('id',workers);ok('Cross-city Admin cannot read worker internals',!otherCity.error&&otherCity.data?.length===0);
