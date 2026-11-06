@@ -58,7 +58,7 @@ const AIChatbot = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${session.access_token}`,
       },
-      body: JSON.stringify({ messages: allMessages, language }),
+      body: JSON.stringify({ messages: allMessages.filter((m) => m.role === "user").map(({ content }) => ({ role: "user", content })), language }),
     });
 
     if (!resp.ok || !resp.body) {

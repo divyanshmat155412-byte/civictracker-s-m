@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { notificationDisplay } from "@/lib/notification-display";
+import { useAuth } from "@/contexts/AuthContext";
 
 export interface AppNotification {
   id: string;
@@ -22,7 +23,7 @@ const DEFAULT_LAST_READ_AT = "2000-01-01T00:00:00Z";
 
 const getStoredLastReadAt = () => {
   if (typeof window === "undefined") return DEFAULT_LAST_READ_AT;
-  return localStorage.getItem("notifications_last_read") || DEFAULT_LAST_READ_AT;
+  return localStorage.getItem(`notifications_last_read:${notificationAudience ?? "public"}`) || DEFAULT_LAST_READ_AT;
 };
 
 let snapshot: NotificationSnapshot = {
@@ -34,6 +35,8 @@ let snapshot: NotificationSnapshot = {
 let notificationsChannel: RealtimeChannel | null = null;
 let hasFetchedInitialNotifications = false;
 let initialFetchPromise: Promise<void> | null = null;
+let notificationAudience: string | null | undefined;
+let audienceGeneration = 0;
 const listeners = new Set<(next: NotificationSnapshot) => void>();
 
 const emitSnapshot = () => {
@@ -67,6 +70,7 @@ const ensureSnapshotHydrated = () => {
 const ensureInitialNotifications = async () => {
   if (hasFetchedInitialNotifications) return;
   if (!initialFetchPromise) {
+    const generation = audienceGeneration;
     initialFetchPromise = (async () => {
       const { data } = await supabase
         .from("notifications")
@@ -74,12 +78,12 @@ const ensureInitialNotifications = async () => {
         .order("created_at", { ascending: false })
         .limit(50);
 
-      if (data) {
+      if (data && generation === audienceGeneration) {
         hasFetchedInitialNotifications = true;
         syncUnreadCount(data as AppNotification[], snapshot.lastReadAt);
       }
     })().finally(() => {
-      initialFetchPromise = null;
+      if (generation === audienceGeneration) initialFetchPromise = null;
     });
   }
 
@@ -108,6 +112,7 @@ const handleIncomingNotification = (notification: AppNotification) => {
 
 const ensureRealtimeSubscription = () => {
   if (notificationsChannel) return;
+  const generation = audienceGeneration;
 
   const channelName =
     typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
@@ -119,7 +124,9 @@ const ensureRealtimeSubscription = () => {
     .on(
       "postgres_changes",
       { event: "INSERT", schema: "public", table: "notifications" },
-      (payload) => handleIncomingNotification(payload.new as AppNotification),
+      (payload) => {
+        if (generation === audienceGeneration) handleIncomingNotification(payload.new as AppNotification);
+      },
     )
     .subscribe();
 };
@@ -132,11 +139,24 @@ const cleanupRealtimeSubscription = () => {
 };
 
 export const useNotifications = () => {
+  const { user } = useAuth();
+  const audience = user?.id ?? null;
+  const [stateAudience, setStateAudience] = useState(notificationAudience);
   const [notifications, setNotifications] = useState<AppNotification[]>(snapshot.notifications);
   const [unreadCount, setUnreadCount] = useState(snapshot.unreadCount);
 
   useEffect(() => {
+    if (notificationAudience !== audience) {
+      notificationAudience = audience;
+      audienceGeneration++;
+      hasFetchedInitialNotifications = false;
+      initialFetchPromise = null;
+      if (notificationsChannel) supabase.removeChannel(notificationsChannel);
+      notificationsChannel = null;
+      syncUnreadCount([], snapshot.lastReadAt);
+    }
     const syncLocalState = (next: NotificationSnapshot) => {
+      setStateAudience(notificationAudience);
       setNotifications(next.notifications);
       setUnreadCount(next.unreadCount);
     };
@@ -151,7 +171,7 @@ export const useNotifications = () => {
       listeners.delete(syncLocalState);
       cleanupRealtimeSubscription();
     };
-  }, []);
+  }, [user?.id]);
 
   const requestPermission = useCallback(async () => {
     if (typeof window === "undefined" || !("Notification" in window)) return;
@@ -164,11 +184,11 @@ export const useNotifications = () => {
     const now = new Date().toISOString();
 
     if (typeof window !== "undefined") {
-      localStorage.setItem("notifications_last_read", now);
+      localStorage.setItem(`notifications_last_read:${audience ?? "public"}`, now);
     }
 
     syncUnreadCount(snapshot.notifications, now);
-  }, []);
+  }, [audience]);
 
-  return { notifications, unreadCount, markAllRead, requestPermission };
+  return { notifications: stateAudience === audience ? notifications : [], unreadCount: stateAudience === audience ? unreadCount : 0, markAllRead, requestPermission };
 };

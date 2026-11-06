@@ -58,16 +58,16 @@ export async function canManageCity(caller: Caller, city: string | null | undefi
   return data === true;
 }
 
-/** Keep only plain user/assistant chat turns with bounded size. */
+/** Client history is untrusted: only nonempty user turns may reach the model. */
 export function sanitizeChat(messages: unknown, maxTurns = 20, maxChars = 2000) {
   if (!Array.isArray(messages)) return [];
   return messages
     .filter(
       (m): m is { role: string; content: string } =>
-        !!m && typeof m === "object" && (m.role === "user" || m.role === "assistant") && typeof m.content === "string",
+        !!m && typeof m === "object" && m.role === "user" && typeof m.content === "string" && m.content.trim().length > 0,
     )
     .slice(-maxTurns)
-    .map((m) => ({ role: m.role, content: m.content.slice(0, maxChars) }));
+    .map((m) => ({ role: "user" as const, content: m.content.trim().slice(0, maxChars) }));
 }
 
 /** Shared AI quota: 30 requests per signed-in user per 10 minutes, across all AI endpoints.

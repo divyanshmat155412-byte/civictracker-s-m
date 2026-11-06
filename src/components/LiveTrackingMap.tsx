@@ -41,44 +41,21 @@ const LiveTrackingMap = ({ complaintId }: Props) => {
     queryKey: ["assignment", complaintId],
     queryFn: async () => {
       const { data } = await supabase
-        .from("worker_assignments")
-        .select("*, workers(name), complaints(latitude, longitude, location)")
-        .eq("complaint_id", complaintId)
-        .neq("status", "completed")
-        .order("assigned_at", { ascending: false })
-        .limit(1)
+        .rpc("public_complaint_assignment", { _complaint_id: complaintId })
         .maybeSingle();
       return data;
     },
+    refetchInterval: 5000,
   });
 
   useEffect(() => {
-    if (!assignment?.worker_id) return;
-    const fetchLoc = async () => {
-      const { data } = await supabase
-        .from("worker_locations")
-        .select("latitude, longitude")
-        .eq("worker_id", assignment.worker_id)
-        .maybeSingle();
-      if (data) setWorkerLocation({ lat: data.latitude, lng: data.longitude });
-    };
-    fetchLoc();
-
-    const ch = supabase
-      .channel(`worker-loc-${assignment.worker_id}`)
-      .on("postgres_changes", {
-        event: "*", schema: "public", table: "worker_locations",
-        filter: `worker_id=eq.${assignment.worker_id}`,
-      }, (payload: any) => {
-        if (payload.new) setWorkerLocation({ lat: payload.new.latitude, lng: payload.new.longitude });
-      })
-      .subscribe();
-    return () => { supabase.removeChannel(ch); };
-  }, [assignment?.worker_id]);
+    setWorkerLocation(assignment?.worker_latitude != null && assignment.worker_longitude != null
+      ? { lat: assignment.worker_latitude, lng: assignment.worker_longitude } : null);
+  }, [assignment?.worker_latitude, assignment?.worker_longitude]);
 
   if (!assignment) return null;
 
-  const target = assignment.complaints;
+  const target = assignment;
   if (!target?.latitude || !target?.longitude) {
     return (
       <div className="mt-3 p-3 rounded-lg bg-muted border border-border text-xs text-muted-foreground">
@@ -109,7 +86,7 @@ const LiveTrackingMap = ({ complaintId }: Props) => {
       <div className="px-3 py-2 bg-primary/5 border-b border-border flex items-center justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-2 text-sm">
           <Truck className="w-4 h-4 text-primary" />
-          <span className="font-semibold text-foreground">{assignment.workers?.name || tx("Worker")}</span>
+          <span className="font-semibold text-foreground">{assignment.worker_name || tx("Worker")}</span>
           <span className="text-xs text-muted-foreground capitalize">{assignment.status.replace("_", " ")}</span>
         </div>
         {workerLocation && (
@@ -128,7 +105,7 @@ const LiveTrackingMap = ({ complaintId }: Props) => {
           {workerLocation && (
             <>
               <Marker position={[workerLocation.lat, workerLocation.lng]} icon={workerIcon}>
-                <Popup>{assignment.workers?.name || tx("Worker")} {tx(" en route")}</Popup>
+                <Popup>{assignment.worker_name || tx("Worker")} {tx(" en route")}</Popup>
               </Marker>
               <Polyline
                 positions={[[workerLocation.lat, workerLocation.lng], [target.latitude, target.longitude]]}

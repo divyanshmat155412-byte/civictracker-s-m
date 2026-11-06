@@ -8,6 +8,7 @@ Civic Tracker is a mobile-first, multilingual web platform where citizens report
 
 - **Live prototype:** https://civictracker-s-m.lovable.app
 - **Test report:** [docs/END_TO_END_TEST_REPORT.md](docs/END_TO_END_TEST_REPORT.md)
+- **Latest authorized security remediation:** [results, shared-Live impact, integrity and GitHub limitations](docs/FINAL_AUTHORIZED_SECURITY_REMEDIATION.md); [emergency rollback SQL](docs/D1_D4_PUBLIC_ACCESS_ROLLBACK.sql). Includes 26 migrations, daily reward caps, same-city worker opt-in and restricted public data. Compatible code is not yet published.
 - **Hackathon track:** Problem Statement 01, AI for Digital Public Infrastructure & Governance (Theme: Innovation)
 
 ---
