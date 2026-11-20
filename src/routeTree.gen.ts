@@ -30,6 +30,7 @@ import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as RequestAdminRouteImport } from './routes/request-admin'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RewardsRouteImport } from './routes/rewards'
+import { Route as ScorecardRouteImport } from './routes/scorecard'
 import { Route as WorkerRouteImport } from './routes/worker'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminPollsRouteImport } from './routes/admin.polls'
@@ -159,6 +160,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const RewardsRoute = RewardsRouteImport.update({
   id: '/rewards',
   path: '/rewards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScorecardRoute = ScorecardRouteImport.update({
+  id: '/scorecard',
+  path: '/scorecard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkerRoute = WorkerRouteImport.update({
@@ -316,6 +322,7 @@ export interface FileRoutesByFullPath {
   '/request-admin': typeof RequestAdminRoute
   '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
+  '/scorecard': typeof ScorecardRoute
   '/worker': typeof WorkerRoute
   '/admin/polls': typeof AdminPollsRoute
   '/admin/posters': typeof AdminPostersRoute
@@ -364,6 +371,7 @@ export interface FileRoutesByTo {
   '/request-admin': typeof RequestAdminRoute
   '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
+  '/scorecard': typeof ScorecardRoute
   '/worker': typeof WorkerRoute
   '/admin/polls': typeof AdminPollsRoute
   '/admin/posters': typeof AdminPostersRoute
@@ -413,6 +421,7 @@ export interface FileRoutesById {
   '/request-admin': typeof RequestAdminRoute
   '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
+  '/scorecard': typeof ScorecardRoute
   '/worker': typeof WorkerRoute
   '/admin/polls': typeof AdminPollsRoute
   '/admin/posters': typeof AdminPostersRoute
@@ -463,6 +472,7 @@ export interface FileRouteTypes {
     | '/request-admin'
     | '/reset-password'
     | '/rewards'
+    | '/scorecard'
     | '/worker'
     | '/admin/polls'
     | '/admin/posters'
@@ -511,6 +521,7 @@ export interface FileRouteTypes {
     | '/request-admin'
     | '/reset-password'
     | '/rewards'
+    | '/scorecard'
     | '/worker'
     | '/admin/polls'
     | '/admin/posters'
@@ -559,6 +570,7 @@ export interface FileRouteTypes {
     | '/request-admin'
     | '/reset-password'
     | '/rewards'
+    | '/scorecard'
     | '/worker'
     | '/admin/polls'
     | '/admin/posters'
@@ -608,6 +620,7 @@ export interface RootRouteChildren {
   RequestAdminRoute: typeof RequestAdminRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   RewardsRoute: typeof RewardsRoute
+  ScorecardRoute: typeof ScorecardRoute
   WorkerRoute: typeof WorkerRoute
   AdminPollsRoute: typeof AdminPollsRoute
   AdminPostersRoute: typeof AdminPostersRoute
@@ -782,6 +795,13 @@ declare module '@tanstack/react-router' {
       path: '/rewards'
       fullPath: '/rewards'
       preLoaderRoute: typeof RewardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scorecard': {
+      id: '/scorecard'
+      path: '/scorecard'
+      fullPath: '/scorecard'
+      preLoaderRoute: typeof ScorecardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/worker': {
@@ -984,6 +1004,7 @@ const rootRouteChildren: RootRouteChildren = {
   RequestAdminRoute: RequestAdminRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   RewardsRoute: RewardsRoute,
+  ScorecardRoute: ScorecardRoute,
   WorkerRoute: WorkerRoute,
   AdminPollsRoute: AdminPollsRoute,
   AdminPostersRoute: AdminPostersRoute,

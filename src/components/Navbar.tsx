@@ -14,6 +14,7 @@ const NAV_LINKS: { to: string; labelKey: TranslationKey }[] = [
   { to: "/complaints", labelKey: "nav.complaints" },
   { to: "/map", labelKey: "nav.map" },
   { to: "/dashboard", labelKey: "nav.dashboard" },
+  { to: "/scorecard", labelKey: "nav.scorecard" },
   { to: "/leaderboard", labelKey: "nav.leaderboard" },
   { to: "/how-it-works", labelKey: "nav.howItWorks" },
   { to: "/faq", labelKey: "nav.faq" },

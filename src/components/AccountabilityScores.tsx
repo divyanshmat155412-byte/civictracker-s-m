@@ -5,6 +5,7 @@ import { ShieldCheck, Info } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCities } from "@/hooks/useCities";
 import { MIN_SAMPLE } from "@/lib/accountability";
+import { Link } from "@/lib/router-compat";
 
 type Row = {
   department_id: string; department_name: string; city: string | null; total: number;
@@ -44,6 +45,7 @@ export default function AccountabilityScores() {
           <button type="button" onClick={() => setShowHow((v) => !v)}
             className="text-xs inline-flex items-center gap-1 text-muted-foreground hover:text-primary">
             <Info className="w-3.5 h-3.5" /> {tx(" How it's calculated ")}</button>
+          <Link to="/scorecard" className="text-xs font-semibold text-primary hover:underline">{tx("View full scorecard")} →</Link>
         </div>
       </div>
       {showHow && (

@@ -36,6 +36,18 @@ Maps in this build use Leaflet with OpenStreetMap data. Google Maps, Firebase an
 
 ---
 
+## New in Round 3 (Final Build)
+
+**City Accountability Scorecard** (`/scorecard`), a public, proof-based report card for every city and department:
+
+- **Overall city score (0–100)** with a plain-language grade: *On track*, *Needs improvement* or *Falling behind*.
+- **Department ranking** with a breakdown of the three parts of the score: fixed with an after-repair photo (50%), fixed before the deadline (30%) and not overdue (20%).
+- **City comparison** across all onboarded cities. Tap a city to drill down.
+- **Overdue right now**: the open complaints that are past their deadline, each linking to its public tracking page.
+- **Share** (native share sheet or copy link with the selected city) and **Print** for ward meetings and RTI follow-ups.
+- Fully bilingual (Hindi / English). Uses the existing `department_scores()` database function and public complaint columns, so no new data is exposed.
+- Unit-tested scoring helpers (`src/test/scorecard.test.ts`).
+
 ## Table of contents
 
 1. [The problem](#the-problem)
